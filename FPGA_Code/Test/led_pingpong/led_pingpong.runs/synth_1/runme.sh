@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/iris2/Desktop/MyProgramming/Laboratory/FPGA_Code/Test/led_pingpong/led_pingpong.runs/synth_1'
+HD_PWD='C:/Users/iris2/Desktop/Laboratory/VHDL/FPGA_Code/Test/led_pingpong/led_pingpong.runs/synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -40,4 +40,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log led_move.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source led_move.tcl
+EAStep vivado -log pingpong_LED.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source pingpong_LED.tcl

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7z020clg484-1" LaunchTime="1606471476">
-  <File Type="PA-TCL" Name="led_move.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="led_move_drc_synth.rpt"/>
-  <File Type="REPORTS-TCL" Name="led_move_reports.tcl"/>
-  <File Type="RDS-RDS" Name="led_move.vds"/>
-  <File Type="RDS-UTIL" Name="led_move_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="led_move_utilization_synth.pb"/>
-  <File Type="RDS-DCP" Name="led_move.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="led_move_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="led_move_timing_summary_synth.pb"/>
+<GenRun Id="synth_1" LaunchPart="xc7z020clg484-1" LaunchTime="1608181717">
+  <File Type="PA-TCL" Name="pingpong_LED.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="pingpong_LED_drc_synth.rpt"/>
+  <File Type="REPORTS-TCL" Name="pingpong_LED_reports.tcl"/>
+  <File Type="RDS-RDS" Name="pingpong_LED.vds"/>
+  <File Type="RDS-UTIL" Name="pingpong_LED_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="pingpong_LED_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="pingpong_LED.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="pingpong_LED_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="pingpong_LED_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
-    <File Path="$PSRCDIR/sources_1/new/led_move.vhd">
+    <File Path="$PPRDIR/../../Code/pingpong_LED.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -19,13 +19,13 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="led_move"/>
+      <Option Name="TopModule" Val="pingpong_LED"/>
       <Option Name="TopAutoSet" Val="TRUE"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
     <Filter Type="Constrs"/>
-    <File Path="$PPRDIR/led_move.xdc">
+    <File Path="$PPRDIR/../../Code/pingpong_LED.xdc">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -42,9 +42,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019">
-      <Desc>Vivado Synthesis Defaults</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
     <Step Id="synth_design"/>
   </Strategy>
 </GenRun>
