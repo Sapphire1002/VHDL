@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date             : Thu Dec 17 13:10:43 2020
+| Date             : Fri Dec 18 16:49:12 2020
 | Host             : DESKTOP-RTSRNN6 running 64-bit major release  (build 9200)
 | Command          : report_power -file pingpong_LED_power_routed.rpt -pb pingpong_LED_power_summary_routed.pb -rpx pingpong_LED_power_routed.rpx
 | Design           : pingpong_LED
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+---------------------------------+
-| Total On-Chip Power (W)  | 9.424 (Junction temp exceeded!) |
+| Total On-Chip Power (W)  | 9.440 (Junction temp exceeded!) |
 | Design Power Budget (W)  | Unspecified*                    |
 | Power Budget Margin (W)  | NA                              |
-| Dynamic (W)              | 8.383                           |
+| Dynamic (W)              | 8.399                           |
 | Device Static (W)        | 1.041                           |
 | Effective TJA (C/W)      | 11.5                            |
 | Max Ambient (C)          | 0.0                             |
@@ -52,16 +52,16 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |     0.040 |       72 |       --- |             --- |
-|   CARRY4       |     0.012 |        6 |     13300 |            0.05 |
+| Slice Logic    |     0.043 |       72 |       --- |             --- |
+|   CARRY4       |     0.013 |        6 |     13300 |            0.05 |
 |   Register     |     0.012 |       42 |    106400 |            0.04 |
-|   LUT as Logic |     0.010 |       12 |     53200 |            0.02 |
+|   LUT as Logic |     0.012 |       12 |     53200 |            0.02 |
 |   BUFG         |     0.006 |        1 |        32 |            3.13 |
 |   Others       |     0.000 |        4 |       --- |             --- |
-| Signals        |     0.189 |       62 |       --- |             --- |
+| Signals        |     0.202 |       62 |       --- |             --- |
 | I/O            |     8.155 |       30 |       200 |           15.00 |
 | Static Power   |     1.041 |          |           |                 |
-| Total          |     9.424 |          |           |                 |
+| Total          |     9.440 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -71,7 +71,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.555 |       0.257 |      0.299 |
+| Vccint    |       1.000 |     0.571 |       0.272 |      0.299 |
 | Vccaux    |       1.800 |     0.398 |       0.298 |      0.100 |
 | Vcco33    |       3.300 |     2.301 |       2.300 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -145,7 +145,7 @@ Table of Contents
 +--------------+-----------+
 | Name         | Power (W) |
 +--------------+-----------+
-| pingpong_LED |     8.383 |
+| pingpong_LED |     8.399 |
 +--------------+-----------+
 
 

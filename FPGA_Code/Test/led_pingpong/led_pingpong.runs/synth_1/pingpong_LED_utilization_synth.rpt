@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date         : Thu Dec 17 13:09:26 2020
+| Date         : Fri Dec 18 16:47:18 2020
 | Host         : DESKTOP-RTSRNN6 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file pingpong_LED_utilization_synth.rpt -pb pingpong_LED_utilization_synth.pb
 | Design       : pingpong_LED
@@ -148,15 +148,16 @@ Table of Contents
 +----------+------+---------------------+
 | FDCE     |   37 |        Flop & Latch |
 | OBUF     |   22 |                  IO |
-| LUT4     |   10 |                 LUT |
+| LUT4     |    9 |                 LUT |
 | IBUF     |    8 |                  IO |
 | CARRY4   |    6 |          CarryLogic |
-| LUT3     |    3 |                 LUT |
+| LUT3     |    4 |                 LUT |
 | LDCE     |    3 |        Flop & Latch |
-| LUT5     |    2 |                 LUT |
 | LUT2     |    2 |                 LUT |
 | LUT1     |    2 |                 LUT |
 | FDPE     |    2 |        Flop & Latch |
+| LUT6     |    1 |                 LUT |
+| LUT5     |    1 |                 LUT |
 | BUFG     |    1 |               Clock |
 +----------+------+---------------------+
 

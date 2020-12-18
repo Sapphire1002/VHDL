@@ -87,7 +87,7 @@ begin
                 end if;
 
             when "010" =>
-                if (pos <= "1000") then
+                if (pos < "1000") then
                     if (btn2 = '0') then
                         next_state <= "010";
                     else
@@ -98,7 +98,7 @@ begin
                 end if;
 
             when "011" =>
-                if (pos >= "0001") then
+                if (pos > "0001") then
                     if (btn1 = '0') then
                         next_state <= "011";
                     else

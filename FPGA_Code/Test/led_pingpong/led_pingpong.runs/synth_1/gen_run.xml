@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7z020clg484-1" LaunchTime="1608181717">
+<GenRun Id="synth_1" LaunchPart="xc7z020clg484-1" LaunchTime="1608281137">
   <File Type="PA-TCL" Name="pingpong_LED.tcl"/>
   <File Type="RDS-PROPCONSTRS" Name="pingpong_LED_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="pingpong_LED_reports.tcl"/>

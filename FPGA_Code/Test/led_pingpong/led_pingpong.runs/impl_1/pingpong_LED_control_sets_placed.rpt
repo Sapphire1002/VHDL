@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date         : Thu Dec 17 13:10:09 2020
+| Date         : Fri Dec 18 16:48:28 2020
 | Host         : DESKTOP-RTSRNN6 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file pingpong_LED_control_sets_placed.rpt
 | Design       : pingpong_LED
@@ -62,7 +62,7 @@ Table of Contents
 | No           | No                    | Yes                    |              28 |            8 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |              11 |            3 |
+| Yes          | No                    | Yes                    |              11 |            2 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -75,7 +75,7 @@ Table of Contents
 +----------------+------------------------------+------------------+------------------+----------------+
 |  next_state    |                              |                  |                1 |              3 |
 |  clk_div       |                              | reset_IBUF       |                2 |              4 |
-|  clk_div       | FSM_onehot_state_reg_n_0_[7] | reset_IBUF       |                2 |              4 |
+|  clk_div       | FSM_onehot_state_reg_n_0_[7] | reset_IBUF       |                1 |              4 |
 |  clk_div       | p_0_in                       | reset_IBUF       |                1 |              7 |
 |  clk_IBUF_BUFG |                              | reset_IBUF       |                6 |             24 |
 +----------------+------------------------------+------------------+------------------+----------------+

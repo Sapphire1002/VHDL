@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7z020clg484-1" LaunchTime="1608181717">
+<GenRun Id="impl_1" LaunchPart="xc7z020clg484-1" LaunchTime="1608281141">
   <File Type="BITSTR-BMM" Name="pingpong_LED_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="pingpong_LED_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="pingpong_LED_timing_summary_init.rpt"/>
