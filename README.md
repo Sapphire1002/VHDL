@@ -1,7 +1,7 @@
 ## Laboratory
 #### **每周進度**
 * Week 1
-> Date: 2020.10.27
+  > Date: 2020.10.27 \- 2020.10.30
 * Week 2
 * Week 3
 * Week 4
