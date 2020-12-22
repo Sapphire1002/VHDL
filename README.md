@@ -8,6 +8,7 @@
 <details>
   <summary> **Week 1** </summary>
   日期: 2020.10.27 - 2020.10.30  
+  
   專案資料夾: 00 pre_test  
   進度:  
   建置 Vivado 環境  
