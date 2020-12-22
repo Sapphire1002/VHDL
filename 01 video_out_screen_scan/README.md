@@ -8,15 +8,13 @@
 
 > 進度:  
 > * 查詢 VHDL 語法及資料  
-> * 了解螢幕掃描時間及程式設計流程  
-> ![螢幕掃描流程圖](https://github.com/Sapphire1002/VHDL/blob/main/pic/%E8%9E%A2%E5%B9%95%E6%8E%83%E6%8F%8F%E6%B5%81%E7%A8%8B%E5%9C%96.PNG)  
+> * 了解螢幕掃描時間及程式設計流程(圖1)    
 > * 了解螢幕輸出RGB時的原理  
 > * 完成螢幕掃描  
 > * 準備期中考  
-
+> ![圖1](https://github.com/Sapphire1002/VHDL/blob/main/pic/%E8%9E%A2%E5%B9%95%E6%8E%83%E6%8F%8F%E6%B5%81%E7%A8%8B%E5%9C%96.PNG)
 > 程式說明:  
 > 使用指撥開關控制 LED 亮
 
 > 檔案名稱:  
-> pre_test.vhd  
-> pre_test.xdc
+> video_out_screen_scan.vhd  
