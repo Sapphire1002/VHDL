@@ -8,7 +8,6 @@
   進度:  
   建置 Vivado 環境  
   查詢 VHDL 語法及資料  
-  問題討論:  
   
 </details>
 
