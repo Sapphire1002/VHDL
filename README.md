@@ -5,7 +5,8 @@
   test contain
 </details>
 
-* Week 1
+<details>
+  <summary> **Week 1** </summary>
   > 日期: 2020.10.27 \- 2020.10.30 \
   > 專案資料夾: 00 pre_test \
   > 進度: \
@@ -14,7 +15,8 @@
   > 問題討論: 
   - [x] 已完成
   - [ ] 未完成
-  
+</details>
+
 * Week 2
   > 日期: 2020.10.30 \- 2020.11.06 \
   > 專案資料夾: 01 video_out_screen_scan \
