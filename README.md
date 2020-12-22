@@ -2,9 +2,6 @@
 #### **每周進度**
 * Week 1
 * Date: 2020.10.27
-```html
-<font color="red"> test <font>
- ```
 * Week 2
 * Week 3
 * Week 4
