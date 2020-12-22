@@ -12,3 +12,7 @@
 
 > 程式說明:  
 > 使用指撥開關控制 LED 亮
+
+> 檔案名稱: 
+> pre_test.vhd
+> pre_test.xdc
