@@ -1,6 +1,16 @@
 ## 實驗室
 #### **每周進度**
 <details>
+  <summary> first floor </summary>
+  first text
+  <details>
+    <summary> second floor </summary>
+    second text
+  </details>
+</details>
+
+
+<details>
   <summary> Week 1 環境建置 </summary>
   日期: 2020.10.27 - 2020.10.30  
   
