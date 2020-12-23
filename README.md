@@ -23,7 +23,7 @@
   完成螢幕掃描  
   
   <details>
-  <summary> 實作部分 </summary>
+    <summary> 實作部分 </summary>
   * 了解螢幕掃描時間及程式設計流程  
   
   ![螢幕掃描流程圖](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/%E8%9E%A2%E5%B9%95%E6%8E%83%E6%8F%8F%E6%B5%81%E7%A8%8B%E5%9C%96.PNG)  
