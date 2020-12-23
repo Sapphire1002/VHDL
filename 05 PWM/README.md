@@ -20,7 +20,7 @@
 > 箭頭: 輸出訊號  
 > 菱形: 實際電路  
 
-> * 接上共陽極七段顯示器及LED來觀測結果
+> * 接上共陽極七段顯示器及LED來觀測結果  
 > [PWM 觀測結果](https://drive.google.com/file/d/10p-wDH7d7CSU7vLBOSTrHcUxHDYnIQqi/view?usp=sharing)  
 > 影片說明:  
 > LED 代表 PWM 的輸出，紅燈代表上數，黃燈代表下數。
