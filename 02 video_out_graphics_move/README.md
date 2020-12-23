@@ -11,14 +11,22 @@
 > * 使螢幕上的圖形移動  
 
 > 實作部分:  
-> ![顯示圖形](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_Video_out_%E5%9C%96%E5%BD%A2.jpg)
-> [圖形移動](https://drive.google.com/drive/u/0/folders/1zCOAHghn2EQNgktTB1c879EvORwhhlRP)
+> ![顯示圖形](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_Video_out_%E5%9C%96%E5%BD%A2.jpg)  
+> [圖形移動影片](https://drive.google.com/drive/u/0/folders/1zCOAHghn2EQNgktTB1c879EvORwhhlRP)  
 
 > 問題討論:  
-> ![Q1](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_video_out_que01.png)
+> ![Q1](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_video_out_que01.png)  
+> * 兩個 process() 傳值的方法  
+> * 三角形在一開始的地方會有問題
 
 > 解決方式:  
-> 在 \*.xdc 檔案時脈的程式碼要加上 IOSTANDARD 並給電壓 LVCMOS33 
+> Sol1\. 重新建立一個專案   
+> Sol2\.  
+> + 宣告一個 signal, 類型為 std_logic_vector  
+> + 在第二個 process 寫一個區域變數(variable)來接收傳入的值  
+> + 在第二個 process 賦值給 第一步驟宣告的 signal  
+> + 在第一個 process 接收值, 若要轉成十進制則使用(conv_integer(variable, bits)) `conv_integer() 需要有 ieee.std_logic_arith.all 檔案`  
+> Sol3\. 利用數學的線性規劃來判斷點位於直線方程式哪邊
 
 > 程式檔案名稱:  
 > video_out_screen_scan.vhd  
