@@ -29,7 +29,7 @@
   ![螢幕掃描流程圖](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/%E8%9E%A2%E5%B9%95%E6%8E%83%E6%8F%8F%E6%B5%81%E7%A8%8B%E5%9C%96.PNG)  
   * 原本螢幕畫面  
   ![原本螢幕畫面](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_ori.jpg)  
-  * 掃苗後的螢幕畫面  
+  * 掃描後的螢幕畫面  
   ![掃描後的螢幕畫面](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_result.jpg)  
 </details>  
 
@@ -66,7 +66,7 @@
 </details>
 
 <details>
-  <sumary> 問題討論 </summary>  
+  <summary> 問題討論 </summary>  
   
   ![Q](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_video_out_que01.png)  
   - [x] 已解決  
