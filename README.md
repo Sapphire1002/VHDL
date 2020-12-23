@@ -176,7 +176,8 @@
   LED 代表 PWM 的輸出，紅燈代表上數，黃燈代表下數。
   另外使用 FPGA 板子上的指撥開關來控制邊界。  
   `影片一開始設定 0110，最後設定 0010 `
-</details>  
+</details> 
+</details>
   
 <details>
   <summary> Week 8 LED 乒乓球遊戲 </summary>
