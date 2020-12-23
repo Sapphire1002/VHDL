@@ -1,21 +1,6 @@
 ## 實驗室
 #### **每周進度**
 <details>
-  <summary> first floor </summary>
-  first text
-    <details>
-      <summary> second floor </summary>
-        second text
-    </details>
-    <details>
-      <summary> third floor </summary>
-        third text
-    </details>
-  forth text
-</details>
-
-
-<details>
   <summary> Week 1 環境建置 </summary>
   日期: 2020.10.27 - 2020.10.30  
   
@@ -28,7 +13,7 @@
 
 <details>
   <summary> Week 2 VGA 螢幕掃描 </summary>
-  日期: 2020.10.30 - 2020.11.06 
+  日期: 2020.10.30 - 2020.11.06  
   
   專案資料夾: [01 video_out_screen_scan](https://github.com/Sapphire1002/VHDL/tree/main/01%20video_out_screen_scan "專案連結")  
   進度:  
@@ -36,6 +21,12 @@
   了解螢幕掃描時間及程式設計流程  
   了解螢幕輸出RGB時的原理  
   完成螢幕掃描  
+  <details>
+    <summary> 實作部分 </summary>
+     * 了解螢幕掃描時間及程式設計流程   
+     ![螢幕掃描流程圖](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/%E8%9E%A2%E5%B9%95%E6%8E%83%E6%8F%8F%E6%B5%81%E7%A8%8B%E5%9C%96.PNG)  
+  </details>  
+  
   問題討論:  
   ![Q](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_q1.PNG)
   - [x] 已解決  
