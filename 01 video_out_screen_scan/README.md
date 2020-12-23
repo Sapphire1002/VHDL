@@ -17,7 +17,7 @@
 > 實作部分:
 > * 原本螢幕畫面  
 > ![原本螢幕畫面](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_ori.jpg)  
-> * 掃苗後的螢幕畫面  
+> * 掃描後的螢幕畫面  
 > ![掃描後的螢幕畫面](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_result.jpg)
 
 > 說明:  
