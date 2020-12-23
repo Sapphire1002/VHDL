@@ -41,7 +41,25 @@
   專案資料夾: [02 video_out_graphics_move](https://github.com/Sapphire1002/VHDL/tree/main/02%20video_out_graphics_move "專案連結")  
   進度:  
   在 VGA 螢幕上顯示正方形、圓形、三角形  
-  使螢幕上的圖形移動    
+  使螢幕上的圖形移動  
+  問題討論:  
+  ![Q](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_video_out_que01.png)  
+  - [x] 已解決  
+        解決方式: 重新建立一個專案    
+  - [ ] 未解決  
+  * 三角形在一開始的地方會有問題  
+  - [x] 已解決  
+        解決方式: 利用數學的線性規劃來判斷點位於直線方程式哪邊      
+  - [ ] 未解決   
+  * 兩個 process() 傳值的方法  
+  - [x] 已解決  
+        解決方式:  
+            1\. 宣告一個 signal, 類型為 std_logic_vector  
+            2\. 在第二個 process 寫一個區域變數(variable)來接收傳入的值  
+            3\. 在第二個 process 賦值給 第一步驟宣告的 signal  
+            4\. 在第一個 process 接收值, 若要轉成十進制則使用(conv_integer(variable, bits))  
+            `conv_integer() 需要有 ieee.std_logic_arith.all 檔案`  
+  - [ ] 未解決  
   
 </details>
 
@@ -53,6 +71,10 @@
   進度:  
   使用 VGA 螢幕顯示且玩乒乓球遊戲  
   依據打擊的位置球往不同的方向飛   
+  問題討論:  
+  * 兩邊的檔板若超出邊界會直接消失並從另一端出現 
+  - [ ] 已解決        
+  - [x] 未解決  
   
 </details>
 
@@ -65,6 +87,11 @@
   計數器 0 ~ 9， 9 ~ 0  
   讓兩個計數器可自由設定上下限  
   計數的結果顯示在 LED 及 七段顯示器上   
+  問題討論:  
+  * 七段顯示器尚未研究怎麼使用
+  - [x] 已解決  
+        解決方式: FPGA 板子上的七段顯示器無法使用, 使用外接七段顯示器來處理        
+  - [ ] 未解決 
   
 </details>
   
