@@ -27,7 +27,10 @@
   
   * 了解螢幕掃描時間及程式設計流程  
   ![螢幕掃描流程圖](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/%E8%9E%A2%E5%B9%95%E6%8E%83%E6%8F%8F%E6%B5%81%E7%A8%8B%E5%9C%96.PNG)  
-  
+  * 原本螢幕畫面  
+  ![原本螢幕畫面](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_ori.jpg)  
+  * 掃苗後的螢幕畫面  
+  ![掃描後的螢幕畫面](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_result.jpg)  
 </details>  
 
 <details>
@@ -37,7 +40,6 @@
   - [x] 已解決  
         解決方式: 在 \*.xdc 檔案時脈的程式碼要加上 IOSTANDARD 並給電壓 LVCMOS33  
   - [ ] 未解決
-  
 </details> 
 </details>
 
@@ -54,7 +56,18 @@
   進度:  
   在 VGA 螢幕上顯示正方形、圓形、三角形  
   使螢幕上的圖形移動  
-  問題討論:  
+  
+<details>
+  <summary> 實作部分 </summary>
+  
+  * 顯示圖形  
+  ![顯示圖形](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_Video_out_%E5%9C%96%E5%BD%A2.jpg)  
+  [圖形移動影片](https://drive.google.com/file/d/1x19yr52etBxJ1drvSTe1m-OdFJPInAqK/view?usp=sharing)  
+</details>
+
+<details>
+  <sumary> 問題討論 </summary>  
+  
   ![Q](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_video_out_que01.png)  
   - [x] 已解決  
         解決方式: 重新建立一個專案    
@@ -72,7 +85,7 @@
             4\. 在第一個 process 接收值, 若要轉成十進制則使用(conv_integer(variable, bits))  
             `conv_integer() 需要有 ieee.std_logic_arith.all 檔案`  
   - [ ] 未解決  
-  
+</details>  
 </details>
 
 <details>
