@@ -7,6 +7,11 @@
       <summary> second floor </summary>
         second text
     </details>
+  
+    <details>
+      <summary> third floor </summary>
+        third text
+    </details>
 </details>
 
 
@@ -30,11 +35,7 @@
   查詢 VHDL 語法及資料  
   了解螢幕掃描時間及程式設計流程  
   了解螢幕輸出RGB時的原理  
-  完成螢幕掃描
-  <details>
-    <summary> second floor </summary>
-      second text
-  </details>
+  完成螢幕掃描  
   問題討論:  
   ![Q](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_q1.PNG)
   - [x] 已解決  
