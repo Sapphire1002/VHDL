@@ -27,6 +27,8 @@
 > 101: PL2 接到球  
 > 110: PL1 當前分數  
 > 111: PL2 當前分數  
+> btn1, btn2: 代表 PL1, PL2 `電路為正邏輯`  
+> pos: 球的當前位置  
 
 > * 接上實際電路觀測結果  
 > [實際電路觀測結果](https://drive.google.com/file/d/17KoJ02tQW8P4xKnkNdryfAqvog-4ffQe/view?usp=sharing)   
