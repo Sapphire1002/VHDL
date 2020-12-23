@@ -54,10 +54,10 @@
   * 兩個 process() 傳值的方法  
   - [x] 已解決  
         解決方式:  
-          1\. 宣告一個 signal, 類型為 std_logic_vector  
-          2\. 在第二個 process 寫一個區域變數(variable)來接收傳入的值  
-          3\. 在第二個 process 賦值給 第一步驟宣告的 signal  
-          4\. 在第一個 process 接收值, 若要轉成十進制則使用(conv_integer(variable, bits)) 
+            1\. 宣告一個 signal, 類型為 std_logic_vector  
+            2\. 在第二個 process 寫一個區域變數(variable)來接收傳入的值  
+            3\. 在第二個 process 賦值給 第一步驟宣告的 signal  
+            4\. 在第一個 process 接收值, 若要轉成十進制則使用(conv_integer(variable, bits))  
             `conv_integer() 需要有 ieee.std_logic_arith.all 檔案`  
   - [ ] 未解決  
   
