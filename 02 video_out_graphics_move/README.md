@@ -11,6 +11,7 @@
 > * 使螢幕上的圖形移動  
 
 > 實作部分:  
+> * 顯示圖形  
 > ![顯示圖形](https://github.com/Sapphire1002/VHDL/blob/main/02%20video_out_graphics_move/1120_Video_out_%E5%9C%96%E5%BD%A2.jpg)  
 > [圖形移動影片](https://drive.google.com/file/d/1x19yr52etBxJ1drvSTe1m-OdFJPInAqK/view?usp=sharing)  
 
