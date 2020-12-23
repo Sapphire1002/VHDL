@@ -33,7 +33,7 @@
   <summary> Week 4 </summary>
   日期: 2020.11.13 - 2020.11.20 
   
-  專案資料夾: 02 video_out_graphics_move  
+  專案資料夾: [02 video_out_graphics_move](https://github.com/Sapphire1002/VHDL/tree/main/02%20video_out_graphics_move "專案連結")  
   進度:  
   在 VGA 螢幕上顯示正方形、圓形、三角形  
   使螢幕上的圖形移動    
@@ -44,7 +44,7 @@
   <summary> Week 5 </summary>
   日期: 2020.11.20 - 2020.11.27  
   
-  專案資料夾: 03 video_out_pingpong_vga  
+  專案資料夾: [03 video_out_pingpong_vga](https://github.com/Sapphire1002/VHDL/tree/main/03%20video_out_pingpong_vga "專案連結")  
   進度:  
   使用 VGA 螢幕顯示且玩乒乓球遊戲  
   依據打擊的位置球往不同的方向飛   
@@ -55,7 +55,7 @@
   <summary> Week 6 </summary>
   日期: 2020.11.27 - 2020.12.04  
   
-  專案資料夾: 04 counter  
+  專案資料夾: [04 counter](https://github.com/Sapphire1002/VHDL/tree/main/04%20counter "專案連結")  
   進度:  
   計數器 0 ~ 9， 9 ~ 0  
   讓兩個計數器可自由設定上下限  
@@ -67,7 +67,7 @@
   <summary> Week 7 </summary>
   日期: 2020.12.04 - 2020.12.11   
   
-  專案資料夾: 05 PWM   
+  專案資料夾: [05 PWM](https://github.com/Sapphire1002/VHDL/tree/main/05%20PWM "專案連結")   
   進度:  
   設計 PWM  
   使用指撥開關設定邊界，並且用有限狀態機來控制兩個計數器的計數。 
@@ -80,7 +80,7 @@
   <summary> Week 8 </summary>
   日期: 2020.12.11 - 2020.12.18  
   
-  專案資料夾: 06 pingpong_led  
+  專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
   進度:  
   設計 LED 乒乓球遊戲    
   使用 LED 當成球在移位，以及兩個按鈕當成 PL1 & PL2，只要達到  
