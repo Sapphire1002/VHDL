@@ -24,5 +24,8 @@
 > 問題討論:  
 > ![Q](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_q1.PNG)
 
+> 解決方式:
+> 在 \*.xdc 檔案時脈的程式碼要加上 IOSTANDARD 並給電壓 LVCMOS33 
+
 > 程式檔案名稱:  
 > video_out_screen_scan.vhd  
