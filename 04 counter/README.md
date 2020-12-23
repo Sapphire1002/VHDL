@@ -12,8 +12,11 @@
 > * 計數的結果顯示在 LED 及 七段顯示器上  
 
 > 實作部分:  
-> ![上數波形模擬](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E4%B8%8A%E6%95%B8%E8%A8%88%E6%95%B8%E5%99%A8(0_9%E6%B3%A2%E5%BD%A2).PNG)
-> ![下數波形模擬](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E4%B8%8B%E6%95%B8%E8%A8%88%E6%95%B8%E5%99%A8(9_0%20%E6%B3%A2%E5%BD%A2).PNG)
+> * 上數波形模擬  
+> ![上數波形模擬](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E4%B8%8A%E6%95%B8%E8%A8%88%E6%95%B8%E5%99%A8(0_9%E6%B3%A2%E5%BD%A2).PNG)  
+> * 下數波形模擬  
+> ![下數波形模擬](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E4%B8%8B%E6%95%B8%E8%A8%88%E6%95%B8%E5%99%A8(9_0%20%E6%B3%A2%E5%BD%A2).PNG)  
+> * 自定義計數器波形模擬  
 > ![自定義計數器波形](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E8%87%AA%E5%AE%9A%E7%BE%A9%E8%A8%88%E6%95%B8%E5%99%A8(%E6%B3%A2%E5%BD%A2).PNG)
 
 > 說明:  
