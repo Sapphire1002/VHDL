@@ -7,7 +7,6 @@
       <summary> second floor </summary>
         second text
     </details>
-  
     <details>
       <summary> third floor </summary>
         third text
