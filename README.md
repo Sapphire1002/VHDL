@@ -96,11 +96,21 @@
   進度:  
   使用 VGA 螢幕顯示且玩乒乓球遊戲  
   依據打擊的位置球往不同的方向飛   
-  問題討論:  
+  
+<details>
+  <sumary> 實作部分 </summary>
+  
+  [乒乓球實作影片1](https://drive.google.com/file/d/1cx5e87o8t2VbzjyqEA-TgOCNKX9wB-Pk/view?usp=sharing)    
+  [乒乓球實作影片2](https://drive.google.com/file/d/1H7-WLFPHP_LOq9tE38c5P5waZKvh8pJ7/view?usp=sharing)  
+</details>
+
+<details>
+  <summary> 問題討論 </summary> 
+  
   * 兩邊的檔板若超出邊界會直接消失並從另一端出現 
   - [ ] 已解決        
   - [x] 未解決  
-  
+</details>
 </details>
 
 <details>
@@ -111,13 +121,32 @@
   進度:  
   計數器 0 ~ 9， 9 ~ 0  
   讓兩個計數器可自由設定上下限  
-  計數的結果顯示在 LED 及 七段顯示器上   
-  問題討論:  
+  計數的結果顯示在 LED 及 七段顯示器上  
+  
+<details>
+  <summary> 實作部分 </summary>
+  
+  * 上數波形模擬    
+  ![上數波形模擬](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E4%B8%8A%E6%95%B8%E8%A8%88%E6%95%B8%E5%99%A8(0_9%E6%B3%A2%E5%BD%A2).PNG)  
+  * 下數波形模擬  
+  ![下數波形模擬](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E4%B8%8B%E6%95%B8%E8%A8%88%E6%95%B8%E5%99%A8(9_0%20%E6%B3%A2%E5%BD%A2).PNG)  
+  * 自定義計數器波形模擬  
+  ![自定義計數器波形](https://github.com/Sapphire1002/VHDL/blob/main/04%20counter/%E8%87%AA%E5%AE%9A%E7%BE%A9%E8%A8%88%E6%95%B8%E5%99%A8(%E6%B3%A2%E5%BD%A2).PNG)  
+
+  [LED 上數影片](https://drive.google.com/file/d/1h8_54hwukTBwddUCOMGQsIpPvyr5TOIP/view?usp=sharing)  
+  [LED 下數影片](https://drive.google.com/file/d/1HvNs_3RmeN6pVpBwUH8IC6rxIaLaB1HN/view?usp=sharing)  
+  影片說明:  
+  影片中的 LED 最左邊為 8，最右邊為 1。 數字 9 則顯示 8 和 1，也就是會同時亮最左邊和最右邊
+</details>
+
+<details>
+  <summary> 問題討論 </summary> 
+  
   * 七段顯示器尚未研究怎麼使用
   - [x] 已解決  
         解決方式: FPGA 板子上的七段顯示器無法使用, 使用外接七段顯示器來處理        
   - [ ] 未解決 
-  
+</details>
 </details>
   
 <details> 
@@ -129,8 +158,24 @@
   設計 PWM  
   使用指撥開關設定邊界，並且用有限狀態機來控制兩個計數器的計數。 
   在第一個計數器數的時候 PWM 值為 1，另一個計數器數時值為 0 。  
-  最後將結果接上七段顯示器呈現。   
+  最後將結果接上七段顯示器呈現。 
   
+<details>
+  <summary> 實作部分 </summary>
+  
+  * PWM 設計流程圖  
+  ![PWM 設計流程圖](https://github.com/Sapphire1002/VHDL/blob/main/05%20PWM/PWM_Design_pic.jpg)  
+  流程圖說明  
+  方框: FPGA 電路  
+  箭頭: 輸出訊號  
+  菱形: 實際電路  
+
+  * 接上共陽極七段顯示器及 LED 來觀測結果  
+  [PWM 接上實際電路觀測結果](https://drive.google.com/file/d/10p-wDH7d7CSU7vLBOSTrHcUxHDYnIQqi/view?usp=sharing)  
+  影片說明:  
+  LED 代表 PWM 的輸出，紅燈代表上數，黃燈代表下數。
+  另外使用 FPGA 板子上的指撥開關來控制邊界。  
+  `影片一開始設定 0110，最後設定 0010 `
 </details>  
   
 <details>
@@ -143,11 +188,40 @@
   使用 LED 當成球在移位，以及兩個按鈕當成 PL1 & PL2，只要達到  
   一邊任意端點就必須在 1個 CLK 內按下該側按鈕。  
   若提早按或者太晚按都算失分，得分時發球權不變，反之換發。  
-  最後比分結果由七段顯示器顯示。  
-  問題討論:  
+  最後比分結果由七段顯示器顯示。 
+  
+<details>
+  <summary> 實作部分 </summary>
+  
+  * 設計 LED 乒乓球遊戲流程圖  
+  ![LED 乒乓球遊戲流程圖](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/pingpong_programming_pic.jpg)  
+  * LED 乒乓球遊戲 VHDL 狀態圖    
+  ![LED 乒乓球遊戲狀態圖](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/pingpong_led_pic.jpg)   
+  狀態圖說明:    
+  000: PL1 發球前的狀態  
+  001: PL2 發球前的狀態  
+  010: LED 右移  
+  011: LED 左移  
+  100: PL1 接到球  
+  101: PL2 接到球  
+  110: PL1 當前分數  
+  111: PL2 當前分數  
+  btn1, btn2: 代表 PL1, PL2  `電路為正邏輯`  
+  pos: 球的當前位置  
+
+  * 接上實際電路觀測結果  
+  [實際電路觀測結果](https://drive.google.com/file/d/17KoJ02tQW8P4xKnkNdryfAqvog-4ffQe/view?usp=sharing)   
+  影片說明:  
+  左邊的按鈕為 PL1， 右邊的按鈕為 PL2，左邊的七段為 PL1 分數，右邊的七段為 PL2 分數。
+</details>
+
+<details>
+  <summary> 問題討論 </summary>  
+  
   * 目前 LED 的部分不會移動，但是計分判斷和按鈕控制流程是正常功能  
   - [ ] 已解決        
   - [x] 未解決   
+</details>
 </details> 
 
 <details>
