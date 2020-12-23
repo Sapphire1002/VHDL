@@ -98,7 +98,7 @@
   依據打擊的位置球往不同的方向飛   
   
 <details>
-  <sumary> 實作部分 </summary>
+  <summary> 實作部分 </summary>
   
   [乒乓球實作影片1](https://drive.google.com/file/d/1cx5e87o8t2VbzjyqEA-TgOCNKX9wB-Pk/view?usp=sharing)    
   [乒乓球實作影片2](https://drive.google.com/file/d/1H7-WLFPHP_LOq9tE38c5P5waZKvh8pJ7/view?usp=sharing)  
