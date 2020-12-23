@@ -3,10 +3,10 @@
 <details>
   <summary> first floor </summary>
   first text
-  > <details>
-    <summary> second floor </summary>
-      second text
-  > </details>
+    <details>
+      <summary> second floor </summary>
+        second text
+    </details>
 </details>
 
 
