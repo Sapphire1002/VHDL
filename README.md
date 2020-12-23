@@ -1,7 +1,7 @@
 ## 實驗室
 #### **每周進度**
 <details>
-  <summary> Week 1 </summary>
+  <summary> Week 1 環境建置 </summary>
   日期: 2020.10.27 - 2020.10.30  
   
   專案資料夾: [00 pre_test](https://github.com/Sapphire1002/VHDL/tree/main/00%20pre_test "專案連結")  
@@ -12,7 +12,7 @@
 </details>
 
 <details>
-  <summary> Week 2 </summary>
+  <summary> Week 2 VGA 螢幕掃描 </summary>
   日期: 2020.10.30 - 2020.11.06 
   
   專案資料夾: [01 video_out_screen_scan](https://github.com/Sapphire1002/VHDL/tree/main/01%20video_out_screen_scan "專案連結")  
@@ -30,12 +30,12 @@
 </details>
 
 <details>
-  <summary> Week 3 </summary>
+  <summary> Week 3 期中考 </summary>
   期中考週
 </details>
 
 <details>
-  <summary> Week 4 </summary>
+  <summary> Week 4 VGA 螢幕上顯示圖形 </summary>
   日期: 2020.11.13 - 2020.11.20 
   
   專案資料夾: [02 video_out_graphics_move](https://github.com/Sapphire1002/VHDL/tree/main/02%20video_out_graphics_move "專案連結")  
@@ -46,7 +46,7 @@
 </details>
 
 <details>
-  <summary> Week 5 </summary>
+  <summary> Week 5 VGA 螢幕玩乒乓球遊戲 </summary>
   日期: 2020.11.20 - 2020.11.27  
   
   專案資料夾: [03 video_out_pingpong_vga](https://github.com/Sapphire1002/VHDL/tree/main/03%20video_out_pingpong_vga "專案連結")  
@@ -57,7 +57,7 @@
 </details>
 
 <details>
-  <summary> Week 6 </summary>
+  <summary> Week 6 LED/七段計數器 </summary>
   日期: 2020.11.27 - 2020.12.04  
   
   專案資料夾: [04 counter](https://github.com/Sapphire1002/VHDL/tree/main/04%20counter "專案連結")  
@@ -69,7 +69,7 @@
 </details>
   
 <details> 
-  <summary> Week 7 </summary>
+  <summary> Week 7 Pulse-width modulation(PWM) </summary>
   日期: 2020.12.04 - 2020.12.11   
   
   專案資料夾: [05 PWM](https://github.com/Sapphire1002/VHDL/tree/main/05%20PWM "專案連結")   
@@ -82,7 +82,7 @@
 </details>  
   
 <details>
-  <summary> Week 8 </summary>
+  <summary> Week 8 LED 乒乓球遊戲 </summary>
   日期: 2020.12.11 - 2020.12.18  
   
   專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
