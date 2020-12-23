@@ -96,7 +96,7 @@
 </details> 
 
 <details>
-  <summary> Week 9 </summary>
+  <summary> Week 9 專案管理 </summary>
   日期: 2020.12.18 - 2020.12.25  
   
   弄好專案管理
