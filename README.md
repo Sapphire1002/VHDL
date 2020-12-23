@@ -23,7 +23,7 @@
   完成螢幕掃描   
   問題討論:  
   ![Q](https://github.com/Sapphire1002/VHDL/blob/main/01%20video_out_screen_scan/1106_q1.PNG)
-  - [x] 已解決
+  - [x] 已解決  
         解決方式: 在 \*.xdc 檔案時脈的程式碼要加上 IOSTANDARD 並給電壓 LVCMOS33
   - [ ] 未解決
   
