@@ -26,7 +26,7 @@ architecture Behavioral of pingpong_LED is
     signal next_state: std_logic_vector(2 downto 0);
 
     -- ball position(0 to 9)
-    signal pos: std_logic_vector(3 downto 0);
+    signal cnt: std_logic_vector(3 downto 0);
 
     -- count score
     signal PL1_score: std_logic_vector(3 downto 0);
@@ -52,7 +52,7 @@ begin
     end process;
 
     -- preset: 
-    -- LED number from 1 to 8; pos from 0 to 9;
+    -- LED number from 1 to 8; cnt from 0 to 9;
     -- PL1 serves first
     -- state(3 bits, 8 states): 
     -- 000: PL1 before serving, 001: PL2 before serving
@@ -69,7 +69,7 @@ begin
         end if;
     end process;
 
-    FSM: process (clk_div, state, next_state, PL1_score, PL2_score, pos, btn1, btn2, gameover)
+    FSM: process (clk_div, state, next_state, PL1_score, PL2_score, cnt, btn1, btn2, gameover)
     begin
         case state is
             when "000" =>
@@ -87,7 +87,7 @@ begin
                 end if;
 
             when "010" =>
-                if (pos < "1000") then
+                if (cnt < "1000") then
                     if (btn2 = '0') then
                         next_state <= "010";
                     else
@@ -98,7 +98,7 @@ begin
                 end if;
 
             when "011" =>
-                if (pos > "0001") then
+                if (cnt > "0001") then
                     if (btn1 = '0') then
                         next_state <= "011";
                     else
@@ -109,14 +109,14 @@ begin
                 end if;
 
             when "100" =>
-                if (btn1 = '1' and pos = "0001") then
+                if (btn1 = '1' and cnt = "0001") then
                     next_state <= "010";
                 else
                     next_state <= "111";
                 end if;
 
             when "101" =>
-                if (btn2 = '1' and pos = "1000") then
+                if (btn2 = '1' and cnt = "1000") then
                     next_state <= "011";
                 else
                     next_state <= "110";
@@ -142,49 +142,49 @@ begin
     end process;
 
     -- 000: PL1 before serving
-    serve_pl1: process (clk_div, reset, state, pos)
+    serve_pl1: process (clk_div, reset, state, cnt)
     begin
         if (reset = '1') then
-            pos <= "0001";
+            cnt <= "0001";
         elsif (clk_div 'event and clk_div = '1') then
             if (state = "000") then
-                pos <= "0001";
+                cnt <= "0001";
             end if;
         end if;
     end process;
 
     -- 001: PL2 before serving
-    serve_pl2: process (clk_div, reset, state, pos)
+    serve_pl2: process (clk_div, reset, state, cnt)
     begin
         if (reset = '1') then
-            pos <= "0001";
+            cnt <= "0001";
         elsif (clk_div 'event and clk_div = '1') then
             if (state = "001") then
-                pos <= "1000";
+                cnt <= "1000";
             end if;
         end if;
     end process;
 
     -- 010: LED right move
-    Right_move: process (clk_div, reset, state, pos)
+    Right_move: process (clk_div, reset, state, cnt)
     begin
         if (reset = '1') then
-            pos <= "0001";
+            cnt <= "0001";
         elsif (clk_div 'event and clk_div = '1') then
             if (state = "010") then
-                pos <= pos + '1';
+                cnt <= cnt + '1';
             end if;
         end if;
     end process;
 
     -- 011: LED left move
-    Left_move: process (clk_div, reset, state, pos)
+    Left_move: process (clk_div, reset, state, cnt)
     begin
         if (reset = '1') then
-            pos <= "0001";
+            cnt <= "0001";
         elsif (clk_div 'event and clk_div = '1') then
             if (state = "011") then
-                pos <= pos - '1';
+                cnt <= cnt - '1';
             end if;
         end if;
     end process;
@@ -214,12 +214,12 @@ begin
     end process;
 
 -------- actual circuit --------
-    led_out: process (clk_div, reset, pos)
+    led_out: process (clk_div, reset, cnt)
     begin
         if (reset = '1') then
             led <= "00000000";
         elsif (clk_div 'event and clk_div = '1') then
-            case pos is
+            case cnt is
                 when "0001" => 
                     led <= "10000000";
                 when "0010" => 
@@ -243,7 +243,7 @@ begin
     end process;
 
     -- end seven-segement display screen
-    -- PL1_ssd(common: positive)
+    -- PL1_ssd(common: cntitive)
     pl1: process (clk_div, reset, PL1_score, gameover) 
     begin
         if (reset = '1') then
@@ -279,7 +279,7 @@ begin
         end if;
     end process;
 
-    -- PL2_ssd(common: positive)
+    -- PL2_ssd(common: cntitive)
     pl2: process (clk_div, reset, PL2_score, gameover) 
     begin
         if (reset = '1') then
