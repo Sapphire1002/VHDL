@@ -233,4 +233,28 @@
   
 </details>
 
+<details>
+  <summary> Week 10 LED 乒乓球遊戲 </summary>
+  日期: 2020.12.25 - 2021.1.1  
   
+  專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
+  進度:  
+  修正 LED 不會移動的問題  
+  重新設計流程圖和狀態圖  
+  新增設定勝利條件分數  
+  
+<details>
+  <summary> 實作部分 </summary>
+  
+</details>  
+
+<details>
+  <summary> 問題討論 </summary>  
+  * 之前問題  
+  * 目前 LED 的部分不會移動，但是計分判斷和按鈕控制流程是正常功能  
+  - [x] 已解決  
+        解決方式: 重新設計狀態圖和流程圖來處理本項問題  
+  - [ ] 未解決   
+</details>
+
+</details>
