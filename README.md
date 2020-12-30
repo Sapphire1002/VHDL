@@ -249,8 +249,9 @@
 </details>  
 
 <details>
-  <summary> 問題討論 </summary>  
+  <summary> 問題討論 </summary>   
   * 之前問題  
+  
   * 目前 LED 的部分不會移動，但是計分判斷和按鈕控制流程是正常功能  
   - [x] 已解決  
         解決方式: 重新設計狀態圖和流程圖來處理本項問題  
