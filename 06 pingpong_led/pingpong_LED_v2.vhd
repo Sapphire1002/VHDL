@@ -19,121 +19,121 @@ architecture Behavioral of pingpong_LED is
     signal freq: std_logic_vector(25 downto 0);
     signal clk_div: std_logic;
 
-	-- Mealy state
-	type type_state is (s0, s1, s2);
-	signal state: type_state;
+    -- Mealy state
+    type type_state is (s0, s1, s2);
+    signal state: type_state;
 	
-	-- ctrl right to serve
+    -- ctrl right to serve
 	signal serve: std_logic;
 	
-	-- ball move
-	signal cnt: std_logic_vector(3 downto 0);
+    -- ball move
+    signal cnt: std_logic_vector(3 downto 0);
 	
-	-- count score
-	signal PL1_score: std_logic_vector(3 downto 0);
-	signal PL2_score: std_logic_vector(3 downto 0);
+    -- count score
+    signal PL1_score: std_logic_vector(3 downto 0);
+    signal PL2_score: std_logic_vector(3 downto 0);
 
 begin
-	clk_div <= freq(23);
-	
-	freq_div: process (clk, reset, freq)
-	begin
-		if reset = '1' then
-			freq <= (others => '0');
-		elsif clk 'event and clk = '1' then
-			freq <= freq + '1';
-		end if;
-	end process;
-	
-	-- preset: 
+    clk_div <= freq(23);
+
+    freq_div: process (clk, reset, freq)
+    begin
+	    if reset = '1' then
+		    freq <= (others => '0');
+	    elsif clk 'event and clk = '1' then
+		    freq <= freq + '1';
+	    end if;
+    end process;
+
+    -- preset: 
     -- LED number from 1 to 8; cnt from 0 to 9;
-	-- serve: right to serve; 0/1: PL1/PL2 serve
-	-- state (3 states)
-	-- reset -> s0
-	-- s0: PL1, PL2 before serving 
-	-- s1: LED right move, PL2 catch the ball
-	-- s2: LED left move, PL1 catch the ball
+    -- serve: right to serve; 0/1: PL1/PL2 serve
+    -- state (3 states)
+    -- reset -> s0
+    -- s0: PL1, PL2 before serving 
+    -- s1: LED right move, PL2 catch the ball
+    -- s2: LED left move, PL1 catch the ball
 	
-	MealyFSM: process (clk_div, reset, state, PL1_score, PL2_score)
-	begin
-		if reset = '1' then
-			state <= s0;
-			serve <= '0';
-			PL1_score <= "0000";
-			PL2_score <= "0000";
-			
-		elsif clk_div 'event and clk_div = '1' then
-			case state is
-				when s0 =>
-					if serve = '0' then
-						cnt <= "0001";
-						if btn1 = '1' then
-							state <= s1;
-						else
-							state <= s0;
-						end if;
-						
-					elsif serve = '1' then
-						cnt <= "1000";
-						if btn2 = '1' then
-							state <= s2;
-						else
-							state <= s0;
-						end if;
-						
-					end if;
-					
-				when s1 =>
-					-- press too early
-					if btn2 = '1' and cnt < "1000" then
-						serve <= '0';
-						PL1_score <= PL1_score + '1';
-						state <= s0;
-					
-					-- press too late
-					elsif cnt > "1000" then
-						serve <= '0';
-						PL1_score <= PL1_score + '1';
-						state <= s0;
-					
-					-- catch the ball
-					elsif btn2 = '1' and cnt = "1000" then
-						state <= s2;
-					
-					else
-						cnt <= cnt + '1';
-						state <= s1;
-					
-					end if;
-				
-				when s2 =>
-					-- press too early
-					if btn1 = '1' and cnt > "0001" then
-						serve <= '1';
-						PL2_score <= PL2_score + '1';
-						state <= s0;
-					
-					-- press too late
-					elsif cnt < "0001" then
-						serve <= '1';
-						PL2_score <= PL2_score + '1';
-						state <= s0;
-					
-					-- catch the ball
-					elsif btn1 = '1' and cnt = "0001" then
-						state <= s1;
-					
-					else
-						cnt <= cnt - '1';
-						state <= s2;
-					
-					end if;
+    MealyFSM: process (clk_div, reset, state, PL1_score, PL2_score)
+    begin
+        if reset = '1' then
+            state <= s0;
+            serve <= '0';
+            PL1_score <= "0000";
+            PL2_score <= "0000";
 		
-				when others => 
-					null;
-			end case;
-		end if;
-	end process;
+        elsif clk_div 'event and clk_div = '1' then
+            case state is
+                when s0 =>
+                    if serve = '0' then
+                        cnt <= "0001";
+                        if btn1 = '1' then
+                    	    state <= s1;
+                        else
+                    	    state <= s0;
+                        end if;
+					
+                    elsif serve = '1' then
+                        cnt <= "1000";
+                        if btn2 = '1' then
+                            state <= s2;
+                        else
+                            state <= s0;
+                        end if;
+					
+                    end if;
+				
+            when s1 =>
+                -- press too early
+                if btn2 = '1' and cnt < "1000" then
+                    serve <= '0';
+                    PL1_score <= PL1_score + '1';
+                    state <= s0;
+				
+                -- press too late
+                elsif cnt > "1000" then
+                    serve <= '0';
+                    PL1_score <= PL1_score + '1';
+                    state <= s0;
+				
+                -- catch the ball
+                elsif btn2 = '1' and cnt = "1000" then
+                    state <= s2;
+				
+                else
+                    cnt <= cnt + '1';
+                    state <= s1;
+				
+                end if;
+			
+            when s2 =>
+                -- press too early
+                if btn1 = '1' and cnt > "0001" then
+                    serve <= '1';
+                    PL2_score <= PL2_score + '1';
+                    state <= s0;
+				
+				-- press too late
+                elsif cnt < "0001" then
+                    serve <= '1';
+                    PL2_score <= PL2_score + '1';
+                    state <= s0;
+				
+				-- catch the ball
+                elsif btn1 = '1' and cnt = "0001" then
+                    state <= s1;
+				
+                else
+                    cnt <= cnt - '1';
+                    state <= s2;
+				
+                end if;
+	
+            when others => 
+                null;
+		    end case;
+	    end if;
+    end process;
 	
 -------- actual circuit --------
     led_out: process (clk_div, reset, cnt)
