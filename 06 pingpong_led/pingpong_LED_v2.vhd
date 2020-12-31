@@ -24,7 +24,7 @@ architecture Behavioral of pingpong_LED is
     signal state: type_state;
 	
     -- ctrl right to serve
-	signal serve: std_logic;
+    signal serve: std_logic;
 	
     -- ball move
     signal cnt: std_logic_vector(3 downto 0);
