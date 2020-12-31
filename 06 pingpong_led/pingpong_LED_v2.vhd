@@ -13,7 +13,7 @@ entity pingpong_LED is
         led: out std_logic_vector(7 downto 0)
     );
 end entity;
-
+   
 architecture Behavioral of pingpong_LED is
     -- clock divider
     signal freq: std_logic_vector(25 downto 0);
@@ -24,7 +24,7 @@ architecture Behavioral of pingpong_LED is
     signal state: type_state;
 	
     -- ctrl right to serve
-	signal serve: std_logic;
+    signal serve: std_logic;
 	
     -- ball move
     signal cnt: std_logic_vector(3 downto 0);
@@ -38,11 +38,11 @@ begin
 
     freq_div: process (clk, reset, freq)
     begin
-	    if reset = '1' then
-		    freq <= (others => '0');
-	    elsif clk 'event and clk = '1' then
-		    freq <= freq + '1';
-	    end if;
+	if reset = '1' then
+            freq <= (others => '0');
+	elsif clk 'event and clk = '1' then
+            freq <= freq + '1';
+	end if;
     end process;
 
     -- preset: 
@@ -113,13 +113,13 @@ begin
                     PL2_score <= PL2_score + '1';
                     state <= s0;
 				
-				-- press too late
+		-- press too late
                 elsif cnt < "0001" then
                     serve <= '1';
                     PL2_score <= PL2_score + '1';
                     state <= s0;
 				
-				-- catch the ball
+		-- catch the ball
                 elsif btn1 = '1' and cnt = "0001" then
                     state <= s1;
 				
@@ -131,8 +131,8 @@ begin
 	
             when others => 
                 null;
-		    end case;
-	    end if;
+	    end case;
+	end if;
     end process;
 	
 -------- actual circuit --------
@@ -174,7 +174,7 @@ begin
     end process;
 
     -- end seven-segement display screen
-    -- PL1_ssd(common: cntitive)
+    -- PL1_ssd(common: positive)
     pl1: process (clk_div, reset, PL1_score) 
     begin
         if (reset = '1') then
@@ -218,7 +218,7 @@ begin
         end if;
     end process;
 
-    -- PL2_ssd(common: cntitive)
+    -- PL2_ssd(common: positive)
     pl2: process (clk_div, reset, PL2_score) 
     begin
         if (reset = '1') then
