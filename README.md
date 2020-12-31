@@ -240,11 +240,35 @@
   專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
   進度:  
   修正 LED 不會移動的問題  
-  重新設計流程圖和狀態圖    
+  重新設計流程圖和狀態圖  
+  完成 LED 乒乓球遊戲  
   
 <details>
   <summary> 實作部分 </summary>
   
+  * 設計 LED 乒乓球遊戲流程圖  
+  ![LED 乒乓球遊戲流程圖](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/pingpong_programming_pic_v2.jpg)  
+  * LED 乒乓球遊戲 Mealy 狀態圖 & FPGA 電路圖      
+  ![LED 乒乓球遊戲狀態圖](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/pingpong_led_pic_v2.jpg)       
+  電路&參數說明:  
+  btn1: 玩家1  
+  btn2: 玩家2  
+  MealyFSM: 米利型有限狀態機  
+  PL1_score: 玩家1 分數  
+  PL2_score: 玩家2 分數  
+  cnt: LED 移動的當前位置  
+  freq_div: 除頻  
+  serve: 控制發球權  
+  
+  狀態說明:  
+  s0: 玩家發球前  
+  s1: LED右移&PL2是否接到球  
+  s2: LED左移&PL1是否接到球  
+
+  * LED 乒乓球遊戲實際遊玩影片   
+  [實際遊玩影片](https://drive.google.com/file/d/1XFI0Tmmhyu-u4TRTxHXLS94yamRKo8X2/view?usp=sharing)   
+  影片說明:  
+  左邊的按鈕為 PL1， 右邊的按鈕為 PL2，上面的七段為 PL1 分數，下面的七段為 PL2 分數。
 </details>  
 
 <details>
@@ -255,6 +279,11 @@
   - [x] 已解決  
         解決方式: 重新設計狀態圖和流程圖來處理本項問題  
   - [ ] 未解決   
+  * Vivado 會無法偵測到 FPGA 板子的問題  
+  - [x] 已解決  
+        解決方式: 到對應版本的vivado資料夾目錄下找到 install_digilent.exe 並執行  
+        `例如: D:\Vivado\2019.2\data\xicom\cable_drivers\nt64\digilent\install_digilent.exe`
+  - [ ] 未解決 
 </details>
 
 </details>
