@@ -240,8 +240,7 @@
   專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
   進度:  
   修正 LED 不會移動的問題  
-  重新設計流程圖和狀態圖  
-  新增設定勝利條件分數  
+  重新設計流程圖和狀態圖    
   
 <details>
   <summary> 實作部分 </summary>
