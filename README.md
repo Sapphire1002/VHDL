@@ -229,7 +229,8 @@
   <summary> Week 9 專案管理 </summary>
   日期: 2020.12.18 - 2020.12.25  
   
-  處理 GitHub 專案管理
+  處理 GitHub 專案管理  
+  [操作連結](https://drive.google.com/file/d/1kbkaADANnAS-PVTFHqxI0UQdvAd30b4R/view?usp=sharing "PPT連結")  
   
 </details>
 
