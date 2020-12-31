@@ -36,7 +36,7 @@
 > 左邊的按鈕為 PL1， 右邊的按鈕為 PL2，左邊的七段為 PL1 分數，右邊的七段為 PL2 分數。  
 
 > 問題討論:    
-> 目前 LED 的部分不會移動，但是計分判斷和按鈕控制流程是正常功能  
+> * 目前 LED 的部分不會移動，但是計分判斷和按鈕控制流程是正常功能  
 
 > 程式檔案名稱:  
 > pingpong_LED.vhd  
@@ -80,8 +80,13 @@
 > 左邊的按鈕為 PL1，右邊的按鈕為 PL2，上面的七段為 PL1 分數，下面的七段為 PL2 分數。  
 
 > 問題討論:    
-> 目前 LED 的部分不會移動，但是計分判斷和按鈕控制流程是正常功能  
-> Vivado 會無法偵測到 FPGA 板子的問題  
+> * 目前 LED 的部分不會移動，但是計分判斷和按鈕控制流程是正常功能  
+> * Vivado 會無法偵測到 FPGA 板子的問題
+
+> 解決方式:  
+> Sol1\. 重新設計狀態圖和流程圖來處理本項問題  
+> Sol2\. 到對應版本的vivado資料夾目錄下找到 install_digilent.exe 並執行  
+> `例如: D:\Vivado\2019.2\data\xicom\cable_drivers\nt64\digilent\install_digilent.exe`
 
 > 程式檔案名稱:  
 > pingpong_LED_v2.vhd  
