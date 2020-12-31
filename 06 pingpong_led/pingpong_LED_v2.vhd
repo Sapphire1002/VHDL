@@ -13,7 +13,7 @@ entity pingpong_LED is
         led: out std_logic_vector(7 downto 0)
     );
 end entity;
-
+   
 architecture Behavioral of pingpong_LED is
     -- clock divider
     signal freq: std_logic_vector(25 downto 0);
