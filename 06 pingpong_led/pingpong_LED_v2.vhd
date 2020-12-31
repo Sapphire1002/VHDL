@@ -38,11 +38,11 @@ begin
 
     freq_div: process (clk, reset, freq)
     begin
-	    if reset = '1' then
-		    freq <= (others => '0');
-	    elsif clk 'event and clk = '1' then
-		    freq <= freq + '1';
-	    end if;
+	if reset = '1' then
+            freq <= (others => '0');
+	elsif clk 'event and clk = '1' then
+            freq <= freq + '1';
+	end if;
     end process;
 
     -- preset: 
