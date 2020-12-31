@@ -174,7 +174,7 @@ begin
     end process;
 
     -- end seven-segement display screen
-    -- PL1_ssd(common: cntitive)
+    -- PL1_ssd(common: positive)
     pl1: process (clk_div, reset, PL1_score) 
     begin
         if (reset = '1') then
@@ -218,7 +218,7 @@ begin
         end if;
     end process;
 
-    -- PL2_ssd(common: cntitive)
+    -- PL2_ssd(common: positive)
     pl2: process (clk_div, reset, PL2_score) 
     begin
         if (reset = '1') then
