@@ -113,13 +113,13 @@ begin
                     PL2_score <= PL2_score + '1';
                     state <= s0;
 				
-				-- press too late
+		-- press too late
                 elsif cnt < "0001" then
                     serve <= '1';
                     PL2_score <= PL2_score + '1';
                     state <= s0;
 				
-				-- catch the ball
+		-- catch the ball
                 elsif btn1 = '1' and cnt = "0001" then
                     state <= s1;
 				
@@ -131,8 +131,8 @@ begin
 	
             when others => 
                 null;
-		    end case;
-	    end if;
+	    end case;
+	end if;
     end process;
 	
 -------- actual circuit --------
