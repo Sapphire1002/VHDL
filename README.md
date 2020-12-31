@@ -267,7 +267,7 @@
   * LED 乒乓球遊戲實際遊玩影片   
   [實際遊玩影片](https://drive.google.com/file/d/1XFI0Tmmhyu-u4TRTxHXLS94yamRKo8X2/view?usp=sharing)   
   影片說明:  
-  左邊的按鈕為 PL1， 右邊的按鈕為 PL2，上面的七段為 PL1 分數，下面的七段為 PL2 分數。
+  左邊的按鈕為 PL1，右邊的按鈕為 PL2，上面的七段為 PL1 分數，下面的七段為 PL2 分數。
 </details>  
 
 <details>
