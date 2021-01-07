@@ -33,16 +33,36 @@ architecture Behavioral of pingpong_LED is
     signal PL1_score: std_logic_vector(3 downto 0);
     signal PL2_score: std_logic_vector(3 downto 0);
 
+    -- LFSR generation numbers
+    signal temp: std_logic;
+    signal Qt: std_logic_vector(2 downto 0);
+    signal move: std_logic_vector(2 downto 0);
+
 begin
-    clk_div <= freq(23);
+    clk_div <= freq(24);
 
     freq_div: process (clk, reset, freq)
     begin
-	if reset = '1' then
+	    if reset = '1' then
             freq <= (others => '0');
-	elsif clk 'event and clk = '1' then
+	    elsif clk 'event and clk = '1' then
             freq <= freq + '1';
-	end if;
+	    end if;
+    end process;
+
+    LFSR_random: process (clk_div, reset, Qt, temp)
+    begin
+        if reset = '1' then
+            Qt <= "001";
+
+        elsif clk_div 'event and clk_div = '1' then
+            temp <= Qt(2) xor Qt(1);
+            Qt(2) <= Qt(1);
+            Qt(1) <= Qt(0);
+            Qt(0) <= temp;
+
+        end if;
+        move <= Qt;
     end process;
 
     -- preset: 
@@ -54,7 +74,7 @@ begin
     -- s1: LED right move, PL2 catch the ball
     -- s2: LED left move, PL1 catch the ball
 	
-    MealyFSM: process (clk_div, reset, state, PL1_score, PL2_score)
+    MealyFSM: process (clk_div, reset, state, serve, cnt, PL1_score, PL2_score)
     begin
         if reset = '1' then
             state <= s0;
@@ -80,7 +100,6 @@ begin
                         else
                             state <= s0;
                         end if;
-					
                     end if;
 				
             when s1 =>
@@ -99,11 +118,15 @@ begin
                 -- catch the ball
                 elsif btn2 = '1' and cnt = "1000" then
                     state <= s2;
-				
+                
+                -- ball move
                 else
-                    cnt <= cnt + '1';
+                    if cnt + move > "1000" then
+                        cnt <= cnt + '1';
+                    else
+                        cnt <= cnt + move;
+                    end if;
                     state <= s1;
-				
                 end if;
 			
             when s2 =>
@@ -113,26 +136,31 @@ begin
                     PL2_score <= PL2_score + '1';
                     state <= s0;
 				
-		-- press too late
+		        -- press too late
                 elsif cnt <= "0000" then
                     serve <= '1';
                     PL2_score <= PL2_score + '1';
                     state <= s0;
 				
-		-- catch the ball
+		        -- catch the ball
                 elsif btn1 = '1' and cnt = "0001" then
                     state <= s1;
-				
+                
+                -- ball move
                 else
-                    cnt <= cnt - '1';
+                    if cnt < move + '1' then
+                        cnt <= cnt - '1';
+                    else
+                        cnt <= cnt - move;
+                    end if;
                     state <= s2;
-				
                 end if;
 	
             when others => 
                 null;
-	    end case;
-	end if;
+
+	        end case;
+	    end if;
     end process;
 	
 -------- actual circuit --------
