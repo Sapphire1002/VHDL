@@ -236,7 +236,7 @@
 
 <details>
   <summary> Week 10 LED 乒乓球遊戲 </summary>
-  日期: 2020.12.25 - 2021.1.1  
+  日期: 2020.12.25 - 2021.01.01  
   
   專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
   進度:  
@@ -284,6 +284,33 @@
         解決方式: 到對應版本的vivado資料夾目錄下找到 install_digilent.exe 並執行  
         `例如: D:\Vivado\2019.2\data\xicom\cable_drivers\nt64\digilent\install_digilent.exe`
   - [ ] 未解決 
+</details>
+
+<details>
+  <summary> Week 11 LED 乒乓球遊戲(unfinish) </summary>
+  日期: 2021.01.01 - 2021.01.18  
+  
+  專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
+  進度:  
+  了解 LFSR
+  LED 乒乓球可以有速度的變化  
+  
+<details>
+  <summary> 實作部分 </summary>
+  
+  * LFSR 原理  
+  
+  * LFSR 實作和測試  
+
+  * LED 乒乓球遊戲實際遊玩影片   
+  [實際遊玩影片](https://drive.google.com/file/d/1XFI0Tmmhyu-u4TRTxHXLS94yamRKo8X2/view?usp=sharing)   
+  影片說明:  
+  
+</details>  
+
+<details>
+  <summary> 問題討論 </summary>   
+
 </details>
 
 </details>
