@@ -285,6 +285,7 @@
         `例如: D:\Vivado\2019.2\data\xicom\cable_drivers\nt64\digilent\install_digilent.exe`
   - [ ] 未解決 
 </details>
+</details>
 
 <details>
   <summary> Week 11 LED 乒乓球遊戲(unfinish) </summary>
