@@ -317,6 +317,6 @@
 
 
 <details>
-  <summary> Week 12 期末考週 </summary>
-  期末考
+  <summary> Week 12 期末考 </summary>
+  期末考週
 </details>
