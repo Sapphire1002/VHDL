@@ -63,6 +63,7 @@ begin
 
         end if;
         move <= Qt;
+        
     end process;
 
     -- preset: 
@@ -127,6 +128,7 @@ begin
                         cnt <= cnt + move;
                     end if;
                     state <= s1;
+
                 end if;
 			
             when s2 =>
@@ -154,6 +156,7 @@ begin
                         cnt <= cnt - move;
                     end if;
                     state <= s2;
+
                 end if;
 	
             when others => 
