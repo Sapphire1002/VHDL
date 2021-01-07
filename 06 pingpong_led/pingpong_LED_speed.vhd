@@ -39,7 +39,7 @@ architecture Behavioral of pingpong_LED is
     signal move: std_logic_vector(2 downto 0);
 
 begin
-    clk_div <= freq(24);
+    clk_div <= freq(23);
 
     freq_div: process (clk, reset, freq)
     begin
@@ -63,7 +63,6 @@ begin
 
         end if;
         move <= Qt;
-        
     end process;
 
     -- preset: 
@@ -75,7 +74,7 @@ begin
     -- s1: LED right move, PL2 catch the ball
     -- s2: LED left move, PL1 catch the ball
 	
-    MealyFSM: process (clk_div, reset, state, serve, cnt, PL1_score, PL2_score)
+    MealyFSM: process (clk_div, reset, state, serve, cnt, move, PL1_score, PL2_score)
     begin
         if reset = '1' then
             state <= s0;
@@ -128,7 +127,6 @@ begin
                         cnt <= cnt + move;
                     end if;
                     state <= s1;
-
                 end if;
 			
             when s2 =>
@@ -150,13 +148,12 @@ begin
                 
                 -- ball move
                 else
-                    if cnt < move + '1' then
-                        cnt <= cnt - '1';
-                    else
+                    if cnt > move then
                         cnt <= cnt - move;
+                    else
+                        cnt <= cnt - '1';
                     end if;
                     state <= s2;
-
                 end if;
 	
             when others => 
