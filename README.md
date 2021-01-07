@@ -293,7 +293,7 @@
   
   專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
   進度:  
-  了解 LFSR
+  了解 LFSR  
   LED 乒乓球可以有速度的變化  
   
 <details>
@@ -304,7 +304,7 @@
   * LFSR 實作和測試  
 
   * LED 乒乓球遊戲實際遊玩影片   
-  [實際遊玩影片](https://drive.google.com/file/d/1XFI0Tmmhyu-u4TRTxHXLS94yamRKo8X2/view?usp=sharing)   
+  [實際遊玩影片](https://drive.google.com/file/d/13V1_zYj_vKg3D8IJxIxA7z4eNMOWi35x/view?usp=sharing)   
   影片說明:  
   
 </details>  
