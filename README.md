@@ -288,7 +288,7 @@
 </details>
 
 <details>
-  <summary> Week 11 LED 乒乓球遊戲(unfinish) </summary>
+  <summary> Week 11 LED 乒乓球遊戲 </summary>
   日期: 2021.01.01 - 2021.01.08  
   
   專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
