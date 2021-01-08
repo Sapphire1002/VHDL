@@ -91,3 +91,44 @@
 > 程式檔案名稱:  
 > pingpong_LED_v2.vhd  
 > pingpong_LED.xdc
+
+
+#### 本周進度  
+> 負責人: 何佳曄 \
+> 目前成員: 何佳曄 \
+> 報告日期: 2021.01.08 \
+> 開始日期: 2021.01.01 \
+> 結束日期: 
+
+> 進度:  
+> * 了解 LFSR  
+> * LED 乒乓球可以有速度的變化     
+
+> 實作部分:  
+> * LFSR 原理  
+> 線性反饋移位暫存器(Linear Feedback Shift Register)    
+> 給予一個初始值，接著取 n 個位元做 XOR 並將產生的值做為輸入到 MSB 或 LSB，讓暫存器產生移位的效果。  
+> 作法:  
+> ![LFSR 電路圖](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/lfsr_pingpong_use.jpg)  
+> 說明:  
+> 採取 X2 XOR X1 輸入到第一級的 D型正反器。  
+
+> * LFSR 實作和測試  
+> 測試圖:  
+> ![LFSR 模擬](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/LFSR_test_result.PNG)  
+> 說明:  
+> 程式裡有用一個 temp 來儲存 X2 XOR X1 的值，然而初始值設定為 001、temp 為 0。  
+> 因此下一次的輸出會受到上一個的temp影響。  
+> 例如:  
+> (X2X1X0, temp): (001, 0) -> (010, 0) -> (100, 1) -> (001, 1) -> (011, 0) -> (110, 1) -> (101, 0)...
+
+> * LED 乒乓球遊戲實際遊玩影片  
+> [實際遊玩影片](https://drive.google.com/file/d/13V1_zYj_vKg3D8IJxIxA7z4eNMOWi35x/view?usp=sharing)   
+> 影片說明:  
+> 有來回打的流程在 4s ~ 11s
+
+> 程式檔案名稱:  
+> LFSR_practice.vhd  
+> LFSR_testbench.vhd  
+> pingpong_LED_speed.vhd  
+> pingpong_LED.xdc
