@@ -236,7 +236,7 @@
 
 <details>
   <summary> Week 10 LED 乒乓球遊戲 </summary>
-  日期: 2020.12.25 - 2021.1.1  
+  日期: 2020.12.25 - 2021.01.01  
   
   專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
   進度:  
@@ -285,5 +285,38 @@
         `例如: D:\Vivado\2019.2\data\xicom\cable_drivers\nt64\digilent\install_digilent.exe`
   - [ ] 未解決 
 </details>
+</details>
 
+<details>
+  <summary> Week 11 LED 乒乓球遊戲(unfinish) </summary>
+  日期: 2021.01.01 - 2021.01.08  
+  
+  專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
+  進度:  
+  了解 LFSR  
+  LED 乒乓球可以有速度的變化  
+  
+<details>
+  <summary> 實作部分 </summary>
+  
+  * LFSR 原理  
+  線性反饋移位暫存器(Linear Feedback Shift Register)  
+  給予一個初始值，接著取 n 個位元做 XOR 並將產生的值做為輸入到 MSB 或 LSB，讓暫存器產生移位的效果。  
+  作法:  
+  ![LFSR 電路圖]()
+  
+  * LFSR 實作和測試  
+
+  * LED 乒乓球遊戲實際遊玩影片   
+  [實際遊玩影片](https://drive.google.com/file/d/13V1_zYj_vKg3D8IJxIxA7z4eNMOWi35x/view?usp=sharing)   
+  影片說明:  
+  
+</details>  
+
+</details>
+
+
+<details>
+  <summary> Week 12 期末考 </summary>
+  期末考週
 </details>
