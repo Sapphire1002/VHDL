@@ -300,6 +300,10 @@
   <summary> 實作部分 </summary>
   
   * LFSR 原理  
+  線性反饋移位暫存器(Linear Feedback Shift Register)  
+  給予一個初始值，接著取 n 個位元做 XOR 並將產生的值做為輸入到 MSB 或 LSB，讓暫存器產生移位的效果。  
+  作法:  
+  ![LFSR 電路圖]()
   
   * LFSR 實作和測試  
 
@@ -309,10 +313,6 @@
   
 </details>  
 
-<details>
-  <summary> 問題討論 </summary>   
-
-</details>
 </details>
 
 
