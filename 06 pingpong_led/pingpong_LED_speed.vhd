@@ -43,11 +43,11 @@ begin
 
     freq_div: process (clk, reset, freq)
     begin
-	    if reset = '1' then
+	if reset = '1' then
             freq <= (others => '0');
-	    elsif clk 'event and clk = '1' then
+	elsif clk 'event and clk = '1' then
             freq <= freq + '1';
-	    end if;
+	end if;
     end process;
 
     LFSR_random: process (clk_div, reset, Qt, temp)
@@ -136,7 +136,7 @@ begin
                     PL2_score <= PL2_score + '1';
                     state <= s0;
 				
-		        -- press too late
+		 -- press too late
                 elsif cnt <= "0000" then
                     serve <= '1';
                     PL2_score <= PL2_score + '1';
