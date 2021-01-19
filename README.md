@@ -348,6 +348,7 @@
   * 設計構想圖  
   ![設計構想圖](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/20210119_%E4%B9%92%E4%B9%93%E7%90%83%E8%A8%AD%E8%A8%88%E6%A7%8B%E6%83%B3%E5%9C%96.PNG)  
   ![ctrl_ball_clk](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/20210119_ctrl_ball_clk%E5%9C%96.PNG)  
+  
   說明:  
   clk: 為 FPGA 100MHz 最大速度  
   LFSR_random: 產生 3bits 亂數值，賦值給 Qt  
