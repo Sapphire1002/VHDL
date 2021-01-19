@@ -333,5 +333,21 @@
 
 <details>
   <summary> Week 13 LED 乒乓球遊戲 </summary>
-  期末考週
+    日期: 2021.01.15 - 2021.01.22  
+  
+  專案資料夾: [06 pingpong_led](https://github.com/Sapphire1002/VHDL/tree/main/06%20pingpong_led "專案連結")  
+  進度:    
+  LED 乒乓球可以有速度的變化  
+  
+<details>
+  <summary> 實作部分 </summary>
+  
+
+  
+  * LED 乒乓球遊戲實際遊玩影片   
+  [實際遊玩影片](https://drive.google.com/file/d/13V1_zYj_vKg3D8IJxIxA7z4eNMOWi35x/view?usp=sharing)   
+  影片說明:  
+  有來回打的流程在 4s ~ 11s  
+  
+</details> 
 </details>
