@@ -83,27 +83,34 @@ begin
             scount <= "00";
 
         elsif clk_div 'event and clk_div = '1' then
+            -- clk_div is the maximum speed
+            -- the value of scount will affect the clk of random_value
             scount <= scount + '1';
 
+            -- times(4 states)
             case times is
+                -- ballspeed: divide 2
                 when "00" =>
                     if scount >= "00" then
                         ballspeed <= not ballspeed;
                         scount <= "00";
                     end if;
                 
+                -- ballspeed: divide 3
                 when "01" =>
                     if scount >= "01" then
                         ballspeed <= not ballspeed;
                         scount <= "00";
                     end if;                  
-
+                
+                -- ballspeed: divide 4
                 when "10" =>
                     if scount >= "10" then
                         ballspeed <= not ballspeed;
                         scount <= "00";
                     end if;                    
-                    
+                
+                -- ballspeed: divide 5
                 when "11" =>
                     if scount >= "11" then
                         ballspeed <= not ballspeed;
