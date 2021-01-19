@@ -342,12 +342,24 @@
 <details>
   <summary> 實作部分 </summary>
   
-
+  * 設計構想流程  
+  ![設計構想流程]()  
   
+  * 設計構想圖  
+  ![設計構想圖]()  
+  說明:  
+  clk: 為 FPGA 100MHz 最大速度  
+  LFSR_random: 產生 3bits 亂數值，賦值給 Qt  
+  freq: 將隨機數的值賦給球速的時間  
+  random_value: 依時間把值給 times  
+  times: 取 Qt 的最後兩個位元
+  clk_div: 球速的最大值  
+  ctrl_ball_clk: 依照 times 狀態給予不同的速度值  
+  MealyFSM: 01.01的乒乓球進度  
+
   * LED 乒乓球遊戲實際遊玩影片   
   [實際遊玩影片](https://drive.google.com/file/d/13V1_zYj_vKg3D8IJxIxA7z4eNMOWi35x/view?usp=sharing)   
-  影片說明:  
-  有來回打的流程在 4s ~ 11s  
+ 
   
 </details> 
 </details>
