@@ -12,7 +12,7 @@ entity ball is
         r, g, b: out std_logic
     );
 end ball;
-
+-- start: SW7
 architecture Behavioral of ball is
     -- horizontal timing
     constant HD: integer := 800;
@@ -37,20 +37,23 @@ architecture Behavioral of ball is
     signal clk_sync, clk_ball, clk_board: std_logic;
 
     -- ball size
-    constant radius: integer := 60;
+    constant radius: integer := 50;
     -- ball direction
-    signal direction: std_logic := '0';
+    -- signal direction: std_logic := '0';
 
     -- left/right board horizontal
-    constant left_x1: integer := 25;
+    constant left_x1: integer := 30;
     constant left_x2: integer := 40;
-    constant right_x1: integer := 755;
+    constant right_x1: integer := 760;
     constant right_x2: integer := 770;
-    constant board_length: integer := 150;
+    constant board_length: integer := 200;
+    constant mid: integer := 100;
+    constant hori: integer := 10;
     
     -- send value
     signal ball_ox: std_logic_vector(9 downto 0);
     signal ball_oy: std_logic_vector(9 downto 0);
+    signal sides: std_logic_vector(1 downto 0) := "00";
     signal board_left: std_logic_vector(9 downto 0);
     signal board_right: std_logic_vector(9 downto 0);
     
@@ -136,9 +139,15 @@ begin
             b <= '1';
         -- display ball
         elsif (rx * rx + ry * ry <= radius * radius) then
-            r <= '1';
-            g <= '1';
-            b <= '0';
+            if (sides(0) = '1') then
+                r <= '1';
+                g <= '0';
+                b <= '0';
+            else
+                r <= '1';
+                g <= '1';
+                b <= '0';
+            end if;
         else
             r <= '0';
             g <= '0';
@@ -150,13 +159,16 @@ begin
         -- ball initial coordinate
         variable ball_x: integer := 400;
         variable ball_y: integer := 300;
-        -- state: 0 stop, 1 positive, 2 negative 
+        -- state: 0 stop, 1 upper left, 2 lower left, 3 upper right, 4 lower right, 5 left to right, 6 right to left
         variable ball_state: integer := 0;
+        variable ball_side: integer := 0;
+        -- ball contact range
+        variable y1, y2: integer;
 
         -- left/right board vertical
         variable left_y1: integer := 225;
         variable right_y1: integer := 225;
-        -- state: 0 stpo, 1 upper, 2 down
+        -- state: 0 stop, 1 upper, 2 down
         variable left_state: integer := 0;
         variable right_state: integer := 0;
 
@@ -164,61 +176,116 @@ begin
         if (reset = '1') then
             ball_x := 400;
             ball_y := 300;
-            ball_state := 0;
+            ball_state := 3;
+            ball_side := 0;
+            y1 := 0;
+            y2 := 0;
 
             left_y1 := 225;
             right_y1 := 225;
             left_state := 0;
             right_state := 0;
-            if (start = '1') then
-                ball_state := (conv_integer(not direction)) + 1;
-            end if;
         
         elsif (clk_ball 'event and clk_ball = '1') then
             -- Determine if the ball hits the boundary or the board
-            if ((ball_x + radius > right_x1 and ball_y + radius <= right_y1 + 150) or ball_y + radius > 599) then
-                ball_state := 2;
-            elsif ((ball_x + radius <= left_x2 and ball_y + radius <= left_y1 + 150) or ball_y + radius <= 0) then
+            if (ball_y + radius > 599) then
+                ball_state := ball_state - 1;
+            elsif (ball_y - radius <= 0) then
+                ball_state := ball_state + 1;
+            end if;
+
+            y1 := ball_y - radius;
+            y2 := ball_y + radius;
+
+            -- use circle center point
+            -- left board 3 conditions
+            if (ball_x - radius = left_x2 and ball_y > left_y1 + mid - hori and ball_y <= left_y1 + mid + hori) then
+                ball_state := 5;
+            elsif (ball_x - radius = left_x2 and y2 > left_y1 and y1 <= left_y1 + mid) then
+                ball_state := 3;
+            elsif (ball_x - radius = left_x2 and y2 > left_y1 + mid and y1 <= left_y1 + board_length) then
+                ball_state := 4;
+            -- right board 3 conditions
+            elsif (ball_x + radius = right_x1 and ball_y > right_y1 + mid - hori and ball_y <= right_y1 + mid + hori) then
+                ball_state := 6;
+            elsif (ball_x + radius = right_x1 and y2 > right_y1 and y1 <= right_y1 + mid) then
                 ball_state := 1;
+            elsif (ball_x + radius = right_x1 and y2 > right_y1 + mid and y1 <= right_y1 + board_length) then
+                ball_state := 2;
+            -- the ball hits the boundary of one side(left and right)
+            elsif (ball_x - radius = 0 or ball_x + radius = 800) then
+                ball_state := 0;
+                ball_side := 1;
             end if;
             
             -- ball move
             if (ball_state = 1) then
-                ball_x := ball_x + 1;
-                ball_y := ball_y + 1;
-            elsif (ball_state = 2) then
                 ball_x := ball_x - 1;
                 ball_y := ball_y - 1;
+            elsif (ball_state = 2) then
+                ball_x := ball_x - 1;
+                ball_y := ball_y + 1;
+            elsif (ball_state = 3) then
+                ball_x := ball_x + 1;
+                ball_y := ball_y - 1;
+            elsif (ball_state = 4) then
+                ball_x := ball_x + 1;
+                ball_y := ball_y + 1;
+            elsif (ball_state = 5) then
+                ball_x := ball_x + 1;
+            elsif (ball_state = 6) then
+                ball_x := ball_x - 1;
             end if;
 
             -- Determine whether the board exceeds the boundary
-            if (left_up = '1' and left_y1 - board_length > 0) then
-                left_state := 1;
-            elsif (left_down = '1' and left_y1 + board_length < 600) then
-                left_state := 2;
+            if (left_up = '1') then
+                if (left_y1 <= 1) then
+                    left_state := 0;
+                else
+                    left_state := 1;
+                end if;
+            elsif (left_down = '1') then
+                if (left_y1 + board_length >= 599) then
+                    left_state := 0;
+                else
+                    left_state := 2;
+                end if;
+            else
+                left_state := 0;
             end if;
 
-            if (right_up = '1' and right_y1 - board_length > 0) then
-                right_state := 1;
-            elsif (right_down = '1' and right_y1 + board_length < 600) then
-                right_state := 2;
+            if (right_up = '1') then
+                if (right_y1 <= 1) then
+                    right_state := 0;
+                else
+                    right_state := 1;
+                end if;
+            elsif (right_down = '1') then
+                if (right_y1 + board_length >= 599) then
+                    right_state := 0;
+                else
+                    right_state := 2;
+                end if;
+            else
+                right_state := 0;
             end if;
 
             -- board move
             if (left_state = 1) then
-                left_y1 := left_y1 + 3;
+                left_y1 := left_y1 + 2;
             elsif (left_state = 2) then
-                left_y1 := left_y1 - 3;
+                left_y1 := left_y1 - 2;
             end if;
 
             if (right_state = 1) then
-                right_y1 := right_y1 + 3;
+                right_y1 := right_y1 + 2;
             elsif (right_state = 2) then
-                right_y1 := right_y1 - 3;
+                right_y1 := right_y1 - 2;
             end if;
 
         end if;
-
+        
+        sides <= conv_std_logic_vector(ball_side, 2);
         ball_ox <= conv_std_logic_vector(ball_x, 10);
         ball_oy <= conv_std_logic_vector(ball_y, 10);
         board_left <= conv_std_logic_vector(left_y1, 10);
