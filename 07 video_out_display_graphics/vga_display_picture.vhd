@@ -152,12 +152,12 @@ begin
             right := conv_integer(board_right);
 
             -- display left board
-            if (hcount > left_x1 and hcount <= left_x2 and vcount > left and vcount <= left + board_length) then
+            if (h_count > left_x1 and h_count <= left_x2 and  v_count > left and  v_count <= left + board_length) then
                 r <= '0';
                 g <= '1';
                 b <= '0';
             -- display right board
-            elsif (hcount > right_x1 and hcount <= right_x2 and vcount > right and vcount <= right + board_length) then
+            elsif (h_count > right_x1 and h_count <= right_x2 and  v_count > right and  v_count <= right + board_length) then
                 r <= '0';
                 g <= '0';
                 b <= '1';
