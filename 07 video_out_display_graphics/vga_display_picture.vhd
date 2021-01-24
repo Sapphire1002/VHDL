@@ -4,12 +4,15 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
 entity vga_display_picture is 
+generic(
+    wid: integer := 8;
+    depth: integer := 5000;
+    addr: integer := 13
+);
     port(
         clk, reset: in std_logic;
-        wea: in std_logic;
-        dina: in std_logic_vector(7 downto 0);
-        douta: out std_logic_vector(7 downto 0);
-        h_sync, v_sync: out std_logic
+        h_sync, v_sync: out std_logic;
+        r, g, b: out std_logic
     );
 end entity;
 
@@ -36,22 +39,30 @@ architecture behavioral of vga_display_picture is
     signal h_pol: std_logic := '0';
     signal v_pol: std_logic := '0';
 
-    -- Block RAM
-    signal addra: std_logic_vector(7 downto 0);
+    -- ROM
+    signal addra: std_logic_vector(addr-1 downto 0);
+    signal douta: std_logic_vector(wid-1 downto 0);
     signal ena: std_logic;
 
-    component BRAM is
+    component ROM is
         port(
             clka: in std_logic;
             ena: in std_logic;
-            wea: in std_logic_vector(0 downto 0);
-            addra: in std_logic_vector(7 downto 0);
-            dina: in std_logic_vector(7 downto 0);
-            douta: out std_logic_vector(7 downto 0)
+            addra: in std_logic_vector(addr-1 downto 0);
+            douta: out std_logic_vector(wid-1 downto 0)
         );
     end component;
 
 begin
+
+    uut: ROM
+    port map(
+        clka => clk,
+        ena => ena,
+        addra => addra,
+        douta => douta
+    );
+
     clk_divider: process (clk, reset, freq)
     begin
         if reset = '1' then
@@ -72,6 +83,8 @@ begin
             v_sync <= not v_pol;
             h_count := 0;
             v_count := 0;
+            addra <= (others => '0');
+            ena <= '1';
         
         elsif clk_div 'event and clk_div = '1' then
             -- counter
@@ -98,6 +111,21 @@ begin
                 v_sync <= not v_pol;
             else
                 v_sync <= v_pol;
+            end if;
+            
+            -- display picture
+            if h_count > 200 and v_count > 200 and h_count <= 400 and v_count <= 400 then
+                
+                addra <= addra + '1';
+                if douta(7) = '1' then
+                    r <= '1';
+                    g <= '0';
+                    b <= '0';
+                else
+                    g <= '1';
+                    b <= '1';
+                    r <= '0';
+                end if;
             end if;
 
         end if;
