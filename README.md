@@ -365,3 +365,20 @@
   
 </details> 
 </details>
+
+<details>
+  <summary> Week 14 VGA 圖案顯示 </summary>
+  日期: 2021.01.21 - 2021.01.27  
+  
+  專案資料夾: [07 video_out_display_graphics](https://github.com/Sapphire1002/VHDL/tree/main/07%20video_out_display_graphics "專案連結")  
+  進度:  
+
+<details>
+  <summary> 實作部分 </summary>
+</details>
+
+<details>
+  <summary> 問題討論 </summary>
+</details>
+
+</details>
