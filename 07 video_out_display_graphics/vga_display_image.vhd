@@ -5,9 +5,9 @@ use ieee.std_logic_unsigned.all;
 
 entity vga_display_image is 
     generic(
-        wid: integer := 8;
-        depth: integer := 2048;
-        addr: integer := 11
+        wid: integer := 3;
+        depth: integer := 16384;
+        addr: integer := 14
     );
     port(
         clk, reset: in std_logic;
@@ -45,9 +45,9 @@ architecture behavioral of vga_display_image is
     signal ena: std_logic;
 
     -- image
-    constant ball_ox: integer := 400;
+    constant ball_ox: integer := 350;
     constant ball_oy: integer := 350;
-    constant radius: integer := 50;
+    constant radius: integer := 64;
 
     component ROM is
         port(
@@ -136,19 +136,9 @@ begin
             -- display ball
            if (rx * rx + ry * ry <= radius * radius) then
                 addra <= addra + '1';
-                if douta(7) = '1' then
-                    r <= '1';
-                    g <= '0';
-                    b <= '0';
-                else
-                    r <= '0';
-                    g <= '1';
-                    b <= '0';
-                end if;
-            else
-                r <= '0';
-                g <= '0';
-                b <= '1';
+                r <= douta(2);
+                g <= douta(1);
+                b <= douta(0);
             end if;
         end if;
     end process;
