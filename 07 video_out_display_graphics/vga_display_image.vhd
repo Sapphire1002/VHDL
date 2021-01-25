@@ -33,7 +33,6 @@ architecture behavioral of vga_display_image is
     -- clk divider
     signal freq: std_logic_vector(21 downto 0);
     signal clk_div: std_logic;
-    signal clk_ball: std_logic;
 
     -- scan
     signal h_pol: std_logic := '0';
@@ -42,12 +41,6 @@ architecture behavioral of vga_display_image is
     -- ROM
     signal addra: std_logic_vector(addr-1 downto 0);
     signal douta: std_logic_vector(wid-1 downto 0);
-    signal ena: std_logic;
-
-    -- image
-    constant ball_ox: integer := 350;
-    constant ball_oy: integer := 350;
-    constant radius: integer := 64;
 
     component ROM is
         port(
@@ -60,14 +53,6 @@ architecture behavioral of vga_display_image is
 
 begin
 
-    uut: ROM
-    port map(
-        clka => clk,
-        ena => ena,
-        addra => addra,
-        douta => douta
-    );
-
     clk_divider: process (clk, reset, freq)
     begin
         if reset = '1' then
@@ -76,21 +61,20 @@ begin
             freq <= freq + '1';
         end if;
         clk_div <= freq(0);
-        clk_ball <= freq(19);
     end process;
+
+    uut: ROM
+    port map(
+        clka => clk_div,
+        ena => '1',
+        addra => addra,
+        douta => douta
+    );
 
     scanner: process (clk_div, reset)
         -- horizontal/vertical counter
         variable h_count: integer range 0 to HT - 1 := 0;
         variable v_count: integer range 0 to VT - 1 := 0;
-
-        -- receive ball coordinate
-        variable ox, oy: integer;
-        -- point to center distance
-        variable rx, ry: integer;
-
-        -- receive board coordinate
-        variable left, right: integer;
         
     begin
         if reset = '1' then
@@ -99,9 +83,9 @@ begin
             h_count := 0;
             v_count := 0;
             addra <= (others => '0');
-            ena <= '1';
         
         elsif clk_div 'event and clk_div = '1' then
+
             -- counter
             if h_count < HT - 1 then
                 h_count := h_count + 1;
@@ -128,17 +112,14 @@ begin
                 v_sync <= v_pol;
             end if;
             
-            ox := ball_ox;
-            oy := ball_oy;
-            rx :=  h_count - ox;
-            ry :=  v_count - oy;
-
             -- display ball
-           if (rx * rx + ry * ry <= radius * radius) then
+            if h_count > 400 and h_count <= 528 and v_count > 250 and v_count <= 378 then
                 addra <= addra + '1';
-                r <= douta(2);
+                r <= douta(0);
                 g <= douta(1);
-                b <= douta(0);
+                b <= douta(2);
+            elsif conv_integer(addra) + 1 >= depth then
+                addra <= (others => '0');
             end if;
         end if;
     end process;

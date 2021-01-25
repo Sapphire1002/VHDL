@@ -5,9 +5,9 @@ use ieee.std_logic_unsigned.all;
 
 entity vga_display_picture is 
     generic(
-        wid: integer := 8;
-        depth: integer := 5000;
-        addr: integer := 13
+        wid: integer := 3;
+        depth: integer := 16384;
+        addr: integer := 14
     );
     port(
         clk, reset: in std_logic;
@@ -61,7 +61,6 @@ architecture behavioral of vga_display_picture is
     -- send value
     signal ball_ox: std_logic_vector(9 downto 0);
     signal ball_oy: std_logic_vector(9 downto 0);
-    signal sides: std_logic_vector(1 downto 0) := "00";
     signal board_left: std_logic_vector(9 downto 0);
     signal board_right: std_logic_vector(9 downto 0);
 
@@ -163,15 +162,9 @@ begin
                 b <= '1';
             -- display ball
             elsif (rx * rx + ry * ry <= radius * radius) then
-                if (sides(0) = '1') then
-                    r <= '1';
-                    g <= '0';
-                    b <= '0';
-                else
-                    r <= '1';
-                    g <= '1';
-                    b <= '0';
-                end if;
+                r <= '1';
+                g <= '0';
+                b <= '0';
             else
                 r <= '0';
                 g <= '0';
@@ -202,7 +195,6 @@ begin
             ball_x := 400;
             ball_y := 300;
             ball_state := 3;
-            ball_side := 0;
             y1 := 0;
             y2 := 0;
 
@@ -264,13 +256,13 @@ begin
 
             -- Determine whether the board exceeds the boundary
             if (left_up = '1') then
-                if (left_y1 <= 1) then
+                if (left_y1 <= 10) then
                     left_state := 0;
                 else
                     left_state := 1;
                 end if;
             elsif (left_down = '1') then
-                if (left_y1 + board_length >= 599) then
+                if (left_y1 + board_length >= 590) then
                     left_state := 0;
                 else
                     left_state := 2;
@@ -280,13 +272,13 @@ begin
             end if;
 
             if (right_up = '1') then
-                if (right_y1 <= 1) then
+                if (right_y1 <= 10) then
                     right_state := 0;
                 else
                     right_state := 1;
                 end if;
             elsif (right_down = '1') then
-                if (right_y1 + board_length >= 599) then
+                if (right_y1 + board_length >= 590) then
                     right_state := 0;
                 else
                     right_state := 2;
@@ -310,7 +302,6 @@ begin
 
         end if;
         
-        sides <= conv_std_logic_vector(ball_side, 2);
         ball_ox <= conv_std_logic_vector(ball_x, 10);
         ball_oy <= conv_std_logic_vector(ball_y, 10);
         board_left <= conv_std_logic_vector(left_y1, 10);
