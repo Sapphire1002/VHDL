@@ -4,11 +4,11 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
 entity vga_display_picture is 
-generic(
-    wid: integer := 8;
-    depth: integer := 5000;
-    addr: integer := 13
-);
+    generic(
+        wid: integer := 8;
+        depth: integer := 5000;
+        addr: integer := 13
+    );
     port(
         clk, reset: in std_logic;
         start: in std_logic;
