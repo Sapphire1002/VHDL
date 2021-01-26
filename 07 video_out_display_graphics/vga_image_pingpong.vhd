@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
-entity vga_display_picture is 
+entity vga_image_pingpong is 
     generic(
         wid: integer := 3;
         depth: integer := 16384;
@@ -12,13 +12,14 @@ entity vga_display_picture is
     port(
         clk, reset: in std_logic;
         start: in std_logic;
+        left_up, left_down: in std_logic;
+        right_up, right_down: in std_logic;
         h_sync, v_sync: out std_logic;
-        left_up, left_down, right_up, right_down: in std_logic;
         r, g, b: out std_logic
     );
 end entity;
 
-architecture behavioral of vga_display_picture is
+architecture behavioral of vga_image_pingpong is
     --define timing
     constant HD: integer := 800;
     constant HF: integer := 56;
@@ -32,37 +33,55 @@ architecture behavioral of vga_display_picture is
     constant VS: integer := 6;
     constant VT: integer := VD + VF + VB + VS;
 
-    -- clk divider
-    signal freq: std_logic_vector(21 downto 0);
-    signal clk_div: std_logic;
+    -- image size
+    constant length: integer := 128;
+    constant height: integer := 128;
+    
+    -- board size
+    constant board_width: integer := 10;
+    constant board_length: integer := 200;
+
+    -- image upper left corner coordinates
+    signal image_left_x: integer;
+    signal image_right_y: integer;
+
+    -- board upper left corner coordinates
+    constant board_left_x: integer := 30;
+    constant board_right_x: integer := 740;
+
+    -- board upper right corner coordinates
+    signal board_left_y: integer := 100;
+    signal board_right_y: integer := 100;
+
+    -- play clk
     signal clk_ball: std_logic;
+
+    -- clk divider
+    signal freq: std_logic_vector(25 downto 0);
+    signal clk_div: std_logic;
 
     -- scan
     signal h_pol: std_logic := '0';
     signal v_pol: std_logic := '0';
 
+    -- horizontal/vertical counter
+    signal h_count: integer range 0 to HT - 1 := 0;
+    signal v_count: integer range 0 to VT - 1 := 0;
+
     -- ROM
     signal addra: std_logic_vector(addr-1 downto 0);
     signal douta: std_logic_vector(wid-1 downto 0);
-    signal ena: std_logic;
 
-    -- ball size
-    constant radius: integer := 50;
+    -- reg
+    signal img_b: std_logic_vector(depth-1 downto 0);
+    signal img_g: std_logic_vector(depth-1 downto 0);
+    signal img_r: std_logic_vector(depth-1 downto 0);
+    signal pos: integer;
 
-    -- left/right board horizontal
-    constant left_x1: integer := 30;
-    constant left_x2: integer := 40;
-    constant right_x1: integer := 760;
-    constant right_x2: integer := 770;
-    constant board_length: integer := 200;
-    constant mid: integer := 100;
-    constant hori: integer := 10;
+    -- FSM state
+    type type_states is (s0, up_left, down_left, up_right, down_right);
+    signal ball_state: type_states;
     
-    -- send value
-    signal ball_ox: std_logic_vector(9 downto 0);
-    signal ball_oy: std_logic_vector(9 downto 0);
-    signal board_left: std_logic_vector(9 downto 0);
-    signal board_right: std_logic_vector(9 downto 0);
 
     component ROM is
         port(
@@ -75,14 +94,6 @@ architecture behavioral of vga_display_picture is
 
 begin
 
-    uut: ROM
-    port map(
-        clka => clk,
-        ena => ena,
-        addra => addra,
-        douta => douta
-    );
-
     clk_divider: process (clk, reset, freq)
     begin
         if reset = '1' then
@@ -94,38 +105,51 @@ begin
         clk_ball <= freq(19);
     end process;
 
-    scanner: process (clk_div, reset)
-        -- horizontal/vertical counter
-        variable h_count: integer range 0 to HT - 1 := 0;
-        variable v_count: integer range 0 to VT - 1 := 0;
+    uut: ROM
+    port map(
+        clka => clk_div,
+        ena => '1',
+        addra => addra,
+        douta => douta
+    );
 
-        -- receive ball coordinate
-        variable ox, oy: integer;
-        -- point to center distance
-        variable rx, ry: integer;
-
-        -- receive board coordinate
-        variable left, right: integer;
+    read_value: process (clk_div, reset, img_r, img_b, img_b)
+    begin
+        if reset = '1' then
+            addra <= (others => '0');
+            img_r <= (others => '0');
+            img_g <= (others => '0');
+            img_b <= (others => '0');
         
+        elsif clk_div 'event and clk_div = '1' then
+            addra <= addra + '1';
+            img_r(conv_integer(addra)) <= douta(0);
+            img_g(conv_integer(addra)) <= douta(1);
+            img_b(conv_integer(addra)) <= douta(2);
+
+        end if;
+    end process;
+
+
+    scanner: process (clk_div, reset)
     begin
         if reset = '1' then
             h_sync <= not h_pol;
             v_sync <= not v_pol;
-            h_count := 0;
-            v_count := 0;
-            addra <= (others => '0');
-            ena <= '1';
+            h_count <= 0;
+            v_count <= 0;
+            pos <= 0;
         
         elsif clk_div 'event and clk_div = '1' then
             -- counter
             if h_count < HT - 1 then
-                h_count := h_count + 1;
+                h_count <= h_count + 1;
             else
-                h_count := 0;
+                h_count <= 0;
                 if v_count < VT - 1 then
-                    v_count := v_count + 1;
+                    v_count <= v_count + 1;
                 else
-                    v_count := 0;
+                    v_count <= 0;
                 end if;
             end if;
 
@@ -143,28 +167,28 @@ begin
                 v_sync <= v_pol;
             end if;
             
-            ox := conv_integer(ball_ox);
-            oy := conv_integer(ball_oy);
-            rx :=  h_count - ox;
-            ry :=  v_count - oy;
-            left := conv_integer(board_left);
-            right := conv_integer(board_right);
-
-            -- display left board
-            if (h_count > left_x1 and h_count <= left_x2 and  v_count > left and  v_count <= left + board_length) then
+            -- display leftboard
+            if h_count > board_left_x and h_count <= board_left_x + board_width and v_count > board_left_y and v_count <= board_left_y + board_length then
                 r <= '0';
                 g <= '1';
                 b <= '0';
-            -- display right board
-            elsif (h_count > right_x1 and h_count <= right_x2 and  v_count > right and  v_count <= right + board_length) then
+
+            -- display rightboard
+            elsif h_count > board_right_x and h_count <= board_right_x + board_width and v_count > board_right_y and v_count <= board_right_y + board_length then
                 r <= '0';
                 g <= '0';
                 b <= '1';
-            -- display ball
-            elsif (rx * rx + ry * ry <= radius * radius) then
-                r <= '1';
-                g <= '0';
-                b <= '0';
+
+            -- display image
+            elsif h_count >= image_left_x and h_count < image_left_x + length and v_count >= image_right_y and v_count < image_right_y + height then
+                if pos >= depth then
+                    pos <= 0;
+                end if;
+
+                r <= img_r(pos);
+                g <= img_g(pos);
+                b <= img_g(pos);
+                pos <= pos + 1;
             else
                 r <= '0';
                 g <= '0';
@@ -173,140 +197,152 @@ begin
         end if;
     end process;
 
-    process (clk_ball, reset, start, left_up, left_down, right_up, right_down)
-        -- ball initial coordinate
-        variable ball_x: integer := 400;
-        variable ball_y: integer := 300;
-        -- state: 0 stop, 1 upper left, 2 lower left, 3 upper right, 4 lower right, 5 left to right, 6 right to left
-        variable ball_state: integer := 0;
-        variable ball_side: integer := 0;
-        -- ball contact range
-        variable y1, y2: integer;
-
-        -- left/right board vertical
-        variable left_y1: integer := 225;
-        variable right_y1: integer := 225;
-        -- state: 0 stop, 1 upper, 2 down
-        variable left_state: integer := 0;
-        variable right_state: integer := 0;
-
+    -- ctrl ball move
+    -- reset -> s0
+    -- up_left, down_left, up_right, down_right(4 states)
+    FSM: process (clk_ball, reset, ball_state, image_left_x, image_right_y, board_left_y, board_right_y)
     begin
-        if (reset = '1') then
-            ball_x := 400;
-            ball_y := 300;
-            ball_state := 3;
-            y1 := 0;
-            y2 := 0;
+        if reset = '1' then
+            ball_state <= s0;
+            image_left_x <= 336;
+            image_right_y <= 208;
 
-            left_y1 := 225;
-            right_y1 := 225;
-            left_state := 0;
-            right_state := 0;
+        elsif clk_ball 'event and clk_ball = '1' then
+            case ball_state is
+                when s0 =>
+                    if start = '1' then
+                        ball_state <= up_left;
+                    else
+                        ball_state <= s0;
+                    end if;
+                
+                when up_left =>
+                    if image_right_y <= 0  then
+                        ball_state <= down_left;
+                    
+                    elsif image_left_x <= 40 and  (image_right_y + height >= board_left_y or image_right_y + height <= board_left_y + 100) then 
+                        ball_state <= up_right;
+
+                    elsif image_left_x <= 40 and  (image_right_y <= board_left_y + board_length or image_right_y < board_left_y + 200) then
+                        ball_state <= down_right;
+
+                    elsif image_left_x <= 0 then
+                        image_left_x <= 336;
+                        image_right_y <= 208;
+                        ball_state <= s0;
+
+                    else
+                        image_left_x <= image_left_x - 10;
+                        image_right_y <= image_right_y - 10;
+                        ball_state <= up_left;
+                    end if;
+                
+                when down_left =>
+                    if image_right_y + height >= 599 then
+                        ball_state <= up_left;
+                    
+                    elsif image_left_x <= 40 and  (image_right_y + height >= board_left_y or image_right_y <= board_left_y + 100) then 
+                        ball_state <= up_right;
+
+                    elsif image_left_x <= 40 and  (image_right_y + height <= board_left_y + board_length or image_right_y < board_left_y + 200) then
+                        ball_state <= down_right;
+
+                    elsif image_left_x <= 0 then
+                        image_left_x <= 336;
+                        image_right_y <= 208;
+                        ball_state <= s0;
+
+                    else
+                        image_left_x <= image_left_x - 10;
+                        image_right_y <= image_right_y + 10;
+                        ball_state <= down_left;
+                    end if;
+                
+                when up_right =>
+                    if image_right_y <= 0 then
+                        ball_state <= down_right;
+
+                    elsif image_left_x + length >= 730 and (image_right_y + height >= board_right_y + 100 or image_right_y <= board_right_y + 100) then 
+                        ball_state <= up_left;
+
+                    elsif image_left_x + length >= 730 and (image_right_y <= board_right_y + board_length or image_right_y + height < board_right_y + 200) then
+                        ball_state <= down_left;
+
+                    elsif image_left_x + length >= 799 then
+                        image_left_x <= 336;
+                        image_right_y <= 208;
+                        ball_state <= s0;
+
+                    else
+                        image_left_x <= image_left_x + 10;
+                        image_right_y <= image_right_y - 10;
+                        ball_state <= up_right;
+                    end if;
+
+                when down_right =>
+                    if image_right_y + 128 >= 599 then
+                        ball_state <= up_right;
+                    
+                    elsif image_left_x + length >= 760 and (image_right_y + height >= board_right_y + 100 or image_right_y <= board_right_y + 100) then 
+                        ball_state <= up_left;
+
+                    elsif image_left_x + length >= 760 and (image_right_y <= board_right_y + board_length or image_right_y + height < board_right_y + 200) then
+                        ball_state <= down_left;
+
+                    elsif image_left_x + 128 >= 799 then
+                        image_left_x <= 336;
+                        image_right_y <= 208;
+                        ball_state <= s0;
+
+                    else
+                        image_left_x <= image_left_x + 10;
+                        image_right_y <= image_right_y + 10;
+                        ball_state <= down_right;
+                    end if;
+            end case;
+        end if;
+    end process;
+
+    board_ctrl: process (clk_ball, reset, board_left_y, board_right_y, left_up, left_down, right_up, right_down)
+    begin
+        if reset = '1' then
+            board_left_y <= 100;
+            board_right_y <= 100;
         
-        elsif (clk_ball 'event and clk_ball = '1') then
-            -- Determine if the ball hits the boundary or the board
-            if (ball_y + radius > 599) then
-                ball_state := ball_state - 1;
-            elsif (ball_y - radius <= 0) then
-                ball_state := ball_state + 1;
-            end if;
-
-            y1 := ball_y - radius;
-            y2 := ball_y + radius;
-
-            -- use circle center point
-            -- left board 3 conditions
-            if (ball_x - radius = left_x2 and ball_y > left_y1 + mid - hori and ball_y <= left_y1 + mid + hori) then
-                ball_state := 5;
-            elsif (ball_x - radius = left_x2 and y2 > left_y1 and y1 <= left_y1 + mid) then
-                ball_state := 3;
-            elsif (ball_x - radius = left_x2 and y2 > left_y1 + mid and y1 <= left_y1 + board_length) then
-                ball_state := 4;
-            -- right board 3 conditions
-            elsif (ball_x + radius = right_x1 and ball_y > right_y1 + mid - hori and ball_y <= right_y1 + mid + hori) then
-                ball_state := 6;
-            elsif (ball_x + radius = right_x1 and y2 > right_y1 and y1 <= right_y1 + mid) then
-                ball_state := 1;
-            elsif (ball_x + radius = right_x1 and y2 > right_y1 + mid and y1 <= right_y1 + board_length) then
-                ball_state := 2;
-            -- the ball hits the boundary of one side(left and right)
-            elsif (ball_x - radius = 0 or ball_x + radius = 800) then
-                ball_state := 0;
-                ball_side := 1;
-            end if;
-            
-            -- ball move
-            if (ball_state = 1) then
-                ball_x := ball_x - 1;
-                ball_y := ball_y - 1;
-            elsif (ball_state = 2) then
-                ball_x := ball_x - 1;
-                ball_y := ball_y + 1;
-            elsif (ball_state = 3) then
-                ball_x := ball_x + 1;
-                ball_y := ball_y - 1;
-            elsif (ball_state = 4) then
-                ball_x := ball_x + 1;
-                ball_y := ball_y + 1;
-            elsif (ball_state = 5) then
-                ball_x := ball_x + 1;
-            elsif (ball_state = 6) then
-                ball_x := ball_x - 1;
-            end if;
-
-            -- Determine whether the board exceeds the boundary
-            if (left_up = '1') then
-                if (left_y1 <= 10) then
-                    left_state := 0;
+        elsif clk_ball 'event and clk_ball = '1' then
+            if left_up = '1' then
+                if board_left_y >= 10 then
+                    board_left_y <= board_left_y - 1;
                 else
-                    left_state := 1;
+                    board_left_y <= board_left_y;
                 end if;
-            elsif (left_down = '1') then
-                if (left_y1 + board_length >= 590) then
-                    left_state := 0;
-                else
-                    left_state := 2;
-                end if;
-            else
-                left_state := 0;
             end if;
 
-            if (right_up = '1') then
-                if (right_y1 <= 10) then
-                    right_state := 0;
+            if left_down = '1' then
+                if board_left_y < 590 then
+                    board_left_y <= board_left_y + 1;
                 else
-                    right_state := 1;
+                    board_left_y <= board_left_y;
                 end if;
-            elsif (right_down = '1') then
-                if (right_y1 + board_length >= 590) then
-                    right_state := 0;
-                else
-                    right_state := 2;
-                end if;
-            else
-                right_state := 0;
             end if;
 
-            -- board move
-            if (left_state = 1) then
-                left_y1 := left_y1 + 2;
-            elsif (left_state = 2) then
-                left_y1 := left_y1 - 2;
+            if right_up = '1' then
+                if board_left_y >= 10 then
+                    board_right_y <= board_right_y - 1;
+                else
+                    board_right_y <= board_right_y;
+                end if;
             end if;
 
-            if (right_state = 1) then
-                right_y1 := right_y1 + 2;
-            elsif (right_state = 2) then
-                right_y1 := right_y1 - 2;
+            if right_down = '1' then
+                if board_left_y < 590 then
+                    board_right_y <= board_right_y + 1;
+                else
+                    board_right_y <= board_right_y;
+                end if;
             end if;
 
         end if;
-        
-        ball_ox <= conv_std_logic_vector(ball_x, 10);
-        ball_oy <= conv_std_logic_vector(ball_y, 10);
-        board_left <= conv_std_logic_vector(left_y1, 10);
-        board_right <= conv_std_logic_vector(right_y1, 10);
-
     end process;
 
 end behavioral;

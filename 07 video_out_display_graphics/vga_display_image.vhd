@@ -112,7 +112,7 @@ begin
                 v_sync <= v_pol;
             end if;
             
-            -- display ball
+            -- display image
             if h_count > 400 and h_count <= 528 and v_count > 250 and v_count <= 378 then
                 addra <= addra + '1';
                 r <= douta(0);
