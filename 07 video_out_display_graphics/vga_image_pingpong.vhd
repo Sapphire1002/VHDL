@@ -73,10 +73,10 @@ architecture behavioral of vga_image_pingpong is
     signal douta: std_logic_vector(wid-1 downto 0);
 
     -- reg
-    signal img_b: std_logic_vector(depth-1 downto 0);
-    signal img_g: std_logic_vector(depth-1 downto 0);
-    signal img_r: std_logic_vector(depth-1 downto 0);
-    signal pos: integer;
+    -- signal img_b: std_logic_vector(depth-1 downto 0);
+    -- signal img_g: std_logic_vector(depth-1 downto 0);
+    -- signal img_r: std_logic_vector(depth-1 downto 0);
+    -- signal pos: integer;
 
     -- FSM state
     type type_states is (s0, up_left, down_left, up_right, down_right);
@@ -102,7 +102,7 @@ begin
             freq <= freq + '1';
         end if;
         clk_div <= freq(0);
-        clk_ball <= freq(19);
+        clk_ball <= freq(20);
     end process;
 
     uut: ROM
@@ -113,22 +113,22 @@ begin
         douta => douta
     );
 
-    read_value: process (clk_div, reset, img_r, img_b, img_b)
-    begin
-        if reset = '1' then
-            addra <= (others => '0');
-            img_r <= (others => '0');
-            img_g <= (others => '0');
-            img_b <= (others => '0');
+    -- read_value: process (clk_div, reset, img_r, img_b, img_b)
+    -- begin
+    --     if reset = '1' then
+    --         addra <= (others => '0');
+    --         img_r <= (others => '0');
+    --         img_g <= (others => '0');
+    --         img_b <= (others => '0');
         
-        elsif clk_div 'event and clk_div = '1' then
-            addra <= addra + '1';
-            img_r(conv_integer(addra)) <= douta(0);
-            img_g(conv_integer(addra)) <= douta(1);
-            img_b(conv_integer(addra)) <= douta(2);
+    --     elsif clk_div 'event and clk_div = '1' then
+    --         addra <= addra + '1';
+    --         img_r(conv_integer(addra)) <= douta(0);
+    --         img_g(conv_integer(addra)) <= douta(1);
+    --         img_b(conv_integer(addra)) <= douta(2);
 
-        end if;
-    end process;
+    --     end if;
+    -- end process;
 
 
     scanner: process (clk_div, reset)
@@ -138,7 +138,7 @@ begin
             v_sync <= not v_pol;
             h_count <= 0;
             v_count <= 0;
-            pos <= 0;
+--            pos <= 0;
         
         elsif clk_div 'event and clk_div = '1' then
             -- counter
@@ -181,14 +181,22 @@ begin
 
             -- display image
             elsif h_count >= image_left_x and h_count < image_left_x + length and v_count >= image_right_y and v_count < image_right_y + height then
-                if pos >= depth then
-                    pos <= 0;
-                end if;
+                addra <= addra + '1';
+                r <= douta(0);
+                g <= douta(1);
+                b <= douta(2);
+                -- if pos >= depth then
+                --     pos <= 0;
+                -- end if;
 
-                r <= img_r(pos);
-                g <= img_g(pos);
-                b <= img_g(pos);
-                pos <= pos + 1;
+                -- r <= img_r(pos);
+                -- g <= img_g(pos);
+                -- b <= img_g(pos);
+                -- pos <= pos + 1;
+
+            elsif conv_integer(addra) + 1 >= depth then
+                addra <= (others => '0');
+
             else
                 r <= '0';
                 g <= '0';
@@ -197,6 +205,7 @@ begin
         end if;
     end process;
 
+    -- conditional rewrite
     -- ctrl ball move
     -- reset -> s0
     -- up_left, down_left, up_right, down_right(4 states)
@@ -205,7 +214,7 @@ begin
         if reset = '1' then
             ball_state <= s0;
             image_left_x <= 336;
-            image_right_y <= 208;
+            image_right_y <= 236;
 
         elsif clk_ball 'event and clk_ball = '1' then
             case ball_state is
@@ -232,8 +241,8 @@ begin
                         ball_state <= s0;
 
                     else
-                        image_left_x <= image_left_x - 10;
-                        image_right_y <= image_right_y - 10;
+                        image_left_x <= image_left_x - 1;
+                        image_right_y <= image_right_y - 1;
                         ball_state <= up_left;
                     end if;
                 
@@ -253,8 +262,8 @@ begin
                         ball_state <= s0;
 
                     else
-                        image_left_x <= image_left_x - 10;
-                        image_right_y <= image_right_y + 10;
+                        image_left_x <= image_left_x - 1;
+                        image_right_y <= image_right_y + 1;
                         ball_state <= down_left;
                     end if;
                 
@@ -274,8 +283,8 @@ begin
                         ball_state <= s0;
 
                     else
-                        image_left_x <= image_left_x + 10;
-                        image_right_y <= image_right_y - 10;
+                        image_left_x <= image_left_x + 1;
+                        image_right_y <= image_right_y - 1;
                         ball_state <= up_right;
                     end if;
 
@@ -295,8 +304,8 @@ begin
                         ball_state <= s0;
 
                     else
-                        image_left_x <= image_left_x + 10;
-                        image_right_y <= image_right_y + 10;
+                        image_left_x <= image_left_x + 1;
+                        image_right_y <= image_right_y + 1;
                         ball_state <= down_right;
                     end if;
             end case;
