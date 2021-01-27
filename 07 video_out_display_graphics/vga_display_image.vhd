@@ -37,6 +37,9 @@ architecture behavioral of vga_display_image is
     -- scan
     signal h_pol: std_logic := '0';
     signal v_pol: std_logic := '0';
+    -- horizontal/vertical counter
+    signal h_count: integer range 0 to HT - 1 := 0;
+    signal v_count: integer range 0 to VT - 1 := 0;
 
     -- ROM
     signal addra: std_logic_vector(addr-1 downto 0);
@@ -71,11 +74,7 @@ begin
         douta => douta
     );
 
-    scanner: process (clk_div, reset)
-        -- horizontal/vertical counter
-        variable h_count: integer range 0 to HT - 1 := 0;
-        variable v_count: integer range 0 to VT - 1 := 0;
-        
+    scanner: process (clk_div, reset)    
     begin
         if reset = '1' then
             h_sync <= not h_pol;
