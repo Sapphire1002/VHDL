@@ -271,10 +271,10 @@ begin
                     if image_right_y <= 0 then
                         ball_state <= down_right;
 
-                    elsif image_left_x + length >= 730 and (image_right_y + height >= board_right_y + 100 or image_right_y <= board_right_y + 100) then 
+                    elsif image_left_x + length >= 740 and (image_right_y + height >= board_right_y + 100 or image_right_y <= board_right_y + 100) then 
                         ball_state <= up_left;
 
-                    elsif image_left_x + length >= 730 and (image_right_y <= board_right_y + board_length or image_right_y + height < board_right_y + 200) then
+                    elsif image_left_x + length >= 740 and (image_right_y <= board_right_y + board_length or image_right_y + height < board_right_y + 200) then
                         ball_state <= down_left;
 
                     elsif image_left_x + length >= 799 then

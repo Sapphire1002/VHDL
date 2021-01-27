@@ -37,6 +37,7 @@ architecture behavioral of vga_display_image is
     -- scan
     signal h_pol: std_logic := '0';
     signal v_pol: std_logic := '0';
+    
     -- horizontal/vertical counter
     signal h_count: integer range 0 to HT - 1 := 0;
     signal v_count: integer range 0 to VT - 1 := 0;
