@@ -405,7 +405,8 @@
    * 實作結果  
    ![Google圖片](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/google_pic_128.png)  
    `size: 128 * 128 `  
-   ![顯示](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_2.PNG)  
+   ![顯示](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_2.PNG)
+   ![程式](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_2_2.PNG)  
    說明:  
    h_count: 水平當前掃描位置  
    v_count: 垂直當前掃描位置  
@@ -413,6 +414,10 @@
    douta: ROM 在該地址的輸出資料  
    r, g, b: 分別為紅綠藍顏色  
 
+  * VGA PingPong  
+  * 設計流程  
+  ![流程圖](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_3.PNG)  
+  
    
   
    </details>
