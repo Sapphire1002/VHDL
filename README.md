@@ -377,10 +377,19 @@
 
 <details>
   <summary> 實作部分 </summary>
+  
   * IP Catalog    
   RAM & ROM 創建流程    
-  ![點選 IP Catalog](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/20210119_ctrl_ball_clk%E5%9C%96.PNG)   
+  ![步驟1](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F1.PNG)  
+  ![步驟2](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F2.PNG)  
+  ![步驟3](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F2_2.PNG)  
+  ![步驟4](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F2_3.PNG)  
+  ![步驟5](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F2_4.PNG)  
   
+  * 操作結果  
+  ![結果1](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F3.PNG)
+  ![結果2](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F3_2.PNG)
+  ![結果3](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F3_3.PNG)  
   
 </details>
 
