@@ -418,6 +418,27 @@
   * 設計流程  
   ![流程圖](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_3.PNG)  
   
+  * 電路圖  
+  ![電路圖](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_4.PNG)
+  說明:  
+  紅色箭頭為 外部輸入訊號  
+  藍色箭頭為 傳遞參數  
+  黃色箭頭為 輸出給外部訊號  
+  電路圖說明:  
+  clk_divider: 除頻電路  
+  clk_div: 除2  
+  clk_ball: 除2^21  
+  scanner: 處理螢幕掃描及顯示圖形  
+  addra: 記憶體位址  
+  uut: ROM: 傳遞ROM參數  
+  douta: 根據輸出當前addra的資料  
+  FSM: 控制遊戲演算及球的移動  
+  image_left_x: 圖案左上角座標  
+  image_right_y: 圖案右上角座標  
+  board_ctrl: 控制板子移動  
+  board_left_y: 左側板子的右上角座標  
+  board_right_y: 右側板子的左上角座標  
+
    
   
    </details>
