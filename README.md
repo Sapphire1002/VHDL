@@ -378,9 +378,10 @@
 <details>
   <summary> 實作部分 </summary>
     <details>
-      <summary> IP Catalog 操作  </summary>
+      <summary> IP Catalog 操作 </summary>
       
   * IP Catalog    
+  ` 版本: Vivado 2019.2 `  
   RAM & ROM 創建流程    
   ![步驟1](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F1.PNG)  
   ![步驟2](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F2.PNG)  
@@ -394,6 +395,27 @@
   ![結果3](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_IP%E6%AD%A5%E9%A9%9F3_3.PNG)  
         
   </details>
+  
+   <details>  
+     <summary> VGA Display </summary>
+      
+   * 設計流程
+   ![流程圖](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_1.PNG)  
+   
+   * 實作結果  
+   ![Google圖片](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/google_pic_128.png)  
+   `size: 128 * 128 `  
+   ![顯示](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_2.PNG)  
+   說明:  
+   h_count: 水平當前掃描位置  
+   v_count: 垂直當前掃描位置  
+   addra: ROM 的地址  
+   douta: ROM 在該地址的輸出資料  
+   r, g, b: 分別為紅綠藍顏色  
+
+   
+  
+   </details>
 </details>
 
 <details>
