@@ -464,6 +464,7 @@
     球移動時圖片並沒有完整讀取完  
 
 </details>
+</details>
 
 <details>
   <summary> Week 15 板子互連乒乓 </summary>
@@ -473,9 +474,12 @@
   專案資料夾: [08]("專案連結")  
   進度:  
   
+  <details>
   <summary> 實作部分 </summary>
+  </details>
   
+  <details>
   <summary> 問題討論 </summary>
- </details>
+  </details>
 
 </details>
