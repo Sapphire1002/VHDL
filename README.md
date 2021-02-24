@@ -372,9 +372,16 @@
   
   專案資料夾: [07 video_out_display_graphics](https://github.com/Sapphire1002/VHDL/tree/main/07%20video_out_display_graphics "專案連結")  
   進度:  
+  VGA 顯示 Google 圖案  
+  VGA 乒乓球  
 
 <details>
   <summary> 實作部分 </summary>
+  * IP Catalog  
+  RAM & ROM 創建流程  
+  ![點選 IP Catalog](https://github.com/Sapphire1002/VHDL/blob/main/06%20pingpong_led/20210119_ctrl_ball_clk%E5%9C%96.PNG)  
+  
+  
 </details>
 
 <details>
