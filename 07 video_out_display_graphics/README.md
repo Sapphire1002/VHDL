@@ -1,4 +1,4 @@
-<details>
+
   <summary> Week 14 VGA 圖案顯示 </summary>
   日期: 2021.01.21 - 2021.01.27  
   
@@ -96,4 +96,4 @@
     球移動時圖片並沒有完整讀取完  
 
 </details>
-</details>
+
