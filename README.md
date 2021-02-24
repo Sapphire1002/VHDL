@@ -419,7 +419,7 @@
   ![流程圖](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_3.PNG)  
   
   * 電路圖  
-  ![電路圖](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_4.PNG)
+  ![電路圖](https://github.com/Sapphire1002/VHDL/blob/main/07%20video_out_display_graphics/20210125_VGA_display_4.PNG)  
   說明:  
   紅色箭頭為 外部輸入訊號  
   藍色箭頭為 傳遞參數  
@@ -439,13 +439,30 @@
   board_left_y: 左側板子的右上角座標  
   board_right_y: 右側板子的左上角座標  
 
-   
+  * 當前實作結果  
+  [遊玩影片](https://drive.google.com/file/d/1taIrTT6sPIOCHrO5W4BsGg9jWH7jlPXq/view?usp=sharing)  
+  說明:  
+  步驟二 圖案移動的地方有狀況，沒辦法顯示完整圖案  
   
    </details>
 </details>
 
 <details>
   <summary> 問題討論 </summary>
+  
+  * Google 圖案移動時會失真  
+  - [ ] 已解決   
+  - [x] 未解決  
+    問題:  
+    (目前可能狀況，時序問題)  
+    螢幕掃描為 50MHz => 0.02us  
+    圖片大小為 128 * 128  
+    圖片完全讀取完的時間 327.68us ≒ 0.33ms  
+
+    球移動速度為 0.02us * 2^20 ≒ 20.97ms  
+    此時圖片讀取次數 63.55 次  
+    球移動時圖片並沒有完整讀取完  
+
 </details>
 
 </details>
