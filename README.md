@@ -465,4 +465,17 @@
 
 </details>
 
+<details>
+  <summary> Week 15 板子互連乒乓 </summary>
+  
+  日期: 2021.01.21 - 2021.01.27  
+  
+  專案資料夾: [08]("專案連結")  
+  進度:  
+  
+  <summary> 實作部分 </summary>
+  
+  <summary> 問題討論 </summary>
+ </details>
+
 </details>
