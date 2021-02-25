@@ -24,6 +24,7 @@ architecture behavioral of fpga_pl2 is
 
     signal count: integer;
     signal serve: std_logic;
+    signal swap: std_logic;
     signal pl1: std_logic;
 
 begin
@@ -39,58 +40,64 @@ begin
         end if;
     end process;
 
-    trans_data: process(clk, reset, pl2, pos, serve, count)
-    begin
-        if reset = '1' then
-            io_state <= ball_pos;
+    -- trans_data: process(clk, reset, pl2, pos, serve, count)
+    -- begin
+    --     if reset = '1' then
+    --         null;
         
-        elsif clk 'event and clk = '1' then
-            if serve = '0' then
-                if count /= 8 then
-                    data <= pl2; 
-                else
-                    pl1 <= data;
-                end if;
+    --     elsif clk 'event and clk = '1' then
+    --         if serve = '0' then
+    --             if count /= 8 then
+    --                 data <= pl2; 
+    --             else
+    --                 pl1 <= data;
+    --             end if;
 
-            elsif serve = '1' then
-                if count = 8 then
-                    data <= '1';
-                else
-                    pl1 <= data;
-                end if;
-            end if;
-        end if;
-    end process;
+    --         elsif serve = '1' then
+    --             if count = 8 then
+    --                 data <= '1';
+    --             else
+    --                 pl1 <= data;
+    --             end if;
+    --         end if;
+    --     end if;
+    -- end process;
 
     FSM: process (freq_clk, reset, ball_state, pl2, pos, serve, count)
     begin
         if reset = '1' then
             ball_state <= s0;
             serve <= '0';
+            pos <= (others => '0');
             count <= 0;
 
         elsif freq_clk 'event and freq_clk = '1' then
             case ball_state is
                 when s0 =>
                    if serve = '0' then
-                        pos <= "00000000";
-                        count <= 8;
+                        count <= 7;
+                        swap <= data;
 
-                        if pl1 = '1' then
+                        if swap = '1' then
+                            pos <= "00000001";
+                            swap <= '0';
+                        end if;
+                        
+                        if data = '1' then
                             ball_state <= s1;
                         else
                             ball_state <= s0;
                         end if;
                     
-                    elsif serve = '1' then
-                        pos <= "10000000";
-                        count <= 15;
+                    -- elsif serve = '1' then
+                    --     pos <= "10000000";
+                    --     count <= 15;
 
-                        if pl2 = '1' then
-                            ball_state <= s2;
-                        else
-                            ball_state <= s0;
-                        end if;
+                    --     if pl2 = '1' then
+                    --         ball_state <= s2;
+                    --     else
+                    --         ball_state <= s0;
+                    --     end if;
                     end if;
                 
                 when s1 => 
@@ -124,7 +131,7 @@ begin
                     --     ball_state <= s1;
                     
                     -- else
-                        pos <= pos(7 downto 1) & '0';
+                        pos <= '0' & pos(7 downto 1);
                         count <= count - 1;
                         ball_state <= s2;
                     -- end if;

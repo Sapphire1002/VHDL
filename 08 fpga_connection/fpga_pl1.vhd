@@ -47,10 +47,10 @@ begin
         
         elsif clk 'event and clk = '1' then
             if serve = '0' then
-                if count = 8 then
+                if count >= 7 then
                     data <= '1'; 
-                else
-                    pl2 <= data;
+                -- else
+                --     pl2 <= data;
                 end if;
 
             elsif serve = '1' then
@@ -125,7 +125,7 @@ begin
                     --     ball_state <= s1;
                     
                     -- else
-                        pos <= pos(7 downto 1) & '0';
+                        pos <= '0' & pos(7 downto 1);
                         count <= count - 1;
                         ball_state <= s2;
                     -- end if;
