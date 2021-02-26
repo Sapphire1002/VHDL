@@ -9,7 +9,8 @@ entity fpga_pl1 is
         reset: in std_logic;
         pl1: in std_logic;
         data: inout std_logic;
-        led: out std_logic_vector(7 downto 0)
+        led: out std_logic_vector(7 downto 0);
+        reset_out: out std_logic
     );
 end entity;
 
@@ -18,18 +19,24 @@ architecture behavioral of fpga_pl1 is
     signal freq: std_logic_vector(25 downto 0);
     signal freq_clk: std_logic;
     
-    -- send pos 
-    signal pos: std_logic_vector(7 downto 0);
+    -- FSM state
     type play_state is (s0, s1, s2);
-    signal ball_state: play_state; 
+    signal ball_state: play_state;
 
+    -- led output
+    signal pos: std_logic_vector(7 downto 0);
+
+    -- current ball position
     signal count: integer;
+    
+    -- send & receive value
     signal serve: std_logic;
     signal pl2: std_logic;
 
 begin
     freq_clk <= freq(22);
     led <= pos(7 downto 0);
+    reset_out <= reset;
 
     freq_div: process (clk, reset, freq)
     begin
@@ -43,22 +50,29 @@ begin
     trans_data: process(clk, reset, pl2, pos, serve, count)
     begin
         if reset = '1' then
-            null;
+            data <= 'Z';
         
         elsif clk 'event and clk = '1' then
             if serve = '0' then
-                if count >= 7 then
+                if count = 7 then
                     data <= '1'; 
-                -- else
-                --     pl2 <= data;
-                end if;
-
-            elsif serve = '1' then
-                if count /= 8 then
-                    data <= pl1; 
+                -- elsif count <= 0 then
+                --     if pl1 = '1' then
+                --         data <= '1';
+                --     else
+                --         data <= 'Z';
+                --     end if;
                 else
+                    data <= 'Z';
                     pl2 <= data;
                 end if;
+
+            -- elsif serve = '1' then
+            --     if count /= 8 then
+            --         data <= pl1; 
+            --     else
+            --         pl2 <= data;
+            --     end if;
             end if;
         end if;
     end process;
@@ -83,15 +97,15 @@ begin
                             ball_state <= s0;
                         end if;
                     
-                    elsif serve = '1' then
-                        pos <= "00000000";
-                        count <= 7;
+                    -- elsif serve = '1' then
+                    --     pos <= "00000000";
+                    --     count <= 7;
 
-                        if pl2 = '1' then
-                            ball_state <= s2;
-                        else
-                            ball_state <= s0;
-                        end if;
+                    --     if pl2 = '1' then
+                    --         ball_state <= s2;
+                    --     else
+                    --         ball_state <= s0;
+                    --     end if;
                     end if;
                 
                 when s1 => 

@@ -1,7 +1,7 @@
 set_property PACKAGE_PIN Y9 [get_ports {clk}] 
 set_property IOSTANDARD LVCMOS25 [get_ports {clk}] 
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets rst_IBUF]
-set_property -dict {PACKAGE_PIN P16 IOSTANDARD LVCMOS25} [get_ports {reset}]
+set_property -dict {PACKAGE_PIN AA11 IOSTANDARD LVCMOS25} [get_ports {reset}]
 set_property -dict {PACKAGE_PIN R16 IOSTANDARD LVCMOS25} [get_ports {pl2}]
 set_property -dict {PACKAGE_PIN T22 IOSTANDARD LVCMOS25} [get_ports {led[0]}]
 set_property -dict {PACKAGE_PIN T21 IOSTANDARD LVCMOS25} [get_ports {led[1]}]

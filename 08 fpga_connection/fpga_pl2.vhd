@@ -18,11 +18,17 @@ architecture behavioral of fpga_pl2 is
     signal freq: std_logic_vector(25 downto 0);
     signal freq_clk: std_logic;
 
-    signal pos: std_logic_vector(7 downto 0);
+    -- FSM state
     type play_state is (s0, s1, s2);
     signal ball_state: play_state; 
 
+    -- led output
+    signal pos: std_logic_vector(7 downto 0);
+
+    -- current ball position
     signal count: integer;
+
+    -- send & receive value
     signal serve: std_logic;
     signal swap: std_logic;
     signal pl1: std_logic;
@@ -40,50 +46,47 @@ begin
         end if;
     end process;
 
-    -- trans_data: process(clk, reset, pl2, pos, serve, count)
-    -- begin
-    --     if reset = '1' then
-    --         null;
+    trans_data: process(clk, reset, pl2, pos, serve, count, swap)
+    begin
+        if reset = '1' then
+            data <= 'Z';
+            swap <= '0';
         
-    --     elsif clk 'event and clk = '1' then
-    --         if serve = '0' then
-    --             if count /= 8 then
-    --                 data <= pl2; 
-    --             else
-    --                 pl1 <= data;
-    --             end if;
+        elsif clk 'event and clk = '1' then
+            if serve = '0' then
+                if count = 8 then
+                    swap <= data;
+                else
+                    data <= pl2;           
+                end if;
 
-    --         elsif serve = '1' then
-    --             if count = 8 then
-    --                 data <= '1';
-    --             else
-    --                 pl1 <= data;
-    --             end if;
-    --         end if;
-    --     end if;
-    -- end process;
+            -- elsif serve = '1' then
+            --     if count = 8 then
+            --         data <= '1';
+            --     else
+            --         pl1 <= data;
+            --     end if;
+            end if;
+        end if;
+    end process;
 
     FSM: process (freq_clk, reset, ball_state, pl2, pos, serve, count)
     begin
         if reset = '1' then
-            ball_state <= s0;
             serve <= '0';
-            pos <= (others => '0');
             count <= 0;
+            ball_state <= s0;
 
         elsif freq_clk 'event and freq_clk = '1' then
             case ball_state is
                 when s0 =>
                    if serve = '0' then
-                        count <= 7;
-                        swap <= data;
+                        pos <= (others => '0');
+                        count <= 8;
 
                         if swap = '1' then
                             pos <= "00000001";
-                            swap <= '0';
-                        end if;
-                        
-                        if data = '1' then
+                        elsif data = '1' then
                             ball_state <= s1;
                         else
                             ball_state <= s0;
