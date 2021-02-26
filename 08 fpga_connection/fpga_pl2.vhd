@@ -82,11 +82,13 @@ begin
                 when s0 =>
                    if serve = '0' then
                         pos <= (others => '0');
-                        count <= 8;
 
                         if swap = '1' then
                             pos <= "00000001";
-                        elsif data = '1' then
+                            count <= 8;
+                        end if;
+                        
+                        if data = '1' then
                             ball_state <= s1;
                         else
                             ball_state <= s0;
