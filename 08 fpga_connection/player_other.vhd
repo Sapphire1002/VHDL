@@ -5,15 +5,12 @@ use ieee.std_logic_unsigned.all;
 
 entity i2c_myself is
     port(
-        clk_100MHz: in std_logic;
-        reset: in std_logic;
+        clk_100MHz_in: in std_logic;
+        reset_in: in std_logic;
         sw_start: in std_logic;
-        pl1: in std_logic;
+        pl2: in std_logic;
         sda: inout std_logic;
-        ledout: out std_logic_vector(7 downto 0);
-
-        scl_out: out std_logic;
-        reset_out: out std_logic
+        ledout: out std_logic_vector(7 downto 0)
     );
 end entity;
 
@@ -44,25 +41,25 @@ architecture behavioral of i2c_myself is
     signal state: ball_state;
 
 begin
-    -- send clock and reset signal 
-    scl_out <= clk_100MHz;
-    reset_out <= reset;
+    -- send clock and reset_in signal 
+    scl_out <= clk_100MHz_in;
+    reset_in_out <= reset_in;
 
     -- clk divider
     freq_clk <= freq(22);
-    freq_div: process (clk_100MHz, reset, freq)
+    freq_div: process (clk_100MHz_in, reset_in, freq)
     begin
-        if reset = '1' then
+        if reset_in = '1' then
             freq <= (others => '0');
-        elsif clk_100MHz 'event and clk_100MHz = '1' then
+        elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
             freq <= freq + '1';
         end if;
     end process;
 
     -- control start
-    ctrl_start: process (clk_100MHz, reset, sw_start, start)
+    ctrl_start: process (clk_100MHz_in, reset_in, sw_start, start)
     begin
-        if reset = '1' then
+        if reset_in = '1' then
             start <= '0';
         elsif sw_start = '1' then
             start <= '1';
@@ -72,12 +69,12 @@ begin
     end process;
 
     -- data read/write
-    data_rw: process (clk_100MHz, reset, sda_rw, sda, receive_reg, send_reg)
+    data_rw: process (clk_100MHz_in, reset_in, sda_rw, sda, receive_reg, send_reg)
     begin
-        if reset = '1' then
+        if reset_in = '1' then
             sda <= 'Z';
 
-        elsif clk_100MHz 'event and clk_100MHz = '1' then
+        elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
             if sda_rw = '1' then
                 send_reg <= pos;
                 sda <= send_reg(count);
@@ -90,12 +87,12 @@ begin
     end process;
 
     -- control the timing of sending and receiving data
-    counter: process (clk_100MHz, reset, count, sda_rw)
+    counter: process (clk_100MHz_in, reset_in, count, sda_rw)
     begin
-        if reset = '1' then
+        if reset_in = '1' then
             count <= 0;
 
-        elsif clk_100MHz 'event and clk_100MHz = '1' then
+        elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
             if sda_rw = '1' then
                 if count < 8 then
                     count <= count + 1;
@@ -114,9 +111,9 @@ begin
     end process; 
 
     -- operator
-    FSM: process (freq_clk, reset, pos, serve, start, sda_rw)
+    FSM: process (freq_clk, reset_in, pos, serve, start, sda_rw)
     begin
-        if reset = '1' then
+        if reset_in = '1' then
             pos <= (others => '0');
             serve <= '0';
             state <= s0;
@@ -126,7 +123,7 @@ begin
             case state is
                 when s0 =>
                     if serve = '0' then
-                        pos <= "00000001";
+                        pos <= "00000000";
                         sda_rw <= '1';
                         if pl1 = '1' then
                             state <= s1;
@@ -147,9 +144,9 @@ begin
     end process;
 
     -- control led out
-    led_out: process(freq_clk, reset, sda_rw)
+    led_out: process(freq_clk, reset_in, sda_rw)
     begin
-        if reset = '1' then
+        if reset_in = '1' then
             ledout <= "01010101";
         elsif freq_clk 'event and freq_clk = '1' then
             if sda_rw = '1' then
