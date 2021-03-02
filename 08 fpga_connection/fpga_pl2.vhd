@@ -88,7 +88,7 @@ begin
                             pos <= "00000001";
                         end if;
 
-                        if pos(0) = '1' then
+                        if data = '1' then
                             ball_state <= s1;
                         else
                             ball_state <= s0;
