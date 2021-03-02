@@ -42,7 +42,7 @@ architecture behavioral of player_other is
 
 begin
     -- clk divider
-    freq_clk <= freq(22);
+    freq_clk <= freq(23);
     freq_div: process (clk_100MHz_in, reset_in, freq)
     begin
         if reset_in = '1' then
@@ -93,14 +93,14 @@ begin
                 if count < 8 then
                     count <= count + 1;
                 else
-                    count <= 7;
+                    count <= 0;
                 end if;
 
             elsif sda_rw = '0' then
                 if count >= 0 then
                     count <= count - 1;
                 else
-                    count <= 0;
+                    count <= 7;
                 end if;
             end if;
         end if;
@@ -132,6 +132,7 @@ begin
                     
                 when s1 =>
                     pos <= pos(6 downto 0) & '0';
+                    state <= s1;
                     
                 when s2 =>
                     null;
@@ -145,7 +146,7 @@ begin
     led_out: process(freq_clk, reset_in, sda_rw)
     begin
         if reset_in = '1' then
-            ledout <= "01010101";
+            ledout <= (others => '0');
         elsif freq_clk 'event and freq_clk = '1' and reset_in = '0' then
             if sda_rw = '1' and start = '1' then
                 ledout <= pos;
