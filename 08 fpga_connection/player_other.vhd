@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
-entity i2c_myself is
+entity player_other is
     port(
         clk_100MHz_in: in std_logic;
         reset_in: in std_logic;
@@ -14,7 +14,7 @@ entity i2c_myself is
     );
 end entity;
 
-architecture behavioral of i2c_myself is
+architecture behavioral of player_other is
     -- clk divider
     signal freq: std_logic_vector(25 downto 0);
     signal freq_clk: std_logic;
@@ -41,10 +41,6 @@ architecture behavioral of i2c_myself is
     signal state: ball_state;
 
 begin
-    -- send clock and reset_in signal 
-    scl_out <= clk_100MHz_in;
-    reset_in_out <= reset_in;
-
     -- clk divider
     freq_clk <= freq(22);
     freq_div: process (clk_100MHz_in, reset_in, freq)
@@ -97,14 +93,14 @@ begin
                 if count < 8 then
                     count <= count + 1;
                 else
-                    count <= 0;
+                    count <= 7;
                 end if;
 
             elsif sda_rw = '0' then
                 if count >= 0 then
                     count <= count - 1;
                 else
-                    count <= 7;
+                    count <= 0;
                 end if;
             end if;
         end if;
@@ -119,13 +115,15 @@ begin
             state <= s0;
             sda_rw <= 'Z';
 
-        elsif freq_clk 'event and freq_clk = '1' and start = '1' then
+        elsif freq_clk 'event and freq_clk = '1' and start = '1' and reset_in = '0' then
             case state is
                 when s0 =>
                     if serve = '0' then
                         pos <= "00000000";
-                        sda_rw <= '1';
-                        if pl1 = '1' then
+                        sda_rw <= '0';
+                        pos <= receive_reg;
+                        
+                        if pos(0) = '1' then
                             state <= s1;
                         else
                             state <= s0;
@@ -148,13 +146,13 @@ begin
     begin
         if reset_in = '1' then
             ledout <= "01010101";
-        elsif freq_clk 'event and freq_clk = '1' then
-            if sda_rw = '1' then
+        elsif freq_clk 'event and freq_clk = '1' and reset_in = '0' then
+            if sda_rw = '1' and start = '1' then
                 ledout <= pos;
-            elsif sda_rw = '0' then
-                ledout <= receive_reg;
+            elsif sda_rw = '0' and start = '1' then
+                ledout <= pos;
             else
-                ledout <= "11110000";
+                ledout <= "11001100";
             end if;
         end if;
     end process;
