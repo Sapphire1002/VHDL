@@ -76,6 +76,8 @@ begin
     begin
         if reset = '1' then
             sda <= 'Z';
+            send_reg <= (others => '0');
+            receive_reg <= (others => '0');
 
         elsif clk_100MHz 'event and clk_100MHz = '1' then
             if sda_rw = '1' then

@@ -69,6 +69,7 @@ begin
     begin
         if reset_in = '1' then
             sda <= 'Z';
+            receive_reg <= (others => '0');
 
         elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
             if sda_rw = '1' then
@@ -86,7 +87,7 @@ begin
     counter: process (clk_100MHz_in, reset_in, count, sda_rw)
     begin
         if reset_in = '1' then
-            count <= 0;
+            count <= 7;
 
         elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
             if sda_rw = '1' then
@@ -119,7 +120,7 @@ begin
             case state is
                 when s0 =>
                     if serve = '0' then
-                        pos <= "00000000";
+                        -- pos <= "00000000";
                         sda_rw <= '0';
                         pos <= receive_reg;
                         
