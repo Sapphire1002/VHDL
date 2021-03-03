@@ -25,9 +25,13 @@ architecture behavioral of player_main is
     -- control start
     signal start: std_logic;
 
-    -- control read or write
+    -- sda_rw: control read or write
     -- 0: read 1: write
+    -- stop: control the timing of receiving data
+    -- 0: enable 1: disable
     signal sda_rw: std_logic;
+    signal stop: std_logic;
+
 
     -- send and receive value
     signal count: integer;
@@ -39,6 +43,10 @@ architecture behavioral of player_main is
     signal serve: std_logic;
 
     -- game state
+    -- state: 
+    -- s0 -> wait serving
+    -- s1 -> left move
+    -- s2 -> right move
     signal pos: std_logic_vector(7 downto 0);
     type ball_state is (s0, s1, s2);
     signal state: ball_state;
@@ -72,7 +80,7 @@ begin
     end process;
 
     -- data read/write
-    data_rw: process (clk_100MHz, reset, sda_rw, sda, receive_reg, send_reg)
+    data_rw: process (clk_100MHz, reset, sda_rw, stop, sda, receive_reg, send_reg)
     begin
         if reset = '1' then
             sda <= 'Z';
@@ -80,11 +88,11 @@ begin
             receive_reg <= (others => '0');
 
         elsif clk_100MHz 'event and clk_100MHz = '1' then
-            if sda_rw = '1' then
+            if sda_rw = '1' and stop = '0' then
                 send_reg <= pos;
                 sda <= send_reg(count);
                 
-            elsif sda_rw = '0' then
+            elsif sda_rw = '0' and stop = '0' then
                 sda <= 'Z';
                 receive_reg(count) <= sda;
             end if;
@@ -99,14 +107,14 @@ begin
 
         elsif clk_100MHz 'event and clk_100MHz = '1' then
             if sda_rw = '1' then
-                if count < 8 then
+                if count < 7 then
                     count <= count + 1;
                 else
                     count <= 7;
                 end if;
 
             elsif sda_rw = '0' then
-                if count >= 0 then
+                if count > 0 then
                     count <= count - 1;
                 else
                     count <= 0;
@@ -114,6 +122,22 @@ begin
             end if;
         end if;
     end process; 
+
+    -- control stop
+    ctrl_stop: process (clk_100MHz, reset, count, sda_rw, stop)
+    begin
+        if reset = '1' then
+            stop <= '0';
+        elsif clk_100MHz 'event and clk_100MHz = '1' then
+            if sda_rw = '1' and count = 7 then
+                stop <= '1';
+            elsif sda_rw = '0' and count = 0 then
+                stop <= '1';
+            else
+                stop <= '0';
+            end if;
+        end if;
+    end process;
 
     -- operator
     FSM: process (freq_clk, reset, pos, serve, start, sda_rw)
