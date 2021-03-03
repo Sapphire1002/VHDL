@@ -30,8 +30,10 @@ architecture behavioral of player_other is
     signal stop: std_logic;
 
     -- send and receive value
-    signal count: integer;
-    signal send_reg: std_logic_vector(7 downto 0);
+    signal bit_state: std_logic;
+    signal bit_count: integer;
+    signal ball_count: integer;
+    -- signal send_reg: std_logic_vector(7 downto 0);
     signal receive_reg: std_logic_vector(7 downto 0);
 
     -- control serving
@@ -43,12 +45,12 @@ architecture behavioral of player_other is
     -- s0 -> wait serving
     -- s1 -> left move
     -- s2 -> right move
-    signal pos: std_logic_vector(7 downto 0);
+    -- signal pos: std_logic_vector(7 downto 0);
     type ball_state is (s0, s1, s2);
     signal state: ball_state;
 
 begin
-    -- clk divider
+    -- clk divider OK
     freq_clk <= freq(23);
     freq_div: process (clk_100MHz_in, reset_in, freq)
     begin
@@ -59,7 +61,7 @@ begin
         end if;
     end process;
 
-    -- control start
+    -- control start OK
     ctrl_start: process (clk_100MHz_in, reset_in, sw_start, start)
     begin
         if reset_in = '1' then
@@ -72,82 +74,70 @@ begin
     end process;
 
     -- data read/write
-    data_rw: process (clk_100MHz_in, reset_in, sda_rw, sda, receive_reg, send_reg)
+    data_rw: process (clk_100MHz_in, reset_in, sda_rw, sda, receive_reg)
     begin
         if reset_in = '1' then
             sda <= 'Z';
             receive_reg <= (others => '0');
 
         elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
-            if sda_rw = '1' and stop = '0' then
-                send_reg <= pos;
-                sda <= send_reg(count);
-                
-            elsif sda_rw = '0' and stop = '0' then
+            if sda_rw = '0' and stop = '0' then
                 sda <= 'Z';
-                receive_reg(count) <= sda;
+                receive_reg(bit_count) <= sda;
             end if;
         end if;
     end process;
 
     -- control the timing of sending and receiving data
-    counter: process (clk_100MHz_in, reset_in, count, sda_rw)
+    bit_counter: process (clk_100MHz_in, reset_in, bit_count, sda_rw)
     begin
         if reset_in = '1' then
-            count <= 7;
+            bit_count <= 0;
 
         elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
-            if sda_rw = '1' then
-                if count < 7 then
-                    count <= count + 1;
+            if sda_rw = '0' and stop = '0' then
+                if bit_count < 8 then
+                    bit_count <= bit_count + 1;
                 else
-                    count <= 7;
-                end if;
-
-            elsif sda_rw = '0' then
-                if count > 0 then
-                    count <= count - 1;
-                else
-                    count <= 0;
+                    bit_count <= 0;
                 end if;
             end if;
         end if;
     end process; 
 
     -- control stop
-    ctrl_stop: process (clk_100MHz_in, reset_in, count, sda_rw, stop)
+    ctrl_stop: process (clk_100MHz_in, reset_in, bit_count, sda_rw, stop, ball_count)
     begin
         if reset_in = '1' then
             stop <= '0';
+
         elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
-            if sda_rw = '1' and count = 7 then
-                stop <= '1';
-            elsif sda_rw = '0' and count = 0 then
+            if sda_rw = '0' and bit_count = 0 and receive_reg(ball_count) = '1' then
                 stop <= '1';
             else
                 stop <= '0';
             end if;
+        
         end if;
     end process;
 
     -- operator
-    FSM: process (freq_clk, reset_in, pos, serve, start, sda_rw)
+    FSM: process (freq_clk, reset_in, serve, start, sda_rw, ball_count)
     begin
         if reset_in = '1' then
-            pos <= (others => '0');
             serve <= '0';
             state <= s0;
-            sda_rw <= 'Z';
+            sda_rw <= '0';
+            ball_count <= 0;
 
         elsif freq_clk 'event and freq_clk = '1' and start = '1' and reset_in = '0' then
             case state is
                 when s0 =>
                     if serve = '0' then
-                        -- pos <= "00000000";
                         sda_rw <= '0';
-                        pos <= receive_reg;
+                        ball_count <= 0;
                         
-                        if pos(0) = '1' then
+                        if receive_reg(0) = '1' then
                             state <= s1;
                         else
                             state <= s0;
@@ -155,7 +145,7 @@ begin
                     end if;
                     
                 when s1 =>
-                    pos <= pos(6 downto 0) & '0';
+                    ball_count <= ball_count + 1;
                     state <= s1;
                     
                 when s2 =>
@@ -172,10 +162,8 @@ begin
         if reset_in = '1' then
             ledout <= (others => '0');
         elsif freq_clk 'event and freq_clk = '1' and reset_in = '0' then
-            if sda_rw = '1' and start = '1' then
-                ledout <= pos;
-            elsif sda_rw = '0' and start = '1' then
-                ledout <= pos;
+            if sda_rw = '0' and start = '1' then
+                ledout <= receive_reg;
             else
                 ledout <= "11001100";
             end if;
