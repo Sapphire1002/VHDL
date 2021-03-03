@@ -32,7 +32,6 @@ architecture behavioral of player_main is
     signal sda_rw: std_logic;
     signal stop: std_logic;
 
-
     -- send and receive value
     signal count: integer;
     signal send_reg: std_logic_vector(7 downto 0);
