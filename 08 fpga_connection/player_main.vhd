@@ -35,8 +35,8 @@ architecture behavioral of player_main is
     -- send and receive value
     signal bit_count: integer;
     signal ball_count: integer;
-    signal send_reg: std_logic_vector(7 downto 0);
-    signal receive_reg: std_logic_vector(7 downto 0);
+    signal send_reg: std_logic_vector(8 downto 0);
+    -- signal receive_reg: std_logic_vector(7 downto 0);
 
     -- control serving
     -- 0: pl1 serving 1: pl2 serving
@@ -80,16 +80,21 @@ begin
     end process;
 
     -- data read/write
-    data_rw: process (clk_100MHz, reset, sda_rw, stop, sda, receive_reg, send_reg, bit_count)
+    data_rw: process (clk_100MHz, reset, sda_rw, stop, sda, send_reg, bit_count)
     begin
         if reset = '1' then
             sda <= 'Z';
             send_reg <= (others => '0');
-            receive_reg <= (others => '0');
 
         elsif clk_100MHz 'event and clk_100MHz = '1' then
+            if pl1 = '1' then
+                send_reg(8) <= '1';
+            else
+                send_reg(8) <= '0';
+            end if;
+
             if sda_rw = '1' and stop = '0' then
-                send_reg <= pos(7 downto 0);
+                send_reg(7 downto 0) <= pos(7 downto 0);
                 sda <= send_reg(bit_count);
             end if;
         end if;
@@ -103,7 +108,7 @@ begin
 
         elsif clk_100MHz 'event and clk_100MHz = '1' then
             if sda_rw = '1' and stop = '0' then
-                if bit_count <= 7 then
+                if bit_count <= 8 then
                     bit_count <= bit_count + 1;
                 else
                     bit_count <= 0;
