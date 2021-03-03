@@ -34,7 +34,7 @@ architecture behavioral of player_other is
     signal bit_count: integer;
     signal ball_count: integer;
     -- signal send_reg: std_logic_vector(7 downto 0);
-    signal receive_reg: std_logic_vector(8 downto 0);
+    signal receive_reg: std_logic_vector(7 downto 0);
 
     -- control serving
     -- 0: pl1 serving 1: pl2 serving
@@ -96,7 +96,7 @@ begin
 
         elsif clk_100MHz_in 'event and clk_100MHz_in = '1' then
             if sda_rw = '0' and stop = '0' then
-                if bit_count <= 8 then
+                if bit_count < 8 then
                     bit_count <= bit_count + 1;
                 else
                     bit_count <= 0;
@@ -137,7 +137,7 @@ begin
                         sda_rw <= '0';
                         ball_count <= 0;
                         
-                        if receive_reg(8) = '1' then
+                        if receive_reg(7) = '1' then
                             state <= s1;
                         else
                             state <= s0;
