@@ -29,12 +29,13 @@ architecture behavioral of fpga_pl2 is
     signal count: integer;
 
     -- send & receive value
+    -- en: 0: input, 1: output
     signal serve: std_logic;
-    signal swap: std_logic;
     signal pl1: std_logic;
+    signal en: std_logic;
 
 begin
-    led <= pos(7 downto 0);
+    -- led <= pos(7 downto 0);
     freq_clk <= freq(22);
 
     freq_div: process (clk, reset, freq)
@@ -46,100 +47,52 @@ begin
         end if;
     end process;
 
-    trans_data: process(clk, reset, pl2, pos, serve, count, swap)
+    trans_data: process(clk, reset, pl1, pos, serve, count)
     begin
-        if reset = '1' then
+        if reset = '0' then
             data <= 'Z';
-            swap <= '0';
+            led <= (others => '0');       
         
         elsif clk 'event and clk = '1' then
             if serve = '0' then
-                if count = 8 then
-                    swap <= data;
-                else
-                    data <= pl2;           
+                if data = '1' then
+                    data <= 'Z';
+                    pl1 <= '1';      
                 end if;
-
-            -- elsif serve = '1' then
-            --     if count = 8 then
-            --         data <= '1';
-            --     else
-            --         pl1 <= data;
-            --     end if;
             end if;
         end if;
     end process;
 
     FSM: process (freq_clk, reset, ball_state, pl2, pos, serve, count)
     begin
-        if reset = '1' then
+        if reset = '0' then
             serve <= '0';
             count <= 0;
             ball_state <= s0;
+            pos <= (others => '0');
 
         elsif freq_clk 'event and freq_clk = '1' then
             case ball_state is
                 when s0 =>
                    if serve = '0' then
-                        pos <= (others => '0');
-                        count <= 8;
-
-                        if swap = '1' then
-                            pos <= "00000001";
-                        end if;
-
-                        if data = '1' then
+                        count <= 0;
+                        pos(0) <= pl1;
+                        if pos(0) = '1' then
                             ball_state <= s1;
                         else
                             ball_state <= s0;
                         end if;
-                    
-                    -- elsif serve = '1' then
-                    --     pos <= "10000000";
-                    --     count <= 15;
-
-                    --     if pl2 = '1' then
-                    --         ball_state <= s2;
-                    --     else
-                    --         ball_state <= s0;
-                    --     end if;
                     end if;
                 
                 when s1 => 
-                    -- if pl2 = '1' and pos(7) = '0' then
-                    --     serve <= '0';
-                    --     ball_state <= s0;
-                    
-                    -- elsif pl2 = '0' and pos(7) = '1' then
-                    --     serve <= '0';
-                    --     ball_state <= s0;
-                    
-                    -- elsif pl2 = '1' and pos(7) = '1' then
-                    --     ball_state <= s2;
-                    
-                    -- else
-                        pos <= pos(6 downto 0) & '0';
-                        count <= count + 1;
-                        ball_state <= s1;
-                    -- end if;
+                    pos <= pos(6 downto 0) & '0';
+                    count <= count + 1;
+                    ball_state <= s1;
                 
                 when s2 =>
-                    -- if pl1 = '1' and pos(0) = '0' then
-                    --     serve <= '1';
-                    --     ball_state <= s0;
-                    
-                    -- elsif pl1 = '0' and pos(0) = '1' then
-                    --     serve <= '1';
-                    --     ball_state <= s0;
-                    
-                    -- elsif pl1 = '1' and pos(0) = '1' then
-                    --     ball_state <= s1;
-                    
-                    -- else
-                        pos <= '0' & pos(7 downto 1);
-                        count <= count - 1;
-                        ball_state <= s2;
-                    -- end if;
+                    pos <= '0' & pos(7 downto 1);
+                    count <= count - 1;
+                    ball_state <= s2;
                 
                 when others =>
                     null;
