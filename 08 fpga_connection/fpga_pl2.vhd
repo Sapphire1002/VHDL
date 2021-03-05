@@ -35,7 +35,7 @@ architecture behavioral of fpga_pl2 is
     signal en: std_logic;
 
 begin
-    -- led <= pos(7 downto 0);
+    led <= pos(7 downto 0);
     freq_clk <= freq(22);
 
     freq_div: process (clk, reset, freq)
@@ -57,13 +57,13 @@ begin
             if serve = '0' then
                 if data = '1' then
                     data <= 'Z';
-                    pl1 <= '1';      
+                    pl1 <= '1';    
                 end if;
             end if;
         end if;
     end process;
 
-    FSM: process (freq_clk, reset, ball_state, pl2, pos, serve, count)
+    FSM: process (freq_clk, reset, ball_state, pl1, pos, serve, count)
     begin
         if reset = '0' then
             serve <= '0';
@@ -76,8 +76,8 @@ begin
                 when s0 =>
                    if serve = '0' then
                         count <= 0;
-                        pos(0) <= pl1;
-                        if pos(0) = '1' then
+                        if pl1 = '1' then
+                            pos(0) <= '1';
                             ball_state <= s1;
                         else
                             ball_state <= s0;
