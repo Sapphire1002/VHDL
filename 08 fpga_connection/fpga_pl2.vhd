@@ -50,8 +50,7 @@ begin
     trans_data: process(clk, reset, pl1, pos, serve, count)
     begin
         if reset = '0' then
-            data <= 'Z';
-            led <= (others => '0');       
+            data <= 'Z';     
         
         elsif clk 'event and clk = '1' then
             if serve = '0' then
