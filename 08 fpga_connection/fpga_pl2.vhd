@@ -26,6 +26,7 @@ architecture behavioral of fpga_pl2 is
     signal pos: std_logic_vector(7 downto 0);
 
     -- current ball position
+    -- 0 to 9 counter, 1 to 8 ball pos
     signal count: integer;
 
     -- send & receive value
@@ -53,7 +54,7 @@ begin
             data <= 'Z';
 
         elsif clk 'event and clk = '1' then
-            if ena = '0' then
+            if ena = '0' then  -- output
                 if serve = '0' then
                     if pl2 = '1' then
                         data <= '1';
@@ -63,7 +64,7 @@ begin
 
                 end if;
 
-            elsif ena = '1' then
+            elsif ena = '1' then  -- input
                 if serve = '0' and data = '1' then
                     pl1 <= '1';
                     data <= 'Z';
@@ -88,7 +89,7 @@ begin
             case ball_state is
                 when s0 =>
                    if serve = '0' then
-                        count <= 0;
+                        count <= 1;
 
                         if pl1 = '1' then
                             pos(0) <= '1';
@@ -99,23 +100,38 @@ begin
                     end if;
                 
                 when s1 =>
-                    if count > 7 then
-                        ena <= '0';
-                        count <= 0;
-                    else
-                        count <= count + 1;
-                    end if;
+                    -- if count > 8 then
+                    --     ena <= '0';
+                    --     count <= 1;
+                    -- else
+                    --     count <= count + 1;
+                    -- end if;
+
 
                     -- catch the ball
-                    if count = 7 and pl2 = '1' then
-                        ball_state <= s2;
-                    else
-                        serve <= '0';
-                        ball_state <= s0;
-                    end if;
+                    if count = 8 and pl2 = '1' then          
+                        pos(7) <= '1';
+                        ena <= '0';  -- in -> out
+                        ball_state <= s2;  -- left move
 
-                    pos <= pos(6 downto 0) & '0';
-                    ball_state <= s1;
+                    -- press to early
+                    elsif count < 8 and pl2 = '1' then
+                        serve <= '0';
+                        ena <= '1';
+                        ball_state <= s0;
+
+                    -- press to late
+                    elsif count > 8 and pl2 = '0' then
+                        serve <= '0';
+                        ena <= '1';
+                        ball_state <= s0;
+                    
+                    -- ball move
+                    else
+                        pos <= pos(6 downto 0) & '0';
+                        count <= count + 1;
+                        ball_state <= s1;
+                    end if;
                 
                 when s2 =>
                     pos <= '0' & pos(7 downto 1);

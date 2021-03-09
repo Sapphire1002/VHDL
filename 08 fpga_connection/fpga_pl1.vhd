@@ -53,14 +53,14 @@ begin
             data <= 'Z';
 
         elsif clk 'event and clk = '1' then
-            if ena = '0' then
-                if serve = '0' and count >= 7 then
+            if ena = '0' then  -- output
+                if serve = '0' and count >= 8 then
                     data <= '1';
                 else
                     data <= '0';
                 end if;
 
-            elsif ena = '1' then
+            elsif ena = '1' then  -- input
                 if data = '1' then
                     pl2 <= '1';
                     data <= 'Z';
@@ -76,16 +76,17 @@ begin
         if reset = '0' then
             ena <= '0';
             serve <= '0';
-            count <= 0;
+            count <= 1;
             ball_state <= s0;
             pos <= (others => '0');
 
         elsif freq_clk 'event and freq_clk = '1' then
             case ball_state is
                 when s0 =>
+                -- serve -> 0: pl1 serving, 1: pl2 serving
                    if serve = '0' then
                         pos <= "00000001";
-                        count <= 0;
+                        count <= 1;
 
                         if pl1 = '1' then
                             ball_state <= s1;
@@ -95,29 +96,20 @@ begin
                     end if;
                 
                 when s1 => 
-                    if count > 7 then
-                        ena <= '1';
-                        count <= 0;
-                    else
-                        count <= count + 1;
-                    end if;
-
                     -- catch the ball
-                    if pl2 = '1' and count = 7 then
-                        ball_state <= s2;
-                    else
-                        serve <= '0';
-                        ball_state <= s0;
-                    end if;
+                    -- if pl2 = '1' and count = 16 then
+                    --     pos(7) <= '1';
+                    --     ball_state <= s2;
+                    -- else
+                    --     serve <= '0';
+                    --     ball_state <= s0;
+                    -- end if;
                     
                     pos <= pos(6 downto 0) & '0';
+                    count <= count + 1;
                     ball_state <= s1;
                 
                 when s2 =>
-                    if count = 7 then
-                        pos(7) <= '1';
-                    end if;
-
                     pos <= '0' & pos(7 downto 1);
                     count <= count - 1;
                     ball_state <= s2;
