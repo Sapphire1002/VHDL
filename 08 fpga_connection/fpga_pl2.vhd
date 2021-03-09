@@ -29,42 +29,56 @@ architecture behavioral of fpga_pl2 is
     signal count: integer;
 
     -- send & receive value
-    -- en: 0: input, 1: output
+    -- ena -> 0: output, 1: input 
     signal serve: std_logic;
     signal pl1: std_logic;
-    signal en: std_logic;
-
+    signal ena: std_logic;
+    
 begin
     led <= pos(7 downto 0);
-    freq_clk <= freq(22);
+    freq_clk <= freq(23);
 
     freq_div: process (clk, reset, freq)
     begin
-        if reset = '1' then
+        if reset = '0' then
             freq <= (others => '0');
         elsif clk 'event and clk = '1' then
             freq <= freq + '1';
         end if;
     end process;
 
-    trans_data: process(clk, reset, pl1, pos, serve, count)
+    in_out_data: process (clk, reset, pos, serve, count, pl1, ena)
     begin
         if reset = '0' then
-            data <= 'Z';     
-        
+            data <= 'Z';
+
         elsif clk 'event and clk = '1' then
-            if serve = '0' then
-                if data = '1' then
-                    data <= 'Z';
-                    pl1 <= '1';    
+            if ena = '0' then
+                if serve = '0' then
+                    if pl2 = '1' then
+                        data <= '1';
+                    else
+                        data <= '0';
+                    end if;
+
                 end if;
+
+            elsif ena = '1' then
+                if serve = '0' and data = '1' then
+                    pl1 <= '1';
+                    data <= 'Z';
+                else
+                    pl1 <= '0';
+                end if;
+
             end if;
         end if;
     end process;
 
-    FSM: process (freq_clk, reset, ball_state, pl1, pos, serve, count)
+    FSM: process (freq_clk, reset, ball_state, pl1, pos, serve, count, ena)
     begin
         if reset = '0' then
+            ena <= '1';
             serve <= '0';
             count <= 0;
             ball_state <= s0;
@@ -75,6 +89,7 @@ begin
                 when s0 =>
                    if serve = '0' then
                         count <= 0;
+
                         if pl1 = '1' then
                             pos(0) <= '1';
                             ball_state <= s1;
@@ -83,9 +98,23 @@ begin
                         end if;
                     end if;
                 
-                when s1 => 
+                when s1 =>
+                    if count > 7 then
+                        ena <= '0';
+                        count <= 0;
+                    else
+                        count <= count + 1;
+                    end if;
+
+                    -- catch the ball
+                    if count = 7 and pl2 = '1' then
+                        ball_state <= s2;
+                    else
+                        serve <= '0';
+                        ball_state <= s0;
+                    end if;
+
                     pos <= pos(6 downto 0) & '0';
-                    count <= count + 1;
                     ball_state <= s1;
                 
                 when s2 =>
