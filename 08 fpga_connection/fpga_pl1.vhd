@@ -51,6 +51,7 @@ begin
     begin
         if reset = '0' then
             data <= 'Z';
+            pl2 <= '0';
 
         elsif freq_clk 'event and freq_clk = '1' then
             if ena = '0' then  -- output
@@ -87,6 +88,7 @@ begin
                    if serve = '0' then
                         pos <= "00000001";
                         count <= 1;
+                        ena <= '0';
 
                         if pl1 = '1' then
                             ball_state <= s1;
@@ -97,7 +99,7 @@ begin
                     elsif serve = '1' then
                         pos <= (others => '0');
                         count <= 16;
-                        
+
                     end if;
                     
                 

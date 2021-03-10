@@ -52,6 +52,7 @@ begin
     begin
         if reset = '0' then
             data <= 'Z';
+            pl1 <= '0';
 
         elsif freq_clk 'event and freq_clk = '1' then
             if ena = '0' then  -- output
@@ -63,7 +64,7 @@ begin
 
             elsif ena = '1' then  -- input
                 if serve = '0' and data = '1' then
-                    pl1 <= '1';
+                    pl1 <= data;
                     data <= 'Z';
                 else
                     pl1 <= '0';
@@ -86,6 +87,7 @@ begin
             case ball_state is
                 when s0 =>
                    if serve = '0' then
+                        ena <= '1';
                         count <= 1;
                         pos <= (others => '0');
 
@@ -105,12 +107,12 @@ begin
                 when s1 =>
                     -- set initial pos
                     if count = 9 and pos(0) = '0' then
-                        pos <= "00000001"; 
+                        pos <= "00000001";
+                        ena <= '0';
                         ball_state <= s1;  
 
                     -- pl2 catch the ball
                     elsif count = 16 and pl2 = '1' then          
-                        -- pos(7) <= '1';
                         ball_state <= s2;  -- left move
 
                     -- pl2 press to early
