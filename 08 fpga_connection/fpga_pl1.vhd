@@ -93,10 +93,15 @@ begin
                         else
                             ball_state <= s0;
                         end if;
+
+                    elsif serve = '1' then
+                        pos <= (others => '0');
+                        count <= 16;
+                        
                     end if;
                     
+                
                 when s1 => 
-                    
                     -- pl2 catch the ball
                     if pl2 = '1' and count = 16 then
                         ball_state <= s2;
@@ -122,22 +127,32 @@ begin
                     end if;
                 
                 when s2 =>
+                    -- set initial pos
+                    if count = 8 and pos(7) = '0' then 
+                        pos <= "10000000";
+                        ball_state <= s2;
+
                     -- pl1 catch the ball
-                    if pl1 = '1' and count = 1 then
+                    elsif pl1 = '1' and count = 1 then
                         ball_state <= s1;
                     
-                    -- press to early
+                    -- pl1 press to early
                     elsif count > 1 and pl1 = '1' then
+                        serve <= '1';
+                        ena <= '0';
                         ball_state <= s0;
                     
-                    -- press to late
-                    elsif count < 1 and pl1 = '0' then
+                    -- pl1 press to late
+                    elsif count < 1 then
+                        serve <= '1';
+                        ena <= '0';
                         ball_state <= s0;
                     
                     -- ball move
                     else
-                        pos <= '1' & pos(7 downto 1);
+                        pos <= '0' & pos(7 downto 1);
                         count <= count - 1;
+                        ena <= '0';
                         ball_state <= s2;
                     end if;
 
