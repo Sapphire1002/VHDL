@@ -55,7 +55,7 @@ begin
 
         elsif freq_clk 'event and freq_clk = '1' then
             if ena = '0' then  -- output
-                if serve = '0' and (count = 1 or pos(0) = '1') then
+                if serve = '0' and pl2 = '1' then
                     data <= '1';
                 else
                     data <= '0';
@@ -90,7 +90,7 @@ begin
                         pos <= (others => '0');
 
                         if pl1 = '1' then
-                            pos(0) <= '1';
+                            ena <= '0';
                             ball_state <= s1;
                         else
                             ball_state <= s0;
@@ -98,20 +98,23 @@ begin
                     end if;
                 
                 when s1 =>
-                
+                    if count = 9 and pos(0) = '0' then
+                        pos <= "00000001"; 
+                        -- count <= count + 1;  
+                        ball_state <= s1;  
+
                     -- catch the ball
-                    if count = 8 and pl2 = '1' then          
+                    elsif count = 16 and pl2 = '1' then          
                         pos(7) <= '1';
-                        ena <= '0';  -- in -> out
                         ball_state <= s2;  -- left move
 
                     -- press to early
-                    elsif count < 8 and pl2 = '1' then
-                        null;
+                    elsif count < 16 and pl2 = '1' then
+                        ball_state <= s0;
 
                     -- press to late
-                    elsif count > 8 and pl2 = '0' then
-                        null;
+                    elsif count > 16 then
+                        ball_state <= s0;
                     
                     -- ball move
                     else
