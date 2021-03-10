@@ -67,6 +67,7 @@ begin
                     data <= 'Z';
                 else
                     pl2 <= '0';
+                    data <= 'Z';
                 end if;
             end if;
         end if;
@@ -99,6 +100,7 @@ begin
                     elsif serve = '1' then
                         pos <= (others => '0');
                         count <= 16;
+                        ena <= '1';
 
                     end if;
                     
@@ -111,13 +113,11 @@ begin
                     -- pl2 press to early
                     elsif pl2 = '1' and count < 16 then
                         serve <= '0';
-                        ena <= '0';
                         ball_state <= s0;
                     
                     -- pl2 press to late
-                    elsif count > 16 then
+                    elsif count > 16 or (pl2 = '0') then
                         serve <= '0';
-                        ena <= '0';
                         ball_state <= s0;
 
                     -- ball move
@@ -141,13 +141,11 @@ begin
                     -- pl1 press to early
                     elsif count > 1 and pl1 = '1' then
                         serve <= '1';
-                        ena <= '0';
                         ball_state <= s0;
                     
                     -- pl1 press to late
                     elsif count < 1 then
                         serve <= '1';
-                        ena <= '0';
                         ball_state <= s0;
                     
                     -- ball move

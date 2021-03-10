@@ -64,10 +64,11 @@ begin
 
             elsif ena = '1' then  -- input
                 if serve = '0' and data = '1' then
-                    pl1 <= data;
+                    pl1 <= '1';
                     data <= 'Z';
                 else
                     pl1 <= '0';
+                    data <= 'Z';
                 end if;
 
             end if;
@@ -79,7 +80,7 @@ begin
         if reset = '0' then
             ena <= '1';
             serve <= '0';
-            count <= 0;
+            count <= 1;
             ball_state <= s0;
             pos <= (others => '0');
 
@@ -87,20 +88,20 @@ begin
             case ball_state is
                 when s0 =>
                    if serve = '0' then
-                        ena <= '1';
-                        count <= 1;
                         pos <= (others => '0');
+                        count <= 1;
+                        ena <= '1';
 
                         if pl1 = '1' then
-                            ena <= '0';
                             ball_state <= s1;
                         else
                             ball_state <= s0;
                         end if;
                 
                     elsif serve = '1' then
-                        count <= 16;
                         pos <= "10000000";
+                        count <= 16;
+                        ena <= '0';
 
                     end if;
 
@@ -118,13 +119,11 @@ begin
                     -- pl2 press to early
                     elsif count < 16 and pl2 = '1' then
                         serve <= '0';
-                        ena <= '1';
                         ball_state <= s0;
 
                     -- pl2 press to late
                     elsif count > 16 then
                         serve <= '0';
-                        ena <= '1';
                         ball_state <= s0;
                     
                     -- ball move
@@ -138,18 +137,17 @@ begin
                 when s2 =>
                     -- pl1 catch the ball
                     if pl1 = '1' and count = 1 then
+                        ena <= '0';
                         ball_state <= s1;
                     
                     -- pl1 press to early
                     elsif pl1 = '1' and count > 1 then
                         serve <= '1';
-                        ena <= '0';
                         ball_state <= s0;
                     
                     -- pl1 press to late
-                    elsif count < 1 then
+                    elsif count < 1 or (pl1 = '0') then
                         serve <= '1';
-                        ena <= '0';
                         ball_state <= s0;
 
                     -- ball move
