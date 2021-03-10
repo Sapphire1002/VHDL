@@ -19,7 +19,7 @@ architecture behavioral of fpga_pl1 is
     signal freq_clk: std_logic;
     
     -- FSM state
-    type play_state is (s0, s1, s2);
+    type play_state is (s0, s1, s2, s3);
     signal ball_state: play_state;
 
     -- led output
@@ -47,21 +47,26 @@ begin
         end if;
     end process;
    
-    in_out_data: process (clk, reset, pos, serve, count, pl2, ena)
+    ctrl_counter_ena: process (freq_clk, reset, count, ena)
+    begin
+        
+    end process;
+
+    in_out_data: process (freq_clk, reset, pos, serve, count, pl2, ena)
     begin
         if reset = '0' then
             data <= 'Z';
 
-        elsif clk 'event and clk = '1' then
+        elsif freq_clk 'event and freq_clk = '1' then
             if ena = '0' then  -- output
-                if serve = '0' and count >= 8 then
+                if serve = '0' and count = 8 then
                     data <= '1';
                 else
                     data <= '0';
                 end if;
 
             elsif ena = '1' then  -- input
-                if data = '1' then
+                if serve = '0' and data = '1' then
                     pl2 <= '1';
                     data <= 'Z';
                 else
@@ -95,25 +100,52 @@ begin
                         end if;
                     end if;
                 
-                when s1 => 
-                    -- catch the ball
-                    -- if pl2 = '1' and count = 16 then
-                    --     pos(7) <= '1';
-                    --     ball_state <= s2;
-                    -- else
-                    --     serve <= '0';
-                    --     ball_state <= s0;
-                    -- end if;
+                    if serve = '1' then
+                        count <= 8;
+                        
+                        if pl2 = '1' then
+                            pos(7) <= '1';
+                            ball_state <= s2;
+                        else
+                            ball_state <= s0;
+                        end if;
+                    end if;
                     
-                    pos <= pos(6 downto 0) & '0';
-                    count <= count + 1;
-                    ball_state <= s1;
+                when s1 => 
+                    -- pl2 catch the ball
+                    if pl2 = '1' then
+                        pos(7) <= '1';
+                        ball_state <= s2; -- left move
+    
+                    -- ball move
+                    else
+                        pos <= pos(6 downto 0) & '0';
+                        count <= count + 1;
+                        ball_state <= s1;
+                    end if;
                 
                 when s2 =>
-                    pos <= '0' & pos(7 downto 1);
-                    count <= count - 1;
-                    ball_state <= s2;
+                    -- pl1 catch the ball
+                    if pl1 = '1' and count = 1 then
+                        ball_state <= s1;
+                    
+                    -- press to early
+                    elsif count > 1 and pl1 = '1' then
+                        null;
+                    
+                    -- press to late
+                    elsif count < 1 and pl1 = '0' then
+                        null;
+                    
+                    -- ball move
+                    else
+                        pos <= '0' & pos(7 downto 1);
+                        count <= count - 1;
+                        ball_state <= s2;
+                    end if;
+
                 
+                when s3 => 
                 when others =>
                     null;
             end case;

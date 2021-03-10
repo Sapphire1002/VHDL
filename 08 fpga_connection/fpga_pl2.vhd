@@ -48,20 +48,17 @@ begin
         end if;
     end process;
 
-    in_out_data: process (clk, reset, pos, serve, count, pl1, ena)
+    in_out_data: process (freq_clk, reset, pos, serve, count, pl1, ena)
     begin
         if reset = '0' then
             data <= 'Z';
 
-        elsif clk 'event and clk = '1' then
+        elsif freq_clk 'event and freq_clk = '1' then
             if ena = '0' then  -- output
-                if serve = '0' then
-                    if pl2 = '1' then
-                        data <= '1';
-                    else
-                        data <= '0';
-                    end if;
-
+                if serve = '0' and (count = 1 or pos(0) = '1') then
+                    data <= '1';
+                else
+                    data <= '0';
                 end if;
 
             elsif ena = '1' then  -- input
@@ -90,6 +87,7 @@ begin
                 when s0 =>
                    if serve = '0' then
                         count <= 1;
+                        pos <= (others => '0');
 
                         if pl1 = '1' then
                             pos(0) <= '1';
@@ -100,14 +98,7 @@ begin
                     end if;
                 
                 when s1 =>
-                    -- if count > 8 then
-                    --     ena <= '0';
-                    --     count <= 1;
-                    -- else
-                    --     count <= count + 1;
-                    -- end if;
-
-
+                
                     -- catch the ball
                     if count = 8 and pl2 = '1' then          
                         pos(7) <= '1';
@@ -116,15 +107,11 @@ begin
 
                     -- press to early
                     elsif count < 8 and pl2 = '1' then
-                        serve <= '0';
-                        ena <= '1';
-                        ball_state <= s0;
+                        null;
 
                     -- press to late
                     elsif count > 8 and pl2 = '0' then
-                        serve <= '0';
-                        ena <= '1';
-                        ball_state <= s0;
+                        null;
                     
                     -- ball move
                     else
