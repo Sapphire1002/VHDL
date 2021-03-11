@@ -476,10 +476,19 @@
   
   <details>
   <summary> 實作部分 </summary>
+  
+  
   </details>
   
   <details>
   <summary> 問題討論 </summary>
+  
+   * inout 操作  
+   * 一開始使用 reset 另一塊板子的 LED 也會同時移動  
+  - [x] 已解決   
+        解決方式: 後來採用兩塊板子都有自己的 reset   
+  - [ ] 未解決 
+  
   </details>
 
 </details>
