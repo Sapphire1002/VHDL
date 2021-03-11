@@ -146,7 +146,7 @@ begin
                         ball_state <= s0;
                     
                     -- pl1 press to late
-                    elsif count < 1 or (pl1 = '0') then
+                    elsif count < 1 then
                         serve <= '1';
                         ball_state <= s0;
 
