@@ -472,6 +472,42 @@
   日期: 2021.02.19 - 2021.02.26  
   
   專案資料夾: [08 fpga_connection]("專案連結")  
+  進度:  兩塊 FPGA 板子互連乒乓
+  
+  <details>
+  <summary> 實作部分 </summary>
+  </details>
+  
+  <details>
+  <summary> 問題討論 </summary>
+  </details>
+
+</details>
+
+<details>
+  <summary> Week 16 板子互連乒乓 </summary>
+  
+  日期: 2021.02.19 - 2021.02.26  
+  
+  專案資料夾: [08 fpga_connection]("專案連結")  
+  進度:  
+  
+  <details>
+  <summary> 實作部分 </summary>
+  </details>
+  
+  <details>
+  <summary> 問題討論 </summary>
+  </details>
+
+</details>
+
+<details>
+  <summary> Week 17 板子互連乒乓 </summary>
+  
+  日期: 2021.02.19 - 2021.02.26  
+  
+  專案資料夾: [08 fpga_connection]("專案連結")  
   進度:  
   
   <details>
