@@ -523,6 +523,41 @@
 
   <details>
   <summary> 實作部分 </summary>
+  
+  * 設計流程  
+  ![流程圖](https://github.com/Sapphire1002/VHDL/blob/main/08%20fpga_connection/20210304_%E8%A8%AD%E8%A8%88%E6%B5%81%E7%A8%8B.PNG)
+  
+  * 設計架構圖(player_main上, player_other下)    
+  ![main架構圖](https://github.com/Sapphire1002/VHDL/blob/main/08%20fpga_connection/20210304_fpga_connect_main_%E6%9E%B6%E6%A7%8B.PNG)  
+  說明:  
+  ctrl_start: 控制程式開始  
+  freq_div: 除頻  
+  FSM: 狀態機(目前只有左移)  
+  ctrl_stop: 控制停止  
+  bit_counter: 計算當前傳送的資料位元  
+  data_rw: 控制資料讀寫(目前只有寫) 
+  reset_out: 輸出 reset 狀態  
+  scl_out: 輸出時序  
+  sda: 為 inout 類別負責傳輸資料  
+  
+  ![other架構圖](https://github.com/Sapphire1002/VHDL/blob/main/08%20fpga_connection/20210304_fpga_connect_other_%E6%9E%B6%E6%A7%8B.PNG)    
+  說明:  
+  ctrl_start: 控制程式開始  
+  freq_div: 除頻  
+  FSM: 狀態機(目前只負責更新接收資料)  
+  ctrl_stop: 控制停止  
+  bit_counter: 計算當前傳送的資料位元  
+  data_rw: 控制資料讀寫(目前只有讀)  
+  reset_out: 輸出 reset 狀態  
+  scl_out: 輸出時序  
+  sda: 為 inout 類別負責接收資料  
+  receive_reg: 儲存 8bits 的位置  
+  
+  * 當前實作結果  
+  [影片連結](https://drive.google.com/file/d/14m7mvG4YvzyZUhQctgQD8ZyMFNBLdaRd/view?usp=sharing)  
+  說明: 
+  不確定 8 bits 在接收時的狀態  
+
   </details>
   
   <details>
