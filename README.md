@@ -478,6 +478,24 @@
   <details>
   <summary> 實作部分 </summary>
   
+  * 設計流程  
+  ![流程圖](https://github.com/Sapphire1002/VHDL/blob/main/08%20fpga_connection/20210226_%E8%A8%AD%E8%A8%88%E6%B5%81%E7%A8%8B.PNG)  
+  
+  * 設計架構圖  
+  ![架構圖](https://github.com/Sapphire1002/VHDL/blob/main/08%20fpga_connection/20210226_fpga_connection_%E6%9E%B6%E6%A7%8B%E5%9C%96.PNG)  
+  說明:  
+  clk: FPGA 100MHz 時脈  
+  data: 為 inout 傳輸  
+  count: 計算球的位置  
+  FSM: 控制球移動的狀態機  
+  freq_div: 除頻  
+  freq_clk: 除 2^22  
+  `目前只有 LED 左移的功能`  
+  
+  * 當前實作結果  
+  [影片連結](https://drive.google.com/file/d/1FJ7SEmzQc0w0w_e17ej9KPOKpSAv0b5X/view?usp=sharing)  
+  說明:  
+  根據當前的 count 值判斷要傳輸 data資料還是接收資料  
   
   </details>
   
