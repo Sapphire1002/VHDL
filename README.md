@@ -579,13 +579,40 @@
   
   專案資料夾: [08 fpga_connection]("專案連結")  
   進度:  
+  兩塊 FPGA 板子互連乒乓  
   
   <details>
   <summary> 實作部分 </summary>
+  
+  * 設計流程  
+  ![流程圖](https://github.com/Sapphire1002/VHDL/blob/main/08%20fpga_connection/20210311_%E8%A8%AD%E8%A8%88%E6%B5%81%E7%A8%8B.PNG)  
+  
+  * 設計架構圖  
+  ![架構圖](https://github.com/Sapphire1002/VHDL/blob/main/08%20fpga_connection/20210311_%E8%A8%AD%E8%A8%88%E6%9E%B6%E6%A7%8B%E5%9C%96.PNG)  
+  說明:  
+  freq_div: 除頻  
+  freq_clk: 除 2^23 訊號  
+  in_out_data: 控制當前要輸出或接收資料  
+  data:  為 inout 輸出輸入  
+  count: 計算當前球的位置  
+  serve: 控制發球  
+  ena: 控制當前讀寫  
+  
+  * 當前實作結果  
+  [影片連結](https://drive.google.com/file/d/164o2yVWDuCR0Ng5jTcPbP7ncfTkR8vN6/view?usp=sharing)  
+  說明:  
+  左邊的板子發球過去可以到對面  
+  
   </details>
   
   <details>
   <summary> 問題討論 </summary>
+  
+   * inout 時序  
+   * 傳送和接收訊號時會延遲 1 個 clk  
+  - [ ] 已解決      
+  - [x] 未解決  
+  
   </details>
 
 </details>
