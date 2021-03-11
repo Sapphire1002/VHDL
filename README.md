@@ -473,6 +473,59 @@
   
   專案資料夾: [08 fpga_connection]("專案連結")  
   進度:  
+  兩塊 FPGA 板子互連乒乓  
+  
+  <details>
+  <summary> 實作部分 </summary>
+  
+  
+  </details>
+  
+  <details>
+  <summary> 問題討論 </summary>
+  
+   * inout 操作  
+   * 一開始使用 reset 另一塊板子的 LED 也會同時移動  
+  - [x] 已解決   
+        解決方式: 後來採用兩塊板子都有自己的 reset   
+  - [ ] 未解決 
+  
+  </details>
+
+</details>
+
+<details>
+  <summary> Week 16 板子互連乒乓 </summary>
+  
+  日期: 2021.02.26 - 2021.03.04  
+  
+  專案資料夾: [08 fpga_connection]("專案連結")  
+  進度:  
+  兩塊 FPGA 板子互連乒乓  
+
+  <details>
+  <summary> 實作部分 </summary>
+  </details>
+  
+  <details>
+  <summary> 問題討論 </summary>
+  
+   * inout 操作  
+   * 8bits資料 在傳送端和接收端沒辦法同步    
+  - [x] 已解決   
+        解決方式: 後來採用 1 bit 資料傳輸並使用 enable 來控制當前讀寫狀態    
+  - [ ] 未解決 
+  </details>
+
+</details>
+
+<details>
+  <summary> Week 17 板子互連乒乓 </summary>
+  
+  日期: 2021.03.05 - 2021.03.11  
+  
+  專案資料夾: [08 fpga_connection]("專案連結")  
+  進度:  
   
   <details>
   <summary> 實作部分 </summary>
