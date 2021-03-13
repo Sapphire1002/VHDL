@@ -26,8 +26,8 @@ architecture behavioral of fpga_pl2 is
     signal pos: std_logic_vector(7 downto 0);
 
     -- current ball position
-    -- 0 to 9 counter, 1 to 8 ball pos
-    signal count: integer;
+    signal count_right: integer;
+    signal count_left: integer;
 
     -- send & receive value
     -- ena -> 0: output, 1: input 
@@ -37,7 +37,7 @@ architecture behavioral of fpga_pl2 is
     
 begin
     led <= pos(7 downto 0);
-    freq_clk <= freq(23);
+    freq_clk <= freq(25);
 
     freq_div: process (clk, reset, freq)
     begin
@@ -48,7 +48,35 @@ begin
         end if;
     end process;
 
-    in_out_data: process (freq_clk, reset, pos, serve, count, pl1, ena)
+    ctrl_counter_right: process (freq_clk, reset, count_right, ball_state)
+    begin
+        if reset = '0' then
+            count_right <= 1;
+
+        elsif freq_clk 'event and freq_clk = '1' then
+            if ball_state = s1 then
+                count_right <= count_right + 1;
+            else
+                count_right <= 1;
+            end if;
+        end if;
+    end process;
+
+    ctrl_counter_left: process (freq_clk, reset, count_left, ball_state)
+    begin
+        if reset = '0' then
+            count_left <= 16;
+
+        elsif freq_clk 'event and freq_clk = '1' then
+            if ball_state = s2 then
+                count_left <= count_left - 1;
+            else
+                count_left <= 16;
+            end if;
+        end if;
+    end process;
+
+    in_out_data: process (freq_clk, reset, pos, serve, pl1, ena, count_right)
     begin
         if reset = '0' then
             data <= 'Z';
@@ -75,12 +103,11 @@ begin
         end if;
     end process;
 
-    FSM: process (freq_clk, reset, ball_state, pl1, pos, serve, count, ena)
+    FSM: process (freq_clk, reset, ball_state, pl1, pos, serve, count_right, count_left, ena)
     begin
         if reset = '0' then
             ena <= '1';
             serve <= '0';
-            count <= 1;
             ball_state <= s0;
             pos <= (others => '0');
 
@@ -89,7 +116,6 @@ begin
                 when s0 =>
                    if serve = '0' then
                         pos <= (others => '0');
-                        count <= 1;
                         ena <= '1';
 
                         if pl1 = '1' then
@@ -97,63 +123,35 @@ begin
                         else
                             ball_state <= s0;
                         end if;
-                
-                    elsif serve = '1' then
-                        pos <= "10000000";
-                        count <= 16;
-                        ena <= '0';
-
                     end if;
 
                 when s1 =>
                     -- set initial pos
-                    if count = 9 and pos(0) = '0' then
+                    if count_right = 8 and pos(0) = '0' then
                         pos <= "00000001";
                         ena <= '0';
                         ball_state <= s1;  
 
                     -- pl2 catch the ball
-                    elsif count = 16 and pl2 = '1' then          
+                    elsif count_right = 16 and pl2 = '1' then  
                         ball_state <= s2;  -- left move
 
-                    -- pl2 press to early
-                    elsif count < 16 and pl2 = '1' then
-                        serve <= '0';
-                        ball_state <= s0;
-
-                    -- pl2 press to late
-                    elsif count > 16 then
-                        serve <= '0';
-                        ball_state <= s0;
-                    
                     -- ball move
                     else
                         pos <= pos(6 downto 0) & '0';
-                        count <= count + 1;
                         ena <= '0';
                         ball_state <= s1;
                     end if;
                 
                 when s2 =>
                     -- pl1 catch the ball
-                    if pl1 = '1' and count = 1 then
+                    if pl1 = '1' and count_left = 0 then
                         ena <= '0';
                         ball_state <= s1;
-                    
-                    -- pl1 press to early
-                    elsif pl1 = '1' and count > 1 then
-                        serve <= '1';
-                        ball_state <= s0;
-                    
-                    -- pl1 press to late
-                    elsif count < 1 then
-                        serve <= '1';
-                        ball_state <= s0;
 
                     -- ball move
                     else
                         pos <= '0' & pos(7 downto 1);
-                        count <= count - 1;
                         ena <= '1';
                         ball_state <= s2;
                     end if;
