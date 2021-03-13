@@ -37,7 +37,7 @@ architecture behavioral of fpga_pl2 is
     
 begin
     led <= pos(7 downto 0);
-    freq_clk <= freq(25);
+    freq_clk <= freq(23);
 
     freq_div: process (clk, reset, freq)
     begin
@@ -65,13 +65,13 @@ begin
     ctrl_counter_left: process (freq_clk, reset, count_left, ball_state)
     begin
         if reset = '0' then
-            count_left <= 16;
+            count_left <= 18;
 
         elsif freq_clk 'event and freq_clk = '1' then
             if ball_state = s2 then
                 count_left <= count_left - 1;
             else
-                count_left <= 16;
+                count_left <= 18;
             end if;
         end if;
     end process;
@@ -123,17 +123,21 @@ begin
                         else
                             ball_state <= s0;
                         end if;
+                    
+                    elsif serve = '1' then
+                        null;
+
                     end if;
 
                 when s1 =>
                     -- set initial pos
-                    if count_right = 8 and pos(0) = '0' then
+                    if count_right = 7 and pos(0) = '0' then
                         pos <= "00000001";
                         ena <= '0';
                         ball_state <= s1;  
 
                     -- pl2 catch the ball
-                    elsif count_right = 16 and pl2 = '1' then  
+                    elsif count_right = 15 and pl2 = '1' then  
                         ball_state <= s2;  -- left move
 
                     -- ball move
@@ -145,7 +149,7 @@ begin
                 
                 when s2 =>
                     -- pl1 catch the ball
-                    if pl1 = '1' and count_left = 0 then
+                    if pl1 = '1' and count_left = 1 then
                         ena <= '0';
                         ball_state <= s1;
 

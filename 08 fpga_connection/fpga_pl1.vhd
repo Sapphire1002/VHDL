@@ -36,7 +36,7 @@ architecture behavioral of fpga_pl1 is
     signal ena: std_logic;
     
 begin
-    freq_clk <= freq(25);
+    freq_clk <= freq(23);
     led <= pos(7 downto 0);
 
     freq_div: process (clk, reset, freq)
@@ -65,13 +65,13 @@ begin
     ctrl_counter_left: process (freq_clk, reset, count_left, ball_state)
     begin
         if reset = '0' then
-            count_left <= 16;
+            count_left <= 18;
 
         elsif freq_clk 'event and freq_clk = '1' then
             if ball_state = s2 then
                 count_left <= count_left - 1;
             else
-                count_left <= 16;
+                count_left <= 18;
             end if;
         end if;
     end process;
@@ -113,7 +113,7 @@ begin
         elsif freq_clk 'event and freq_clk = '1' then
             case ball_state is
                 when s0 =>
-                -- serve -> 0: pl1 serving
+                -- serve -> 0: pl1 serving, 1: pl2 serving
                    if serve = '0' then
                         pos <= "00000001";
                         ena <= '0';
@@ -123,11 +123,14 @@ begin
                         else
                             ball_state <= s0;
                         end if;
+
+                    elsif serve = '1' then
+                        null;
                     end if;
 
                 when s1 => 
                     -- pl2 catch the ball
-                    if pl2 = '1' and count_right = 19 then
+                    if pl2 = '1' and count_right = 18 then
                         ball_state <= s2;
 
                     -- ball move
@@ -139,13 +142,13 @@ begin
                 
                 when s2 =>
                     -- set initial pos
-                    if count_left = 11 and pos(7) = '0' then 
+                    if count_left = 12 and pos(7) = '0' then 
                         pos <= "10000000";
                         ena <= '0';
                         ball_state <= s2;
 
                     -- pl1 catch the ball
-                    elsif pl1 = '1' and count_left = 3 then
+                    elsif pl1 = '1' and count_left = 4 then
                         ena <= '1';
                         ball_state <= s1;
                     
