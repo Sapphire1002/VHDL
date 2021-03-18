@@ -101,7 +101,7 @@ begin
             b <= (others => '0');
 
         elsif video_clk 'event and video_clk = '1' then
-            -- screen scanner: hsync, csync ??
+            -- screen scanner: hsync, vsync ??
             if mode_sw = '1' then
                 r <= rgb_receive;
                 g <= rgb_receive;
