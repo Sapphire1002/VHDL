@@ -1,118 +1,132 @@
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
-use ieee.numeric_std.all;
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.NUMERIC_STD.all;
 
-entity video_out_use is
-    port(
-        -- set
-        reset: in std_logic;  -- reset switch  
-        mode_sw: in std_logic;  -- mode switch  
-        clk_100MHz: in std_logic; -- FPGA internal clk
-
-        -- video in
-        video_clk: in std_logic; -- PCLK ??
-        video_sda: inout std_logic;  -- data transmission SCA
-        video_scl: inout std_logic;  -- data clk transmission SCL
-        video_data_i2c: in std_logic_vector(7 downto 0);  -- D7 ~ D0
-
-        -- video out
-        r: out std_logic_vector(3 downto 0);
-        g: out std_logic_vector(3 downto 0);
-        b: out std_logic_vector(3 downto 0);
-        led: out std_logic 
-        hsync: out std_logic;
-        vsync: out std_logic
-    );
-end entity;
-
-architecture behavioral of video_out_use is
-    component video_out
-        port(
-            reset: in std_logic;
-            mode_sw: in std_logic;
-            video_clk: in std_logic;
-            video_sda: inout std_logic;
-            video_scl: inout std_logic;
-            video_data_i2c: in std_logic_vector(7 downto 0);
+entity video_out is
+port(
     
-            rgb_out: out std_logic_vector(7 downto 0);
-            led1: out std_logic;
-            hsync: out std_logic;
-            vsync: out std_logic
-        );
-    end component;
+    reset            : in std_logic;
+--------set---------------------------------
+    mode_sw        : in std_logic;--
+------------video in I2C---------------------------------
+    video_clk      : in std_logic;
+    video_sda      : inout std_logic;
+    video_scl      : inout std_logic;
+    video_data_i2c : in std_logic_vector(7 downto 0);
+------------vga---------------------------------
+	-- rgb_out          : out std_logic_vector(7 downto 0); --
+	led1            : out std_logic;
+    Rout          : out std_logic_vector(7 downto 0); --
+    Gout          : out std_logic_vector(7 downto 0); --
+    Bout          : out std_logic_vector(7 downto 0); --
+    hsync          : out std_logic;
+    vsync          : out std_logic
+);
+end video_out;
 
-    -- temporarily
-    -- receive from video_out.vhd
-    signal rgb_receive: std_logic_vector(7 downto 0); -- grayscale
-    signal hsync: std_logic;
-    signal vsync: std_logic;
-    signal led1: std_logic;
+architecture Behavioral of video_out is
+----------------------------------------VGA---------------------------
+signal video_gray_out : std_logic_vector(7 downto 0);
+signal video_r_out    : std_logic_vector(7 downto 0);
+signal video_g_out    : std_logic_vector(7 downto 0);
+signal video_b_out    : std_logic_vector(7 downto 0);
 
-    -- output to video_out.vhd
-    signal video_clk: std_logic;
-    signal video_data_i2c: std_logic_vector(7 downto 0);
-
+signal r : std_logic_vector(7 downto 0);
+signal g : std_logic_vector(7 downto 0);
+signal b : std_logic_vector(7 downto 0);
+----------------------------------------VGA---------------------------
+signal vga_vs_cnt : integer ;
+signal vga_hs_cnt : integer ;
+signal Frame_ID         : std_logic ;
+signal rst         : std_logic ;
+signal video_start_en_s : std_logic ;
+----------------------------------------�v��---------------------------
+component video_in_process_RGB        
+port(
+    rst              : in std_logic;
+------------video_in_I2C---------------------------------
+    video_clk        : in std_logic;
+    video_sda        : inout std_logic;
+    video_scl        : inout std_logic;
+    video_data_i2c   : in std_logic_vector(7 downto 0);
+------------video_out & VGA CNT---------------------------------
+    vga_vs_cnt       : out integer;
+    vga_hs_cnt       : out integer;
+    hsync            : out std_logic;
+    vsync            : out std_logic;
+    Frame_ID         : out std_logic;
+    video_gray_out   : out std_logic_vector(7 downto 0);
+    video_r_out      : out std_logic_vector(7 downto 0);
+    video_g_out      : out std_logic_vector(7 downto 0);
+    video_b_out      : out std_logic_vector(7 downto 0);
+	video_start_en_s : out std_logic
+);
+end component;
+-------------------------------------------- --------------------------------------------
 begin
-    port_map: video_out
-    port Map(
-        reset => reset,
-
-        mode_sw => mode_sw,
-
-        video_clk => video_clk,
-        video_sda => video_sda,
-        video_scl => video_scl,
-        video_data_i2c => video_data_i2c,
-
-        vsync => vsync,
-        hsync => hsync,
-        led1 => led1,
-        rgb_out => rgb_receive
-    );
-
-    -- temporarily
-    led <= led1;
-    video_clk <= freq(0);  -- screen scan time: 50MHz
-
-    clk_div: process (clk_100MHz, reset, freq)
-    begin
-        if reset = '0' then
-            freq <= (others => '0');
-        elsif clk_100MHz 'event and clk_100MHz = '1' then
-            freq <= freq + '1';
+-------------------------------------------- --------------------------------------------
+rst <= not reset;
+----------------------------------------�v��---------------------------
+video_in_process_RGB_Front :video_in_process_RGB  
+Port MAP( 
+    rst              => rst,
+    video_clk        => video_clk,
+    video_sda        => video_sda,
+    video_scl        => video_scl,
+    video_data_i2c   => video_data_i2c,
+    vga_vs_cnt       => vga_vs_cnt,
+    vga_hs_cnt       => vga_hs_cnt,
+    hsync            => hsync,
+    vsync            => vsync,
+    Frame_ID         => Frame_ID,
+    video_gray_out   => video_gray_out,
+    video_r_out      => video_r_out   ,
+    video_g_out      => video_g_out   ,
+    video_b_out      => video_b_out	,
+	video_start_en_s =>	video_start_en_s
+);
+    -- rgb_out <= video_gray_out; --
+    Rout <= r;
+    Gout <= g;
+    Bout <= b;
+----------------------------------------vga out----------------------------------------
+process( rst , video_clk    ,vga_hs_cnt , vga_vs_cnt )
+begin
+if rst = '0' then
+    r <= "00000000";
+    g <= "00000000";
+    b <= "00000000";
+	
+elsif rising_edge(video_clk) then
+    if (vga_hs_cnt < 720  and vga_vs_cnt < 480 ) then
+		if (mode_sw='1') then   
+            r <= video_r_out;         
+            g <= video_g_out;         
+            b <= video_b_out;         
+        else
+            r <= video_gray_out;         
+            g <= video_gray_out;         
+            b <= video_gray_out;  
         end if;
-    end process;
+    else
+        r <= "00000000";
+        g <= "00000000";
+        b <= "00000000";
+    end if;
+	
+end if;
+end process;
 
-    video_output: process (whick clk, reset, *anysignal)
-    begin
-        if reset = '0' then
-            null;
-        elsif (which clk) 'event and (which clk) = '1' then
-            null;
-        end if;
-    end process;
 
-    display: process(video_clk, reset, rgb_receive, *anysignal)
-    begin
-        if reset = '0' then
-            r <= (others => '0');
-            g <= (others => '0');
-            b <= (others => '0');
+process(video_start_en_s)
+begin
+	if (video_start_en_s = '1') then
+		led1<='1';
+	else
+		led1<='0';
+	end if;
+end process;
 
-        elsif video_clk 'event and video_clk = '1' then
-            -- screen scanner: hsync, vsync ??
-            if mode_sw = '1' then
-                r <= rgb_receive;
-                g <= rgb_receive;
-                b <= rgb_receive;
-            else
-                r <= (others => '0');
-                g <= (others => '0');
-                b <= (others => '0');
-            end if;
-        end if;
-    end process;
-
-end behavioral;
+end architecture;
