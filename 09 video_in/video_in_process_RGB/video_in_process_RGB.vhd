@@ -52,15 +52,15 @@ signal vga_vs_cnt_s : integer ;
 signal Frame_ID_s   : std_logic ;
 component VGA
     generic(
-        horizontal_resolution : integer :=1280 ;
-        horizontal_Front_porch: integer :=  48 ;
-        horizontal_Sync_pulse : integer := 112 ;
-        horizontal_Back_porch : integer := 248 ;
+        horizontal_resolution : integer := 800 ;
+        horizontal_Front_porch: integer :=  56 ;
+        horizontal_Sync_pulse : integer := 120 ;
+        horizontal_Back_porch : integer :=  64 ;
         h_sync_Polarity       :std_logic:= '1' ;
-        vertical_resolution   : integer :=1024 ;
-        vertical_Front_porch  : integer :=   1 ;
-        vertical_Sync_pulse   : integer :=   3 ;
-        vertical_Back_porch   : integer :=  38 ;
+        vertical_resolution   : integer := 600 ;
+        vertical_Front_porch  : integer :=  37 ;
+        vertical_Sync_pulse   : integer :=   6 ;
+        vertical_Back_porch   : integer :=  23 ;
         v_sync_Polarity       :std_logic:= '1' 
     );
     port(

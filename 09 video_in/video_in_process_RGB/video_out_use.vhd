@@ -18,9 +18,9 @@ port(
 ------------vga---------------------------------
 	-- rgb_out          : out std_logic_vector(7 downto 0); --
 	led1            : out std_logic;
-    Rout          : out std_logic_vector(7 downto 0); --
-    Gout          : out std_logic_vector(7 downto 0); --
-    Bout          : out std_logic_vector(7 downto 0); --
+    Rout          : out std_logic_vector(7 downto 4); --
+    Gout          : out std_logic_vector(7 downto 4); --
+    Bout          : out std_logic_vector(7 downto 4); --
     hsync          : out std_logic;
     vsync          : out std_logic
 );
@@ -88,9 +88,9 @@ Port MAP(
 	video_start_en_s =>	video_start_en_s
 );
     -- rgb_out <= video_gray_out; --
-    Rout <= r;
-    Gout <= g;
-    Bout <= b;
+    Rout <= r(7 downto 4);
+    Gout <= g(7 downto 4);
+    Bout <= b(7 downto 4);
 ----------------------------------------vga out----------------------------------------
 process( rst , video_clk    ,vga_hs_cnt , vga_vs_cnt )
 begin
@@ -100,7 +100,7 @@ if rst = '0' then
     b <= "00000000";
 	
 elsif rising_edge(video_clk) then
-    if (vga_hs_cnt < 720  and vga_vs_cnt < 480 ) then
+    if (vga_hs_cnt < 800  and vga_vs_cnt < 600 ) then
 		if (mode_sw='1') then   
             r <= video_r_out;         
             g <= video_g_out;         
