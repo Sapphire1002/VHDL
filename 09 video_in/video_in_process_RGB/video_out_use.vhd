@@ -12,7 +12,7 @@ entity video_out_use is
         -- video_clk: in std_logic; -- clk divider??
         video_sda: inout std_logic;  -- data transmission
         video_scl: inout std_logic;  -- data clk transmission
-        -- video_data_i2c: in std_logic_vector(7 downto 0);  -- need to send the value to video_out.vhd. i2c??
+        video_data_i2c: in std_logic_vector(7 downto 0);  -- need to send the value to video_out.vhd. i2c??
 
 
         r: out std_logic_vector(7 downto 0);

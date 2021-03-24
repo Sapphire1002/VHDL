@@ -42,7 +42,7 @@ signal vga_hs_cnt : integer ;
 signal Frame_ID         : std_logic ;
 signal rst         : std_logic ;
 signal video_start_en_s : std_logic ;
-----------------------------------------¼v¹³---------------------------
+----------------------------------------ï¿½vï¿½ï¿½---------------------------
 component video_in_process_RGB        
 port(
     rst              : in std_logic;
@@ -68,7 +68,7 @@ end component;
 begin
 -------------------------------------------- --------------------------------------------
 rst <= not reset;
-----------------------------------------¼v¹³---------------------------
+----------------------------------------ï¿½vï¿½ï¿½---------------------------
 video_in_process_RGB_Front :video_in_process_RGB  
 Port MAP( 
     rst              => rst,
@@ -88,7 +88,7 @@ Port MAP(
 	video_start_en_s =>	video_start_en_s
 );
     rgb_out <= video_gray_out; --
-----------------------------------------vga out ª¬ºA¾÷°Ê§@----------------------------------------
+----------------------------------------vga out ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ê§@----------------------------------------
 process( rst , video_clk    ,vga_hs_cnt , vga_vs_cnt )
 begin
 if rst = '0' then
