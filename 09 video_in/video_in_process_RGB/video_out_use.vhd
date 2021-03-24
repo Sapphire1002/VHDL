@@ -5,23 +5,24 @@ use ieee.numeric_std.all;
 
 entity video_out_use is
     port(
+        -- set
         reset: in std_logic;  -- reset switch  
         mode_sw: in std_logic;  -- mode switch  
         clk_100MHz: in std_logic; -- FPGA internal clk
 
-        -- video_clk: in std_logic; -- clk divider??
-        video_sda: inout std_logic;  -- data transmission
-        video_scl: inout std_logic;  -- data clk transmission
-        video_data_i2c: in std_logic_vector(7 downto 0);  -- need to send the value to video_out.vhd. i2c??
+        -- video in
+        video_clk: in std_logic; -- PCLK ??
+        video_sda: inout std_logic;  -- data transmission SCA
+        video_scl: inout std_logic;  -- data clk transmission SCL
+        video_data_i2c: in std_logic_vector(7 downto 0);  -- D7 ~ D0
 
-
-        r: out std_logic_vector(7 downto 0);
-        g: out std_logic_vector(7 downto 0);
-        b: out std_logic_vector(7 downto 0);
-        -- rgb_out: out std_logic_vector(7 downto 0);
-        led: out std_logic -- what is it do?
-        -- hsync: out std_logic;
-        -- vsync: out std_logic
+        -- video out
+        r: out std_logic_vector(3 downto 0);
+        g: out std_logic_vector(3 downto 0);
+        b: out std_logic_vector(3 downto 0);
+        led: out std_logic 
+        hsync: out std_logic;
+        vsync: out std_logic
     );
 end entity;
 
