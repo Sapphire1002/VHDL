@@ -73,7 +73,7 @@ rst <= not reset;
 video_in_process_RGB_Front :video_in_process_RGB  
 Port MAP( 
     rst              => rst,
-    video_clk        => freq,
+    video_clk        => video_clk,
     video_sda        => video_sda,
     video_scl        => video_scl,
     video_data_i2c   => video_data_i2c,
@@ -94,23 +94,14 @@ Port MAP(
     Bout <= b(7 downto 4);
 ----------------------------------------vga out----------------------------------------
 
-freq_div: process (video_clk, rst, freq)
-begin
-    if rst = '0' then
-        freq <= '0';
-    elsif video_clk 'event and video_clk = '1' then
-        freq <= not freq;
-    end if;
-end process;
-
-process( rst , freq    ,vga_hs_cnt , vga_vs_cnt )
+process( rst , video_clk    ,vga_hs_cnt , vga_vs_cnt )
 begin
 if rst = '0' then
     r <= "00000000";
     g <= "00000000";
     b <= "00000000";
 	
-elsif rising_edge(freq) then
+elsif rising_edge(video_clk) then
     if (vga_hs_cnt < 800  and vga_vs_cnt < 600 ) then
 		if (mode_sw='1') then   
             r <= video_r_out;         
@@ -134,9 +125,9 @@ end process;
 process(video_start_en_s)
 begin
 	if (video_start_en_s = '1') then
-		led1<='0';
-	else
 		led1<='1';
+	else
+		led1<='0';
 	end if;
 end process;
 

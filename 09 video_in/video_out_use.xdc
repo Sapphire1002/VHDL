@@ -1,11 +1,11 @@
-set_property PACKAGE_PIN Y9 [get_ports {video_clk}] 
-set_property IOSTANDARD LVCMOS33 [get_ports {video_clk}] 
+set_property PACKAGE_PIN Y9 [get_ports {clk}] 
+set_property IOSTANDARD LVCMOS33 [get_ports {clk}] 
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets rst_IBUF]
 set_property -dict {PACKAGE_PIN F22 IOSTANDARD LVCMOS33} [get_ports {reset}]
 set_property -dict {PACKAGE_PIN G22 IOSTANDARD LVCMOS33} [get_ports {mode_sw}]
 
 
-# set_property -dict {PACKAGE_PIN AA4 IOSTANDARD LVCMOS33} [get_ports {video_clk}
+ set_property -dict {PACKAGE_PIN Y6 IOSTANDARD LVCMOS33} [get_ports {video_clk}]
 set_property -dict {PACKAGE_PIN W7 IOSTANDARD LVCMOS33} [get_ports {video_sda}]
 set_property -dict {PACKAGE_PIN W6 IOSTANDARD LVCMOS33} [get_ports {video_scl}]
 set_property -dict {PACKAGE_PIN Y5 IOSTANDARD LVCMOS33} [get_ports {video_data_i2c[0]}]
