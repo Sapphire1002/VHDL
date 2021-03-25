@@ -47,7 +47,7 @@ entity video_in is
 end video_in;
 
 architecture Behavioral of video_in is
---§ìsav----------------------------
+--ï¿½ï¿½sav----------------------------
 signal video_sav_state : std_logic_vector(1 downto 0);
 
 
@@ -55,13 +55,13 @@ signal video_F_en: std_logic;
 signal video_V_en: std_logic;
 signal sav_temp: std_logic_vector(7 downto 0);
 
---¼v¹³°T¸¹-----------------
+--ï¿½vï¿½ï¿½ï¿½Tï¿½ï¿½-----------------
 signal video_start_en_s  : std_logic ;
 signal cnt_video_hsync_s : integer range 0 to 1715;
 
 begin
 
---¤º³¡°T¸¹±µ¨ì¥~³¡----
+--ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½----
 video_start_en  <= video_start_en_s;
 cnt_video_hsync <= cnt_video_hsync_s;
 ---------------------
