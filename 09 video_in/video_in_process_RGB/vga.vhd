@@ -37,7 +37,6 @@ end vga;
 
 architecture Behavioral of vga is
 
-signal freq: std_logic;
 signal vga_hs_cnt_s : integer;
 signal vga_vs_cnt_s : integer;
 
@@ -48,22 +47,13 @@ vga_hs_cnt <= vga_hs_cnt_s;
 vga_vs_cnt <= vga_vs_cnt_s;
 ------------------
 
-freq_div: process (clk, rst, freq)
-begin
-    if rst = '0' then
-        freq <= '0';
-    elsif clk 'event and clk = '1' then
-        freq <= not freq;
-    end if;
-end process;
-
 --vga h �p��
-h_cnt : process(freq ,rst, vga_hs_cnt_s ,video_start_en)
+h_cnt : process(clk ,rst, vga_hs_cnt_s ,video_start_en)
 begin
     if rst = '0' then
          vga_hs_cnt_s <= 0;
     elsif video_start_en = '1' then 
-         if rising_edge(freq) then
+         if rising_edge(clk) then
              if vga_hs_cnt_s < (horizontal_resolution + horizontal_Front_porch + horizontal_Sync_pulse + horizontal_Back_porch) then
                  vga_hs_cnt_s <= vga_hs_cnt_s + 1;
              else
@@ -75,12 +65,12 @@ begin
     end if;
 end process;
 --vga v �p��
-v_cnt : process(freq , rst , vga_hs_cnt_s ,vga_vs_cnt_s,video_start_en)
+v_cnt : process(clk , rst , vga_hs_cnt_s ,vga_vs_cnt_s,video_start_en)
 begin
     if rst = '0' then
          vga_vs_cnt_s <= 0;
     elsif video_start_en = '1' then 
-         if rising_edge(freq) then
+         if rising_edge(clk) then
               if vga_hs_cnt_s = (horizontal_resolution + horizontal_Front_porch + horizontal_Sync_pulse + horizontal_Back_porch) then
                   if vga_vs_cnt_s < (vertical_resolution + vertical_Front_porch + vertical_Sync_pulse + vertical_Back_porch) then
                         vga_vs_cnt_s <= vga_vs_cnt_s + 1;
@@ -95,12 +85,12 @@ begin
 end process;
 
 -- h sync
-h_sync : process(freq , vga_hs_cnt_s,rst,video_start_en)
+h_sync : process(clk , vga_hs_cnt_s,rst,video_start_en)
 begin
 if rst = '0' then
     hsync <= '1';
 else
-    if freq'event and freq = '1' then
+    if clk'event and clk = '1' then
         if video_start_en = '1' then
             if vga_hs_cnt_s >= (horizontal_resolution + horizontal_Front_porch) and vga_hs_cnt_s < (horizontal_resolution + horizontal_Front_porch + horizontal_Sync_pulse) then
                 hsync <=     h_sync_Polarity;
@@ -113,12 +103,12 @@ end if;
 end process;
 
 -- v sync
-v_sync : process(freq ,rst,vga_vs_cnt_s,video_start_en)
+v_sync : process(clk ,rst,vga_vs_cnt_s,video_start_en)
 begin
 if rst = '0' then
     vsync <= '1';
 else
-    if freq'event and freq = '1' then
+    if clk'event and clk = '1' then
         if video_start_en = '1' then
             if vga_vs_cnt_s >= (vertical_resolution + vertical_Front_porch) and vga_vs_cnt_s < (vertical_resolution + vertical_Front_porch + vertical_Sync_pulse) then
                vsync <=     v_sync_Polarity;

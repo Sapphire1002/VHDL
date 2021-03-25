@@ -37,6 +37,7 @@ signal r : std_logic_vector(7 downto 0);
 signal g : std_logic_vector(7 downto 0);
 signal b : std_logic_vector(7 downto 0);
 ----------------------------------------VGA---------------------------
+signal freq: std_logic;
 signal vga_vs_cnt : integer ;
 signal vga_hs_cnt : integer ;
 signal Frame_ID         : std_logic ;
@@ -92,14 +93,24 @@ Port MAP(
     Gout <= g(7 downto 4);
     Bout <= b(7 downto 4);
 ----------------------------------------vga out----------------------------------------
-process( rst , video_clk    ,vga_hs_cnt , vga_vs_cnt )
+
+freq_div: process (video_clk, rst, freq)
+begin
+    if rst = '0' then
+        freq <= '0';
+    elsif clk 'event and clk = '1' then
+        freq <= not freq;
+    end if;
+end process;
+
+process( rst , freq    ,vga_hs_cnt , vga_vs_cnt )
 begin
 if rst = '0' then
     r <= "00000000";
     g <= "00000000";
     b <= "00000000";
 	
-elsif rising_edge(video_clk) then
+elsif rising_edge(freq) then
     if (vga_hs_cnt < 800  and vga_vs_cnt < 600 ) then
 		if (mode_sw='1') then   
             r <= video_r_out;         
@@ -123,9 +134,9 @@ end process;
 process(video_start_en_s)
 begin
 	if (video_start_en_s = '1') then
-		led1<='1';
-	else
 		led1<='0';
+	else
+		led1<='1';
 	end if;
 end process;
 
