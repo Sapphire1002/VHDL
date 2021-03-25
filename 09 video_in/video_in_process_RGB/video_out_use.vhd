@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.all;
 
-entity video_out is
+entity video_out_use is
 port(
     
     reset            : in std_logic;
@@ -24,9 +24,9 @@ port(
     hsync          : out std_logic;
     vsync          : out std_logic
 );
-end video_out;
+end entity;
 
-architecture Behavioral of video_out is
+architecture Behavioral of video_out_use is
 ----------------------------------------VGA---------------------------
 signal video_gray_out : std_logic_vector(7 downto 0);
 signal video_r_out    : std_logic_vector(7 downto 0);
