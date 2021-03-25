@@ -73,7 +73,7 @@ rst <= not reset;
 video_in_process_RGB_Front :video_in_process_RGB  
 Port MAP( 
     rst              => rst,
-    video_clk        => video_clk,
+    video_clk        => freq,
     video_sda        => video_sda,
     video_scl        => video_scl,
     video_data_i2c   => video_data_i2c,
@@ -98,7 +98,7 @@ freq_div: process (video_clk, rst, freq)
 begin
     if rst = '0' then
         freq <= '0';
-    elsif clk 'event and clk = '1' then
+    elsif video_clk 'event and video_clk = '1' then
         freq <= not freq;
     end if;
 end process;
